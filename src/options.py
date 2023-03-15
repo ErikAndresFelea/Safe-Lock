@@ -14,9 +14,9 @@ def safe_lock():
         print("\t2. Ver las contraseñas existentes.")
         print("\t3. Salir del programa.")
         print("\nIntroduce el número de la opción que deseas: ")
+
         key = msvcrt.getch()
         os.system('cls')
-
         match key:
             case b"1":
                 add_password()
@@ -28,7 +28,6 @@ def safe_lock():
                 break
             case _:
                 print("Opción no válida.")
-
 ##### MAIN PROGRAM #####
 
 
@@ -55,12 +54,11 @@ def add_password():
 ##### GET PASSWORDS #####
 def get_passwords():
     print("Mostrando contraseñas\n")
-    # Lee las contraseñas del archivo
+
     with open("../saved/passwords.txt", "r") as f:
         passwords = f.readlines()
-    # Ordena las contraseñas alfabéticamente por título
     passwords = sorted(passwords, key=lambda x: x.split(":")[0])
-    # Muestra las contraseñas al usuario
+
     print("Contraseñas guardadas:")
     for password in passwords:
         print(password.strip())

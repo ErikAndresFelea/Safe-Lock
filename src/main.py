@@ -2,7 +2,7 @@ import os
 
 ##### IMPORTANT VARIABLES #####
 MAIN_PATH = os.path.dirname(os.path.abspath(__file__))
-PASSWORD = "1234"
+PASSWORD = ""
 ##### IMPORTANT VARIABLES #####
 
 
