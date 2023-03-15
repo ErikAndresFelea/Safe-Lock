@@ -23,7 +23,7 @@ def login(password):
 
 ##### OBTAIN USER PASSWORD #####
 def user_input():
-    print("Introduce tu contraseña: ", end="", flush=True)
+    print("Introduce la contraseña: ", end="", flush=True)
    
     user_password = b""
     while True:

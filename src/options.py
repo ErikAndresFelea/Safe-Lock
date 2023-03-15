@@ -1,4 +1,5 @@
 import getpass
+import msvcrt
 import os
 
 FILE = "../saved/passwords.txt"
@@ -9,23 +10,25 @@ def safe_lock():
 
     while True:
         print("¿Qué operacion deseas realizar?\n")
-        print("\t1. Añadir una nueva contraseña")
-        print("\t2. Ver las contraseñas existentes\n")
-        opcion = input("Introduce el número de la opción que deseas: ")
+        print("\t1. Añadir una nueva contraseña.")
+        print("\t2. Ver las contraseñas existentes.")
+        print("\t3. Salir del programa.")
+        print("\nIntroduce el número de la opción que deseas: ")
+        key = msvcrt.getch()
         os.system('cls')
 
-        if opcion == "1":
-            add_password()
+        match key:
+            case b"1":
+                add_password()
+            case b"2":
+                get_passwords()
+            case b"3":
+                print("¡Hasta pronto!")
+                print("Cerrando programa.")
+                break
+            case _:
+                print("Opción no válida.")
 
-        elif opcion == "2":
-            get_passwords()
-
-        elif opcion == "3":
-            break
-
-        print("Opción no válida.")
-
-    print("Cerrando programa.")
 ##### MAIN PROGRAM #####
 
 
@@ -34,16 +37,16 @@ def safe_lock():
 def add_password():
     print("Añadir una contraseña nueva\n")
     print("Introduce la nueva contraseña:")
-    nueva_password = getpass.getpass()
+    new_password = getpass.getpass()
     print("Confirma la contraseña:")
     confirmacion = getpass.getpass()
-    if nueva_password != confirmacion:
+    if new_password != confirmacion:
         print("Las contraseñas no coinciden. Saliendo del programa.")
         exit()
-    titulo = input("Introduce un título para la contraseña: ")
+    title = input("Introduce un título para la contraseña: ")
     # Guarda los datos en el archivo
     with open(FILE, "a") as f:
-        f.write(f"{titulo}: {nueva_password}\n")
+        f.write(f"{title}: {new_password}\n")
         print("Contraseña guardada con éxito.")
 ##### ADD NEW PASSWORD #####
 
