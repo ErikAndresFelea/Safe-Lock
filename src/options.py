@@ -1,8 +1,7 @@
-import getpass
 import msvcrt
 import os
 
-from user_input import user_input
+from methods import user_input
 
 ##### MAIN PROGRAM #####
 def safe_lock(storage_file):
