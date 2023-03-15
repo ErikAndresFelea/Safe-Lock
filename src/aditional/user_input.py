@@ -1,26 +1,6 @@
 import msvcrt
-import os
 
-##### CHECK PASSWORD #####
-def login(password):
-    while True:
-        proceed, user_password = user_input()
-
-        if not proceed:
-            print("\n\nInicio de sesion abortado.\nCerrando programa.")
-            return False
-        
-        if user_password == password:
-            os.system('cls')
-            print("Contraseña correcta.\n")
-            return True
-        
-        print("\nContraseña incorrecta, intentalo de nuevo.\n")
-##### CHECK PASSWORD #####
-
-
-
-##### OBTAIN USER PASSWORD #####
+##### OBTAIN USER INPUT #####
 def user_input():
     print("Introduce la contraseña: ", end="", flush=True)
    
@@ -40,4 +20,4 @@ def user_input():
             
     user_password = user_password.decode("utf-8")
     return True, user_password
-##### OBTAIN USER PASSWORD #####
+##### OBTAIN USER INPUT #####
