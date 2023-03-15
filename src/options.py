@@ -37,10 +37,8 @@ def safe_lock():
 ##### ADD NEW PASSWORD #####
 def add_password():
     print("Añadir una contraseña nueva\n")
-    print("Introduce la nueva contraseña:")
-    proced, new_password = user_input()
-    print("Confirma la contraseña:")
-    proced, confirmacion = user_input()
+    proced, new_password = user_input("Introduce la nueva contraseña:")
+    proced, confirmacion = user_input("Confirma la contraseña:")
     if new_password != confirmacion:
         print("Las contraseñas no coinciden. Saliendo del programa.")
         exit()

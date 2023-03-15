@@ -4,7 +4,7 @@ from user_input import user_input
 ##### CHECK PASSWORD #####
 def login(password):
     while True:
-        proceed, user_password = user_input()
+        proceed, user_password = user_input("Introduce la contraseña: ")
 
         if not proceed:
             print("\n\nInicio de sesion abortado.\nCerrando programa.")
