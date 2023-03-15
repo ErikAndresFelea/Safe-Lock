@@ -9,7 +9,7 @@ PASSWORD = ""
 
 ##### CHECKIGN STORAGE FILE #####
 from start_up import start_up
-start_up(MAIN_PATH)
+storage_file = start_up(MAIN_PATH)
 ##### CHECKIGN STORAGE FILE #####
 
 
@@ -24,5 +24,5 @@ login_result = login(PASSWORD)
 ##### MAIN PROGRAM #####
 if login_result:
     from options import safe_lock
-    safe_lock()
+    safe_lock(storage_file)
 ##### MAIN PROGRAM #####
