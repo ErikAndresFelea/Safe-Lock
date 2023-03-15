@@ -24,5 +24,5 @@ login_result = login(PASSWORD)
 ##### MAIN PROGRAM #####
 if login_result:
     from options import safe_lock
-    safe_lock(True)
+    safe_lock()
 ##### MAIN PROGRAM #####
