@@ -2,6 +2,8 @@ import getpass
 import msvcrt
 import os
 
+from user_input import user_input
+
 FILE = "../saved/passwords.txt"
 
 ##### MAIN PROGRAM #####
@@ -36,9 +38,9 @@ def safe_lock():
 def add_password():
     print("Añadir una contraseña nueva\n")
     print("Introduce la nueva contraseña:")
-    new_password = getpass.getpass()
+    proced, new_password = user_input()
     print("Confirma la contraseña:")
-    confirmacion = getpass.getpass()
+    proced, confirmacion = user_input()
     if new_password != confirmacion:
         print("Las contraseñas no coinciden. Saliendo del programa.")
         exit()

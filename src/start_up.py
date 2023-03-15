@@ -4,7 +4,7 @@ DIR = "../saved"
 FILE = DIR + "/passwords.txt"
 
 ##### CREATE STORAGE FILE IF ! EXISTS ##### 
-def create_passwords_file(main_path):
+def start_up(main_path):
     storage_dir = os.path.join(main_path, DIR)
     storage_file = os.path.join(main_path, FILE)
 

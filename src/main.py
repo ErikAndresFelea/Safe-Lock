@@ -8,8 +8,8 @@ PASSWORD = ""
 
 
 ##### CHECKIGN STORAGE FILE #####
-from start_up import create_passwords_file
-create_passwords_file(MAIN_PATH)
+from start_up import start_up
+start_up(MAIN_PATH)
 ##### CHECKIGN STORAGE FILE #####
 
 
