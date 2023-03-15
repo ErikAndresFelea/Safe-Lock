@@ -7,15 +7,9 @@ PASSWORD = "1234"
 
 
 
-##### FIND IMPORTANT FILES #####
-storage_file = os.path.join(MAIN_PATH, "../saved/passwords.txt")
-##### FIND IMPORTANT FILES #####
-
-
-
 ##### CHECKIGN STORAGE FILE #####
-from first_start import create_passwords_file
-create_passwords_file(storage_file)
+from start_up import create_passwords_file
+create_passwords_file(MAIN_PATH)
 ##### CHECKIGN STORAGE FILE #####
 
 
