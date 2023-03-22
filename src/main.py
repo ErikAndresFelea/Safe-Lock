@@ -1,27 +1,32 @@
 import os
-from methods import start_up, login
+from login import login
+from start_up import start_up
+from menu import safe_lock
 
 ##### IMPORTANT VARIABLES #####
 MAIN_PATH = os.path.dirname(os.path.abspath(__file__))
-PASSWORD = ""
 ##### IMPORTANT VARIABLES #####
 
 
 
 ##### CHECKIGN STORAGE FILE #####
-storage_file = start_up(MAIN_PATH)
+status, storage_file = start_up(MAIN_PATH)
+if not status:
+    print("Cerrando programa")
+    exit()
 ##### CHECKIGN STORAGE FILE #####
 
 
 
 ##### LOGIN #####
-login_result = login(PASSWORD)
+status = login(storage_file)
+if not status:
+    print("Cerrando programa")
+    exit()
 ##### LOGIN #####
 
 
 
 ##### MAIN PROGRAM #####
-if login_result:
-    from options import safe_lock
-    safe_lock(storage_file)
+safe_lock(storage_file)
 ##### MAIN PROGRAM #####
