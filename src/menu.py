@@ -1,7 +1,7 @@
 import msvcrt
 import os
 
-from data_handler import add_password, get_passwords
+from data_handler import *
 
 ##### MAIN PROGRAM #####
 def safe_lock(storage_file, key):
@@ -11,7 +11,8 @@ def safe_lock(storage_file, key):
         print("¿Qué operacion deseas realizar?")
         print("\t1. Añadir una nueva contraseña.")
         print("\t2. Ver las contraseñas existentes.")
-        print("\t3. Salir del programa.")
+        print("\t3. Borrar una contraseña.")
+        print("\t4. Salir del programa.")
         print("\nIntroduce el número de la opción que deseas: ")
 
         char = msvcrt.getch()
@@ -26,6 +27,10 @@ def safe_lock(storage_file, key):
                 if not state:
                     print("Fallo al mostrar contraseñas")
             case b"3":
+                state = rem_password(storage_file, key)
+                if not state:
+                    print("Fallo al borrar contraseña")
+            case b"4":
                 print("¡Hasta pronto!")
                 print("Cerrando programa.")
                 break

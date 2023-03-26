@@ -3,10 +3,10 @@ from methods import *
 ##### ADD NEW PASSWORD #####
 def add_password(storage_file, key):
     print("Añadir una contraseña nueva\n")
-    proced, new_password = user_input("Introduce la nueva contraseña:")
+    proced, new_password = user_input("Introduce la nueva contraseña: ")
     if not proced:
         return False
-    proced, confirmation = user_input("Confirma la contraseña:")
+    proced, confirmation = user_input("Confirma la contraseña: ")
     if not proced:
         return False
     if new_password != confirmation:
@@ -28,7 +28,6 @@ def add_password(storage_file, key):
 ##### GET PASSWORDS #####
 def get_passwords(storage_file, key):
     print("Mostrando contraseñas\n")
-
     with open(storage_file, "r", encoding="utf-8") as file:
         passwords = file.readlines()
 
@@ -45,3 +44,33 @@ def get_passwords(storage_file, key):
     print()
     return True
 ##### GET PASSWORDS #####
+
+
+
+##### REMOVE PASSWORD #####
+def rem_password(storage_file, key):
+    name = input("Introduce el nombre de la contraseña a borrar: ")
+    
+    with open(storage_file, "r", encoding="utf-8") as file:
+        all_lines = file.readlines()
+
+    passwords = all_lines[2:]
+    for i in range(len(passwords)):
+        token = decrypt(passwords[i], key)
+        token = token.decode('utf-8')
+        token = token.split(':')[0]
+        passwords[i] = token
+
+    try:
+        index = passwords.index(name.capitalize()) + 2
+    except ValueError:
+        return False
+    
+    with open(storage_file, "w", encoding="utf-8") as file:
+        for i, line in enumerate(all_lines):
+            if i != index:
+                file.write(line)
+
+    print("Contraseña borrada.\n")
+    return True
+##### REMOVE PASSWORD #####
