@@ -1,6 +1,7 @@
 import os
 
 from methods import user_input, encrypt
+from cryptography.fernet import Fernet
 
 ##### CREATE STORAGE FILE IF ! EXISTS ##### 
 def start_up(main_path):
@@ -34,10 +35,12 @@ def create_password(storage_file):
         print("\nContraseña no creada.")
         return False
 
-    key = encrypt(password)
+    key = Fernet.generate_key()
+    user_password = encrypt(password, key)
 
     with open(storage_file, "w", encoding="utf-8") as file:
-        file.write(key)
+        file.write(key.decode('utf-8') + "\n")
+        file.write(user_password.decode('utf-8') + "\n")
 
     print("Contraseña creada con éxito.")
     return True

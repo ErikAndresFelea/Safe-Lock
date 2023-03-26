@@ -1,6 +1,6 @@
 import msvcrt
-import hashlib
-import base64
+
+from cryptography.fernet import Fernet
 
 ##### OBTAIN USER INPUT #####
 def user_input(message: str):
@@ -14,11 +14,11 @@ def user_input(message: str):
                 break
             case b"\x1b":  # if Escape key, cancel program execution
                 return False, user_password
-            case b"\x08":  # if Delete key, remove las char
+            case b"\x08":  # if Delete key, remove last char
                 user_password = user_password[:-1]
             case _:  # if other key, add it
                 user_password += key
-        print("\r\033[K" + message + "*" * len(user_password), end="", flush=True)  # replace password with "*"
+        print("\r\033[K" + message + "*" * len(user_password), end="", flush=True)  # replace string with "*"
 
     print()        
     user_password = user_password.decode("utf-8")
@@ -28,10 +28,17 @@ def user_input(message: str):
 
 
 ##### ENCODE #####
-def encrypt(string: str):
-    password = string[:32]
-    hash = hashlib.sha256(password.encode()).digest()
-    base_64 = base64.urlsafe_b64encode(hash)
-    key = base_64.ljust(32, b'=')
-    return key.decode("utf-8")
+def encrypt(data: str, key: bytes):
+    fernet = Fernet(key)
+    token = fernet.encrypt(data.encode('utf-8'))
+    return token
 ##### ENCODE #####
+
+
+
+##### DECODE #####
+def decrypt(data: str, key: str):
+    fernet = Fernet(key)
+    token = fernet.decrypt(data.encode('utf-8'))
+    return token
+##### DECODE #####

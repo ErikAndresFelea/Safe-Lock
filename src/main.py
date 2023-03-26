@@ -19,7 +19,7 @@ if not status:
 
 
 ##### LOGIN #####
-status = login(storage_file)
+status, key = login(storage_file)
 if not status:
     print("Cerrando programa")
     exit()
@@ -28,5 +28,5 @@ if not status:
 
 
 ##### MAIN PROGRAM #####
-safe_lock(storage_file)
+safe_lock(storage_file, key)
 ##### MAIN PROGRAM #####
