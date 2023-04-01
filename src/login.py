@@ -1,12 +1,17 @@
 import os
+import keyring
 
 from methods import decrypt
 from methods import user_input
 
 ##### CHECK PASSWORD #####
-def login(storage_file):
+def login(storage_file: str) -> tuple[bool, str | None]:
+    status, key = recover_key()
+    if not status:
+        print("Error al recuperar clave")
+        return False, None
+
     with open(storage_file, "r", encoding="utf-8") as file:
-        key = file.readline().strip()
         encrypted_password = file.readline().strip()
 
     while True:
@@ -25,9 +30,8 @@ def login(storage_file):
 
 
 ##### OBTAIN PROGRAM PASSOWRD #####
-def confirm_password(encrypted_password: str, user_password: str, key: str):
+def confirm_password(encrypted_password: str, user_password: str, key: str) -> bool:
     password = decrypt(encrypted_password, key)
-    password = password.decode('utf-8')
 
     os.system('cls')
     if user_password == password:
@@ -36,3 +40,17 @@ def confirm_password(encrypted_password: str, user_password: str, key: str):
 
     return False
 ##### OBTAIN PROGRAM PASSOWRD #####
+
+
+
+##### RECOVER KEY #####
+def recover_key() -> tuple[bool, str | None]:
+    service_name = "safe_lock_password"
+    username = "generic_user"
+
+    key = keyring.get_password(service_name, username)
+    if key is None:
+        return False, None
+    else:
+        return True, key
+##### RECOVER KEY #####

@@ -1,10 +1,11 @@
 import os
+import keyring
 
 from methods import user_input, encrypt
 from cryptography.fernet import Fernet
 
 ##### CREATE STORAGE FILE IF ! EXISTS ##### 
-def start_up(main_path):
+def start_up(main_path: str) -> tuple[bool, str]:
     DIR = "../saved"
     FILE = DIR + "/passwords.txt"
     
@@ -29,19 +30,30 @@ def start_up(main_path):
 
 
 ##### CREATE PROGRAM PASSWORD #####
-def create_password(storage_file):
+def create_password(storage_file: str) -> bool:
     proced, password = user_input("Introduce una contraseña para el programa: ")
     if not proced:
         print("\nContraseña no creada.")
         return False
 
     key = Fernet.generate_key()
-    user_password = encrypt(password, key)
+    key_to_string = key.decode('utf-8')
+    user_password = encrypt(password, key_to_string)
 
     with open(storage_file, "w", encoding="utf-8") as file:
-        file.write(key.decode('utf-8') + "\n")
-        file.write(user_password.decode('utf-8') + "\n")
+        file.write(user_password + "\n")
 
+    save_key(key_to_string)
     print("Contraseña creada con éxito.")
     return True
 ##### CREATE PROGRAM PASSWORD #####
+
+
+
+##### SAVE KEY #####
+def save_key(password: str) -> None:
+    service_name = "safe_lock_password"
+    username = "generic_user"
+
+    keyring.set_password(service_name, username, password)
+##### SAVE KEY #####
