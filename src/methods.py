@@ -3,7 +3,7 @@ import msvcrt
 from cryptography.fernet import Fernet
 
 ##### OBTAIN USER INPUT #####
-def user_input(message: str):
+def user_input(message: str) -> tuple[bool, str]:
     print(message, end="", flush=True)
    
     user_password = b""
@@ -13,7 +13,7 @@ def user_input(message: str):
             case b"\r":  # if Enter key, send data
                 break
             case b"\x1b":  # if Escape key, cancel program execution
-                return False, user_password
+                return False, user_password.decode("utf-8")
             case b"\x08":  # if Delete key, remove last char
                 user_password = user_password[:-1]
             case _:  # if other key, add it
@@ -28,7 +28,7 @@ def user_input(message: str):
 
 
 ##### ENCODE #####
-def encrypt(data: str, key: bytes) -> str:
+def encrypt(data: str, key: str) -> str:
     data_to_bytes = data.encode('utf-8')
     fernet = Fernet(key)
     token = fernet.encrypt(data_to_bytes)

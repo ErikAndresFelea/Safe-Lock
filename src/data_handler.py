@@ -1,7 +1,7 @@
 from methods import *
 
 ##### ADD NEW PASSWORD #####
-def add_password(storage_file, key):
+def add_password(storage_file: str, key: str) -> bool:
     print("Añadir una contraseña nueva\n")
     proced, new_password = user_input("Introduce la nueva contraseña: ")
     if not proced:
@@ -18,7 +18,7 @@ def add_password(storage_file, key):
     token = encrypt(entry, key)
 
     with open(storage_file, "a", encoding="utf-8") as file:
-        file.write(token.decode('utf-8') + '\n')
+        file.write(token + '\n')
         print("Contraseña guardada con éxito.\n")
     return True
 ##### ADD NEW PASSWORD #####
@@ -26,15 +26,14 @@ def add_password(storage_file, key):
 
 
 ##### GET PASSWORDS #####
-def get_passwords(storage_file, key):
+def get_passwords(storage_file: str, key: str) -> bool:
     print("Mostrando contraseñas\n")
     with open(storage_file, "r", encoding="utf-8") as file:
         passwords = file.readlines()
 
-    passwords = passwords[2:]
+    passwords = passwords[1:]
     for i in range(len(passwords)):
-        token = decrypt(passwords[i], key)
-        passwords[i] = token.decode('utf-8')
+        passwords[i] = decrypt(passwords[i], key)
 
     passwords = sorted(passwords, key=lambda x: x.split(":")[0])
 
@@ -54,15 +53,14 @@ def rem_password(storage_file, key):
     with open(storage_file, "r", encoding="utf-8") as file:
         all_lines = file.readlines()
 
-    passwords = all_lines[2:]
+    passwords = all_lines[1:]
     for i in range(len(passwords)):
         token = decrypt(passwords[i], key)
-        token = token.decode('utf-8')
         token = token.split(':')[0]
         passwords[i] = token
 
     try:
-        index = passwords.index(name.capitalize()) + 2
+        index = passwords.index(name.capitalize()) + 1
     except ValueError:
         return False
     

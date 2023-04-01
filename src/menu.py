@@ -4,7 +4,7 @@ import os
 from data_handler import *
 
 ##### MAIN PROGRAM #####
-def safe_lock(storage_file, key):
+def safe_lock(storage_file: str, key: str) -> None:
     print("¡Bienvenido al gestor de contraseñas!")
 
     while True:
