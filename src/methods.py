@@ -28,17 +28,21 @@ def user_input(message: str):
 
 
 ##### ENCODE #####
-def encrypt(data: str, key: bytes):
+def encrypt(data: str, key: bytes) -> str:
+    data_to_bytes = data.encode('utf-8')
     fernet = Fernet(key)
-    token = fernet.encrypt(data.encode('utf-8'))
-    return token
+    token = fernet.encrypt(data_to_bytes)
+    token_to_string = token.decode('utf-8')
+    return token_to_string
 ##### ENCODE #####
 
 
 
 ##### DECODE #####
-def decrypt(data: str, key: str):
+def decrypt(data: str, key: str) -> str:
+    data_to_bytes = data.encode('utf-8')
     fernet = Fernet(key)
-    token = fernet.decrypt(data.encode('utf-8'))
-    return token
+    token = fernet.decrypt(data_to_bytes)
+    token_to_string = token.decode('utf-8')
+    return token_to_string
 ##### DECODE #####
