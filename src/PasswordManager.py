@@ -1,18 +1,18 @@
-from methods import *
+from DataHandler import DataHandler
 
 class PasswordManager:
-    def __init__(self, storage_file: str, key: str) -> None:
+    def __init__(self, storage_file: str, data_handler: DataHandler) -> None:
         self.file = storage_file
-        self.key = key
+        self.data_hanlder = data_handler
 
 
     ##### ADD NEW PASSWORD #####
     def add_password(self) -> bool:
         print("Añadir una contraseña nueva\n")
-        proced, new_password = user_input("Introduce la nueva contraseña: ")
+        proced, new_password = self.data_hanlder.user_input("Introduce la nueva contraseña: ")
         if not proced:
             return False
-        proced, confirmation = user_input("Confirma la contraseña: ")
+        proced, confirmation = self.data_hanlder.user_input("Confirma la contraseña: ")
         if not proced:
             return False
         if new_password != confirmation:
@@ -21,7 +21,7 @@ class PasswordManager:
         title = input("Introduce un título para la contraseña: ")
 
         entry = title.capitalize() + ': ' + new_password
-        token = encrypt(entry, self.key)
+        token = self.data_hanlder.encrypt(entry)
 
         with open(self.file, "a", encoding="utf-8") as file:
             file.write(token + '\n')
@@ -40,7 +40,7 @@ class PasswordManager:
 
         passwords = all_lines[1:]
         for i in range(len(passwords)):
-            token = decrypt(passwords[i], self.key)
+            token = self.data_hanlder.decrypt(passwords[i])
             token = token.split(':')[0]
             passwords[i] = token
 
@@ -68,7 +68,7 @@ class PasswordManager:
 
         passwords = passwords[1:]
         for i in range(len(passwords)):
-            passwords[i] = decrypt(passwords[i], self.key)
+            passwords[i] = self.data_hanlder.decrypt(passwords[i])
 
         passwords = sorted(passwords, key=lambda x: x.split(":")[0])
 
