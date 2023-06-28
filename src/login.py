@@ -1,8 +1,7 @@
 import os
 import keyring
 
-from methods import decrypt
-from methods import user_input
+from methods import decrypt, user_input
 
 ##### CHECK PASSWORD #####
 def login(storage_file: str) -> tuple[bool, str | None]:

@@ -1,10 +1,10 @@
 import msvcrt
 import os
-
-from data_handler import *
+from PasswordManager import PasswordManager
 
 ##### MAIN PROGRAM #####
 def safe_lock(storage_file: str, key: str) -> None:
+    password_manager = PasswordManager(storage_file, key)
     print("¡Bienvenido al gestor de contraseñas!")
 
     while True:
@@ -19,15 +19,15 @@ def safe_lock(storage_file: str, key: str) -> None:
         os.system('cls')
         match char:
             case b"1":
-                state = add_password(storage_file, key)
+                state = password_manager.add_password()
                 if not state:
                     print("Fallo al añadir contraseña")
             case b"2":
-                state = get_passwords(storage_file, key)
+                state = password_manager.get_passwords()
                 if not state:
                     print("Fallo al mostrar contraseñas")
             case b"3":
-                state = rem_password(storage_file, key)
+                state = password_manager.delete_password()
                 if not state:
                     print("Fallo al borrar contraseña")
             case b"4":
