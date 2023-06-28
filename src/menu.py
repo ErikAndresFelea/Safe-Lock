@@ -3,8 +3,7 @@ import os
 from PasswordManager import PasswordManager
 
 ##### MAIN PROGRAM #####
-def safe_lock(storage_file: str, key: str) -> None:
-    password_manager = PasswordManager(storage_file, key)
+def safe_lock(password_manager: PasswordManager) -> None:
     print("¡Bienvenido al gestor de contraseñas!")
 
     while True:

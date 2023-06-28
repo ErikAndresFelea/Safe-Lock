@@ -1,32 +1,38 @@
 import os
-from login import login
-from start_up import start_up
-from menu import safe_lock
-
-##### IMPORTANT VARIABLES #####
-MAIN_PATH = os.path.dirname(os.path.abspath(__file__))
-##### IMPORTANT VARIABLES #####
+from Login import Login
+from StartUp import StartUp
+from PasswordManager import PasswordManager
+from Menu import safe_lock
 
 
-
-##### CHECKIGN STORAGE FILE #####
-status, storage_file = start_up(MAIN_PATH)
-if not status:
-    print("Cerrando programa")
-    exit()
-##### CHECKIGN STORAGE FILE #####
+if __name__ == "__main__":
+    ##### IMPORTANT VARIABLES #####
+    main_path = os.path.dirname(os.path.abspath(__file__))
+    ##### IMPORTANT VARIABLES #####
 
 
 
-##### LOGIN #####
-status, key = login(storage_file)
-if not status:
-    print("Cerrando programa")
-    exit()
-##### LOGIN #####
+    ##### CHECKIGN STORAGE FILE #####
+    start_up = StartUp(main_path)
+    status, storage_file = start_up.check()
+    if not status:
+        print("Cerrando programa")
+        exit()
+    ##### CHECKIGN STORAGE FILE #####
 
 
 
-##### MAIN PROGRAM #####
-safe_lock(storage_file, key)
-##### MAIN PROGRAM #####
+    ##### LOGIN #####
+    login = Login(storage_file)
+    status, data_handler = login.check_credentials()
+    if not status:
+        print("Cerrando programa")
+        exit()
+    ##### LOGIN #####
+
+
+
+    ##### MAIN PROGRAM #####
+    password_manager = PasswordManager(storage_file, data_handler)
+    safe_lock(password_manager)
+    ##### MAIN PROGRAM #####
