@@ -1,5 +1,6 @@
 import os
 import keyring
+import json
 
 from DataHandler import DataHandler
 from cryptography.fernet import Fernet
@@ -10,23 +11,24 @@ class StartUp:
 
     ##### CREATE STORAGE FILE IF ! EXISTS ##### 
     def check(self) -> tuple[bool, str]:
-        DIR = "../saved"
-        FILE = DIR + "/passwords.txt"
-        
+        DIR = os.getenv("APPDATA")
+        folder_dir = os.path.join(DIR, 'safe-lock')
+        storage_file = os.path.join(folder_dir, 'data.json')
         status = True
-        storage_dir = os.path.join(self.path, DIR)
-        storage_file = os.path.join(self.path, FILE)
 
-        if not os.path.isdir(storage_dir):  # Create dir if needed
-            os.makedirs(storage_dir)
+        if not os.path.isdir(folder_dir):  # Create dir if needed
+            os.makedirs(folder_dir)
 
         if not os.path.isfile(storage_file):  # Create file if needed
             file = open(storage_file, "w", encoding="utf-8")
             file.close()
-            print("El archivo de almacenamiento no existía y ha sido creado.")
 
         if os.path.getsize(storage_file) == 0:
-            status = self.create_password(storage_file)
+            status, password = self.create_password()
+
+        if status:
+            with open(storage_file, "w", encoding="utf-8") as file:
+                file.write(password + "\n")
 
         return status, storage_file
     ##### CREATE STORAGE FILE IF ! EXISTS ##### 
@@ -34,7 +36,7 @@ class StartUp:
 
 
     ##### CREATE PROGRAM PASSWORD #####
-    def create_password(self, storage_file: str) -> bool:
+    def create_password(self) -> tuple[bool, str]:
         token = Fernet.generate_key()
         key = token.decode('utf-8')
         data_hanlder = DataHandler(key)
@@ -45,21 +47,18 @@ class StartUp:
             return False
 
         user_password = data_hanlder.encrypt(password)
-
-        with open(storage_file, "w", encoding="utf-8") as file:
-            file.write(user_password + "\n")
-
         self.save_key(key)
-        print("Contraseña creada con éxito.")
-        return True
+
+        return True, user_password
     ##### CREATE PROGRAM PASSWORD #####
 
 
 
     ##### SAVE KEY #####
-    def save_key(password: str) -> None:
+    def save_key(self, password: str) -> None:
         service_name = "safe_lock_password"
         username = "generic_user"
 
         keyring.set_password(service_name, username, password)
+        print("Contraseña creada con éxito.")
     ##### SAVE KEY #####
