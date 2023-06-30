@@ -43,10 +43,13 @@ class StartUp:
             print("\nContraseña no creada.")
             return False
 
-        user_password = {'app_password': data_hanlder.encrypt(password)}
+        data = {
+            'app_password': data_hanlder.encrypt(password),
+            'passwords': []
+            }
 
         with open(storage_file, "w", encoding="utf-8") as file:
-            file.write(json.dumps(user_password))
+            file.write(json.dumps(data))
 
         self.save_key(key)
         print("Contraseña creada con éxito.")
