@@ -9,6 +9,7 @@ class StartUp:
     def __init__(self, main_path: str) -> None:
         self.path = main_path
 
+
     ##### CREATE STORAGE FILE IF ! EXISTS ##### 
     def check(self) -> tuple[bool, str]:
         DIR = os.getenv("APPDATA")
@@ -24,11 +25,7 @@ class StartUp:
             file.close()
 
         if os.path.getsize(storage_file) == 0:
-            status, password = self.create_password()
-
-        if status:
-            with open(storage_file, "w", encoding="utf-8") as file:
-                file.write(password + "\n")
+            status = self.create_password(storage_file)
 
         return status, storage_file
     ##### CREATE STORAGE FILE IF ! EXISTS ##### 
@@ -36,7 +33,7 @@ class StartUp:
 
 
     ##### CREATE PROGRAM PASSWORD #####
-    def create_password(self) -> tuple[bool, str]:
+    def create_password(self, storage_file: str) -> bool:
         token = Fernet.generate_key()
         key = token.decode('utf-8')
         data_hanlder = DataHandler(key)
@@ -46,10 +43,14 @@ class StartUp:
             print("\nContraseña no creada.")
             return False
 
-        user_password = data_hanlder.encrypt(password)
-        self.save_key(key)
+        user_password = {'app_password': data_hanlder.encrypt(password)}
 
-        return True, user_password
+        with open(storage_file, "w", encoding="utf-8") as file:
+            file.write(json.dumps(user_password))
+
+        self.save_key(key)
+        print("Contraseña creada con éxito.")
+        return True
     ##### CREATE PROGRAM PASSWORD #####
 
 
@@ -60,5 +61,4 @@ class StartUp:
         username = "generic_user"
 
         keyring.set_password(service_name, username, password)
-        print("Contraseña creada con éxito.")
     ##### SAVE KEY #####

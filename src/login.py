@@ -1,5 +1,6 @@
 import os
 import keyring
+import json
 
 from DataHandler import DataHandler
 
@@ -17,8 +18,9 @@ class Login:
             return False, None
         self.data_hanlder.set_key(key)
 
-        with open(self.file, "r", encoding="utf-8") as file:
-            encrypted_password = file.readline().strip()
+        with open(self.file, "r", encoding="utf-8") as json_file:
+            data = json.load(json_file)
+            encrypted_password = data.get('app_password', '')
 
         while True:
             proceed, user_password = self.data_hanlder.user_input("Introduce la contraseña: ")
@@ -26,7 +28,7 @@ class Login:
                 print("\n\nInicio de sesion abortado.\n")
                 return False, None
             
-            status = self.confirm_password(encrypted_password, user_password, key)
+            status = self.confirm_password(encrypted_password, user_password)
             if status:
                 return status, self.data_hanlder
             
@@ -36,7 +38,7 @@ class Login:
 
 
     ##### OBTAIN PROGRAM PASSOWRD #####
-    def confirm_password(self, encrypted_password: str, user_password: str, key: str) -> bool:
+    def confirm_password(self, encrypted_password: str, user_password: str) -> bool:
         password = self.data_hanlder.decrypt(encrypted_password)
 
         os.system('cls')
