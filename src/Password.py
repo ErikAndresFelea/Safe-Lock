@@ -1,10 +1,10 @@
 class Password:
-    def __init__(self, app_name: str, password: str, unique_id: str, email = None, app_id = None, url = None):
+    def __init__(self, unique_id: str, app_name: str, password: str, email = None, app_id = None, url = None):
+        self.unique_id = unique_id      # Id set by SafeLock to make operations
         self.app_name = app_name
         self.password = password
         self.email = email
         self.app_id = app_id    # Posible id given by the app
-        self.unique_id = unique_id      # Id set by SafeLock to make operations
         self.url = url
 
 
