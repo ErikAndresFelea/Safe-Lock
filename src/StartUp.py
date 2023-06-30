@@ -45,11 +45,11 @@ class StartUp:
 
         data = {
             'app_password': data_hanlder.encrypt(password),
-            'passwords': []
+            'all_passwords': []
             }
 
-        with open(storage_file, "w", encoding="utf-8") as file:
-            file.write(json.dumps(data))
+        with open(storage_file, "w", encoding="utf-8") as json_file:
+            json.dump(data, json_file, indent=4)
 
         self.save_key(key)
         print("Contraseña creada con éxito.")
