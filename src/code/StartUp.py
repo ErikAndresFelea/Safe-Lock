@@ -2,7 +2,7 @@ import os
 import keyring
 import json
 
-from DataHandler import DataHandler
+from dataHandler import DataHandler
 from cryptography.fernet import Fernet
 
 class StartUp:

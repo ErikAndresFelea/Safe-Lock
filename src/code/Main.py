@@ -1,8 +1,8 @@
 import os
-from Login import Login
-from StartUp import StartUp
-from PasswordManager import PasswordManager
-from Menu import safe_lock
+from login import Login
+from startUp import StartUp
+from passwordManager import PasswordManager
+from menu import safe_lock
 
 class App():
     def __init__(self):

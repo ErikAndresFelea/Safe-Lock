@@ -1,6 +1,6 @@
 import msvcrt
 import os
-from PasswordManager import PasswordManager
+from passwordManager import PasswordManager
 
 ##### MAIN PROGRAM #####
 def safe_lock(password_manager: PasswordManager) -> None:

@@ -1,6 +1,6 @@
 import customtkinter
-from widgets.Login_widget import LoginWidget
-from widgets.Password_widget import PasswordWidget
+from widgets.login_widget import LoginWidget
+from widgets.password_widget import PasswordWidget
 
 
 customtkinter.set_appearance_mode("System")
