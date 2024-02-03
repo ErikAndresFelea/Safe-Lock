@@ -28,3 +28,21 @@ class EditPasswordWidget(customtkinter.CTkFrame):
         self.url_label.grid(row=4, column=0, padx=20, pady=5)
         self.url_label = customtkinter.CTkEntry(self, placeholder_text="Contraseña", width=250)
         self.url_label.grid(row=4, column=1, padx=20, pady=5)
+
+        self.edit_button = customtkinter.CTkButton(self, text="View", command=editPass, width=50)
+        self.edit_button.grid(row=1, column=2, padx=5, pady=0)
+
+        self.cancel_button = customtkinter.CTkButton(self, text="Delete", command=cancelEdit, width=50)
+        self.cancel_button.grid(row=1, column=3, padx=5, pady=0)
+
+        def editPass(self):
+            for widget in self.winfo_children():
+                widget.destroy()
+            # Send info to backend blablabal...
+            pass
+
+        def cancelEdit(self):
+            for widget in self.winfo_children():
+                widget.destroy()
+            # Load home UI
+            pass
