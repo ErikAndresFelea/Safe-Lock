@@ -3,6 +3,7 @@ from widgets.login_widget import LoginWidget
 from widgets.password_widget import PasswordWidget
 from widgets.edit_pass_widget import EditPasswordWidget
 from widgets.view_pass_widget import ViewPasswordWidget
+from widgets.add_pass_widget import AddPasswordWidget
 
 
 customtkinter.set_appearance_mode("System")
@@ -38,6 +39,10 @@ class App(customtkinter.CTk):
             item_widget = PasswordWidget(self)
             item_widget.grid(row=i, column=0, padx=20, pady=10)
 
+        self.add_button = customtkinter.CTkButton(self, text="Añadir", command=self.addPass, width=50)
+        self.add_button.grid(row=len(items), column=0, padx=10, pady=20)
+        # Change Home UI!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
     def editPass(self):
         for widget in self.winfo_children():
             widget.destroy()
@@ -56,10 +61,16 @@ class App(customtkinter.CTk):
         pass
 
     def deletePass(self):
+        print("Delete haha, or not?")
         # Delete password from backend and reload UI
         pass
 
     def addPass(self):
+        for widget in self.winfo_children():
+            widget.destroy()
+
+        item_widget = AddPasswordWidget(self)
+        item_widget.grid(row=0, column=0, padx=20, pady=10)
         # Add password to backend and reload UI
         pass
 
