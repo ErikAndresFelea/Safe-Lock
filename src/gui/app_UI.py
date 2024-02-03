@@ -1,6 +1,7 @@
 import customtkinter
 from widgets.login_widget import LoginWidget
 from widgets.password_widget import PasswordWidget
+from widgets.edit_pass_widget import EditPasswordWidget
 
 
 customtkinter.set_appearance_mode("System")
@@ -35,6 +36,26 @@ class App(customtkinter.CTk):
         for i, item in enumerate(items):
             item_widget = PasswordWidget(self)
             item_widget.grid(row=i, column=0, padx=20, pady=10)
+
+    def editPass(self):
+        # Get data from backend and change to new widget UI
+        for widget in self.winfo_children():
+            widget.destroy()
+
+        item_widget = EditPasswordWidget(self)
+        item_widget.grid(row=0, column=0, padx=20, pady=10)
+
+    def viewPass(self):
+        # Get data from backend and change to new widget UI
+        pass
+
+    def deletePass(self):
+        # Delete password from backend and reload UI
+        pass
+
+    def addPass(self):
+        # Add password to backend and reload UI
+        pass
 
 
 if __name__ == "__main__":
