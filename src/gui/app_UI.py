@@ -2,6 +2,7 @@ import customtkinter
 from widgets.login_widget import LoginWidget
 from widgets.password_widget import PasswordWidget
 from widgets.edit_pass_widget import EditPasswordWidget
+from widgets.view_pass_widget import ViewPasswordWidget
 
 
 customtkinter.set_appearance_mode("System")
@@ -38,14 +39,19 @@ class App(customtkinter.CTk):
             item_widget.grid(row=i, column=0, padx=20, pady=10)
 
     def editPass(self):
-        # Get data from backend and change to new widget UI
         for widget in self.winfo_children():
             widget.destroy()
 
         item_widget = EditPasswordWidget(self)
         item_widget.grid(row=0, column=0, padx=20, pady=10)
+        # Get data from backend and change to new widget UI
 
     def viewPass(self):
+        for widget in self.winfo_children():
+            widget.destroy()
+
+        item_widget = ViewPasswordWidget(self)
+        item_widget.grid(row=0, column=0, padx=20, pady=10)
         # Get data from backend and change to new widget UI
         pass
 
