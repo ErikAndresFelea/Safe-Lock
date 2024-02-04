@@ -8,7 +8,7 @@ class PasswordWidget(customtkinter.CTkFrame):
         self.grid_columnconfigure((0, 1), weight=1)
         self.grid_rowconfigure((0, 1), weight=1)
 
-        # Left frame
+        # Left frame. 1 column and 2 rows
         self.left_frame = customtkinter.CTkFrame(self, corner_radius=0)
         self.left_frame.grid(row=0, column=0, padx=0, pady=0, sticky="nsew")
         self.left_frame.grid_rowconfigure((0, 1), weight=1)
@@ -19,7 +19,7 @@ class PasswordWidget(customtkinter.CTkFrame):
         self.password_label = customtkinter.CTkLabel(self.left_frame, text="Example_password")
         self.password_label.grid(row=1, column=0, padx=20, pady=(2.5, 5), sticky="w")
 
-        # Right frame
+        # Right frame. 3 columns and 1 row
         self.right_frame = customtkinter.CTkFrame(self, corner_radius=0)
         self.right_frame.grid(row=0, column=1, padx=0, pady=0, sticky="nsew")
         self.right_frame.grid_columnconfigure((0, 1, 2), weight=1)
