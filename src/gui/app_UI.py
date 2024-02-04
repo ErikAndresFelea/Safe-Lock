@@ -18,15 +18,11 @@ class App(customtkinter.CTk):
         self.geometry(f"{1280}x{720}")
 
         self.grid_columnconfigure(0, weight=1)
-        self.grid_rowconfigure((0, 1, 2), weight=1)
+        self.grid_rowconfigure(0, weight=1)
 
-        # Configure grid
-        self.grid_columnconfigure(0, weight=1)
-        self.grid_rowconfigure((0, 1, 2, 3), weight=1)
-
-       # Login
-        self.login_widget = LoginWidget(self)
-        self.login_widget.grid(row=1, column=0, padx=20, pady=20)
+        # Login
+        login_widget = LoginWidget(self)
+        login_widget.grid(row=0, column=0, padx=20, pady=10)
 
     def login(self):
         for widget in self.winfo_children():
@@ -40,7 +36,6 @@ class App(customtkinter.CTk):
 
         self.add_button = customtkinter.CTkButton(self, text="Añadir", command=self.addPass, width=50)
         self.add_button.grid(row=len(items), column=0, padx=10, pady=20)
-        # Change Home UI!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
     def editPass(self):
         for widget in self.winfo_children():
