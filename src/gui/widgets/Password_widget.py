@@ -6,7 +6,6 @@ class PasswordWidget(customtkinter.CTkFrame):
 
         # Widget split into 2 frames. Left and Right
         self.grid_columnconfigure((0, 1), weight=1)
-        self.grid_rowconfigure((0, 1), weight=1)
 
         # Left frame. 1 column and 2 rows
         self.left_frame = customtkinter.CTkFrame(self, corner_radius=0)
