@@ -22,12 +22,26 @@ class App(customtkinter.CTk):
 
         # Configure grid
         self.grid_columnconfigure(0, weight=1)
-        self.grid_rowconfigure((0, 4), weight=1)
-        self.grid_rowconfigure((1, 2, 3), weight=0)
+        self.grid_rowconfigure((0, 1, 2, 3), weight=1)
 
        # Login
+        self.logo_label = customtkinter.CTkLabel(self, text="Safe Lock", font=customtkinter.CTkFont(size=20, weight="bold"))
+        self.logo_label.grid(row=0, column=0, padx=20, pady=20)
+
         self.login_widget = LoginWidget(self)
         self.login_widget.grid(row=1, column=0, padx=20, pady=20)
+
+        ''' delete '''
+        self.add_widget = AddPasswordWidget(self)
+        self.add_widget.grid(row=3, column=1, padx=20, pady=20)
+        self.edit_widget = EditPasswordWidget(self)
+        self.edit_widget.grid(row=2, column=0, padx=20, pady=20)
+        self.view_widget = ViewPasswordWidget(self)
+        self.view_widget.grid(row=3, column=0, padx=20, pady=20)
+        self.item_widget = PasswordWidget(self)
+        self.item_widget.grid(row=2, column=1, padx=20, pady=20)
+        ''' delete '''
+        
 
     def login(self):
         for widget in self.winfo_children():
