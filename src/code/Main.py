@@ -46,4 +46,3 @@ if __name__ == "__main__":
     app.run()
 
     # Reminder: Save stuff ramdomly in the JSON file to avoid having a clue
-    # Think about how UI are set up (mostly because of "home UI")
