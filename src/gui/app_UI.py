@@ -17,13 +17,70 @@ class App(customtkinter.CTk):
         self.title("SafeLock")
         self.geometry(f"{1280}x{720}")
 
-        self.grid_columnconfigure(0, weight=1)
-        self.grid_rowconfigure(0, weight=1)
+        ##### Working on pagination #####
 
-        # Login
-        login_widget = LoginWidget(self)
-        login_widget.grid(row=0, column=0, padx=20, pady=10)
+        # Main widget (root)
+        self.main_frame = customtkinter.CTkFrame(self)
+        self.main_frame.grid(row=0, column=0, padx=20, pady=20)
 
+        self.main_frame.grid_rowconfigure((0, 1), weight=1)
+        self.main_frame.grid_columnconfigure(0, weight=1)
+
+        # Current widget displayed on the main widget
+        self.current_title = customtkinter.CTkLabel(self.main_frame, text="Safe Lock", font=customtkinter.CTkFont(size=20, weight="bold"))
+        self.current_title.grid(row=0, column=0, padx=20, pady=20)
+
+        self.current_widget = LoginWidget(self.main_frame)
+        self.current_widget.grid(row=1, column=0, padx=20, pady=20)
+
+    def home(self):
+        self.clear_ui()
+        self.current_title = customtkinter.CTkLabel(self.main_frame, text="Contraseñas", font=customtkinter.CTkFont(size=20, weight="bold"))
+        self.current_title.grid(row=0, column=0, padx=20, pady=20)
+
+        self.current_widget = PasswordWidget(self.main_frame)
+        self.current_widget.grid(row=1, column=0, padx=20, pady=20)
+
+
+    def editPass(self):
+        self.clear_ui()
+        self.current_title = customtkinter.CTkLabel(self.main_frame, text="Editar contraseña", font=customtkinter.CTkFont(size=20, weight="bold"))
+        self.current_title.grid(row=0, column=0, padx=20, pady=20)
+
+        self.current_widget = EditPasswordWidget(self.main_frame)
+        self.current_title.grid(row=0, column=0, padx=20, pady=20)
+        # Get data from backend and change to new widget UI
+
+    def viewPass(self):
+        self.clear_ui()
+        self.current_title = customtkinter.CTkLabel(self.main_frame, text="Ver Contraseña", font=customtkinter.CTkFont(size=20, weight="bold"))
+        self.current_title.grid(row=0, column=0, padx=20, pady=20)
+
+        self.current_widget = ViewPasswordWidget(self.main_frame)
+        self.current_title.grid(row=0, column=0, padx=20, pady=20)
+        # Get data from backend and change to new widget UI
+        pass
+
+    def deletePass(self):
+        self.clear_ui()
+        # Delete password from backend and refresh UI
+        pass
+
+    def addPass(self):
+        self.clear_ui()
+        self.current_title = customtkinter.CTkLabel(self.main_frame, text="Añadir Contraseña", font=customtkinter.CTkFont(size=20, weight="bold"))
+        self.current_title.grid(row=0, column=0, padx=20, pady=20)
+
+        self.current_widget = AddPasswordWidget(self.main_frame)
+        self.current_title.grid(row=0, column=0, padx=20, pady=20)
+        # Add password to backend and refresh UI
+        pass
+
+    def clear_ui(self):
+        for widget in self.current_widget.winfo_children():
+            widget.destroy()
+
+'''
     def login(self):
         for widget in self.winfo_children():
             widget.destroy()
@@ -67,7 +124,7 @@ class App(customtkinter.CTk):
         item_widget.grid(row=0, column=0, padx=20, pady=10)
         # Add password to backend and reload UI
         pass
-
+'''
 
 if __name__ == "__main__":
     app = App()
