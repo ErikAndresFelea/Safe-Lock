@@ -2,7 +2,7 @@ import customtkinter
 from widgets.password_widget import PasswordWidget
 
 class LoginWidget(customtkinter.CTkFrame):
-    def __init__(self, master=None):
+    def __init__(self, master=None, app=None):
         super().__init__(master)
 
         self.frame = customtkinter.CTkFrame(self)
@@ -14,5 +14,5 @@ class LoginWidget(customtkinter.CTkFrame):
         self.password_entry = customtkinter.CTkEntry(self.frame, placeholder_text="Contraseña", width=250)
         self.password_entry.grid(row=1, column=0, padx=20, pady=5)
         
-        self.button = customtkinter.CTkButton(self.frame, text="Login", command=master.master.home, width=75)
+        self.button = customtkinter.CTkButton(self.frame, text="Login", command=app.home, width=75)
         self.button.grid(row=2, column=0, padx=20, pady=(5, 15))
