@@ -73,8 +73,8 @@ class App(customtkinter.CTk):
         self.current_title = customtkinter.CTkLabel(self.main_frame, text="Añadir Contraseña", font=customtkinter.CTkFont(size=20, weight="bold"))
         self.current_title.grid(row=0, column=0, padx=20, pady=20)
 
-        self.current_frame = AddPasswordWidget(self.main_frame)
-        self.current_title.grid(row=1, column=0, padx=20, pady=20)
+        self.current_frame = AddPasswordWidget(self.main_frame, app=self)
+        self.current_frame.grid(row=1, column=0, padx=20, pady=20)
         # Add password to backend and refresh UI
         pass
 
