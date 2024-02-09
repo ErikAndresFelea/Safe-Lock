@@ -1,7 +1,7 @@
 import customtkinter
 
 class AddPasswordWidget(customtkinter.CTkFrame):
-    def __init__(self, master=None):
+    def __init__(self, master=None, app=None):
         super().__init__(master)
 
         # Widget split into 2 frames. Top and Bottom
@@ -46,17 +46,11 @@ class AddPasswordWidget(customtkinter.CTkFrame):
         self.add_button = customtkinter.CTkButton(self.bottom_frame, text="Añadir", command=self.addPass, width=75)
         self.add_button.grid(row=0, column=0, padx=5, pady=(5, 15), sticky="e")
 
-        self.cancel_button = customtkinter.CTkButton(self.bottom_frame, text="Cancelar", command=self.cancelAdd, width=75)
+        self.cancel_button = customtkinter.CTkButton(self.bottom_frame, text="Cancelar", command=app.home, width=75)
         self.cancel_button.grid(row=0, column=1, padx=5, pady=(5, 15), sticky="w")
 
     def addPass(self):
-        for widget in self.winfo_children():
-            widget.destroy()
+        print("Contraseña añadida")
         # Send info to backend blablabal...
-        pass
-
-    def cancelAdd(self):
-        for widget in self.winfo_children():
-            widget.destroy()
-        # Load home UI
+        # Feedback popup
         pass
