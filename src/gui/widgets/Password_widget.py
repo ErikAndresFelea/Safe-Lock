@@ -38,8 +38,5 @@ class PasswordWidget(customtkinter.CTkFrame):
 
 
         # Bottom frame
-        self.add_button = customtkinter.CTkButton(self, text="Añadir", command=self.add_button, width=75)
+        self.add_button = customtkinter.CTkButton(self, text="Añadir", command=app.addPass, width=75)
         self.add_button.grid(row=1, column=0, padx=20, pady=20)
-
-    def add_button(self):
-        print("Contraeña añadida")
