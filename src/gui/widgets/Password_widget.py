@@ -27,16 +27,16 @@ class PasswordWidget(customtkinter.CTkFrame):
         self.right_frame.grid(row=0, column=1, padx=0, pady=0, sticky="nsew")
         self.right_frame.grid_columnconfigure((0, 1, 2), weight=1)
 
-        self.view_button = customtkinter.CTkButton(self.right_frame, text="View", command=app.viewPass, width=50)
+        self.view_button = customtkinter.CTkButton(self.right_frame, text="View", command=app.view_pass, width=50)
         self.view_button.grid(row=0, column=1, padx=(20, 0), pady=20, sticky="nsew")
 
-        self.edit_button = customtkinter.CTkButton(self.right_frame, text="Edit", command=app.editPass, width=50)
+        self.edit_button = customtkinter.CTkButton(self.right_frame, text="Edit", command=app.edit_pass, width=50)
         self.edit_button.grid(row=0, column=2, padx=5, pady=20, sticky="nsew")
 
-        self.delete_button = customtkinter.CTkButton(self.right_frame, text="Delete", command=app.deletePass, width=50)
+        self.delete_button = customtkinter.CTkButton(self.right_frame, text="Delete", command=app.delete_pass, width=50)
         self.delete_button.grid(row=0, column=3, padx=(0, 20), pady=20, sticky="nsew")
 
 
         # Bottom frame
-        self.add_button = customtkinter.CTkButton(self, text="Añadir", command=app.addPass, width=75)
+        self.add_button = customtkinter.CTkButton(self, text="Añadir", command=app.add_pass, width=75)
         self.add_button.grid(row=1, column=0, padx=20, pady=20)

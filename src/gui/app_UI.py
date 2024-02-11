@@ -44,7 +44,7 @@ class App(customtkinter.CTk):
         self.current_frame.grid(row=1, column=0, padx=20, pady=20)
 
 
-    def editPass(self):
+    def edit_pass(self):
         self.clear_ui()
         self.current_title = customtkinter.CTkLabel(self.main_frame, text="Editar contraseña", font=customtkinter.CTkFont(size=20, weight="bold"))
         self.current_title.grid(row=0, column=0, padx=20, pady=20)
@@ -53,7 +53,7 @@ class App(customtkinter.CTk):
         self.current_frame.grid(row=1, column=0, padx=20, pady=20)
         # Get data from backend and change to new widget UI
 
-    def viewPass(self):
+    def view_pass(self):
         self.clear_ui()
         self.current_title = customtkinter.CTkLabel(self.main_frame, text="Ver Contraseña", font=customtkinter.CTkFont(size=20, weight="bold"))
         self.current_title.grid(row=0, column=0, padx=20, pady=20)
@@ -63,12 +63,12 @@ class App(customtkinter.CTk):
         # Get data from backend and change to new widget UI
         pass
 
-    def deletePass(self):
+    def delete_pass(self):
         print("Contraseña borrada")
         # Delete password from backend and refresh UI
         pass
 
-    def addPass(self):
+    def add_pass(self):
         self.clear_ui()
         self.current_title = customtkinter.CTkLabel(self.main_frame, text="Añadir Contraseña", font=customtkinter.CTkFont(size=20, weight="bold"))
         self.current_title.grid(row=0, column=0, padx=20, pady=20)

@@ -43,13 +43,13 @@ class EditPasswordWidget(customtkinter.CTkFrame):
         self.bottom_frame.grid(row=1, column=0, padx=0, pady=0, sticky="nsew")
         self.bottom_frame.grid_columnconfigure((0, 1), weight=1)
 
-        self.edit_button = customtkinter.CTkButton(self.bottom_frame, text="Editar", command=self.editPass, width=75)
+        self.edit_button = customtkinter.CTkButton(self.bottom_frame, text="Editar", command=self.edit_pass, width=75)
         self.edit_button.grid(row=0, column=0, padx=5, pady=(5, 15), sticky="e")
 
         self.cancel_button = customtkinter.CTkButton(self.bottom_frame, text="Cancelar", command=app.home, width=75)
         self.cancel_button.grid(row=0, column=1, padx=5, pady=(5, 15), sticky="w")
 
-    def editPass(self):
+    def edit_pass(self):
         print("Contraseña editada")
         # Send info to backend blablabal...
         # Feedback popup
