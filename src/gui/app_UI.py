@@ -19,8 +19,6 @@ class App(customtkinter.CTk):
         self.grid_rowconfigure(0, weight=1)
         self.grid_columnconfigure(0, weight=1)
 
-        ##### Working on pagination #####
-
         # Main widget (root)
         self.main_frame = customtkinter.CTkFrame(self)
         self.main_frame.grid(row=0, column=0, padx=20, pady=20)
@@ -34,6 +32,9 @@ class App(customtkinter.CTk):
 
         self.current_frame = LoginWidget(self.main_frame, app=self)
         self.current_frame.grid(row=1, column=0, padx=20, pady=20)
+
+    def login(self, name, password):
+        print("Name: " + name + " Password: " + password)
 
     def home(self):
         self.clear_ui()
