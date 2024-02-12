@@ -44,5 +44,3 @@ class App():
 if __name__ == "__main__":
     app = App()
     app.run()
-
-    # Reminder: Save stuff ramdomly in the JSON file to avoid having a clue
