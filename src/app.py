@@ -1,14 +1,20 @@
-from gui.app_ui import App as frontend
+from code.controller import Controller
+from gui.app_ui import App as Frontend
+
 
 class App:
     def __init__(self):
         super().__init__()
 
-    def run(self):
-        front = frontend()
-        front.mainloop()
+        # Instance of the controller and the ui
+        self.front = Frontend()
+        self.back = Controller()
 
-if __name__ =="__main__":
+    # Launch UI
+    def run(self):
+        self.front.mainloop()
+
+
+if __name__ == "__main__":
     app = App()
     app.run()
-    
