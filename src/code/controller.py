@@ -1,10 +1,9 @@
 class Controller:
-    def __init__(self, back, front):
-        backend = back
-        frontend = front
+    def __init__(self):
+        super().__init__()
 
-    def login(self, name, password):
-        pass
+    def login(self, name: str, password: str):
+        print("Controller: " + name + " " + password)
 
     def register(self, name, password, confirm_password):
         pass
@@ -23,6 +22,4 @@ class Controller:
 
     def delete_password(self, id):
         pass
-
-if __name__ == "__main__":
-    controller = Controller()
+    

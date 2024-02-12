@@ -9,12 +9,8 @@ class App:
         # Instance of the controller and the ui
         self.front = Frontend()
         self.back = Controller()
-
-    # Launch UI
-    def run(self):
         self.front.mainloop()
 
 
 if __name__ == "__main__":
     app = App()
-    app.run()

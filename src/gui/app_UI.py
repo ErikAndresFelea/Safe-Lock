@@ -4,7 +4,7 @@ from gui.widgets.password_widget import PasswordWidget
 from gui.widgets.edit_pass_widget import EditPasswordWidget
 from gui.widgets.view_pass_widget import ViewPasswordWidget
 from gui.widgets.add_pass_widget import AddPasswordWidget
-
+from code.controller import Controller
 
 customtkinter.set_appearance_mode("System")
 customtkinter.set_default_color_theme("blue")
@@ -13,6 +13,9 @@ customtkinter.set_default_color_theme("blue")
 class App(customtkinter.CTk):
     def __init__(self):
         super().__init__()
+
+        # Backend comunication
+        self.controller = Controller()
 
         self.title("SafeLock")
         self.geometry(f"{1280}x{720}")
@@ -34,7 +37,7 @@ class App(customtkinter.CTk):
         self.current_frame.grid(row=1, column=0, padx=20, pady=20)
 
     def login(self, name, password):
-        print("Name: " + name + " Password: " + password)
+        self.controller.login(name, password)
 
     def home(self):
         self.clear_ui()
@@ -82,7 +85,3 @@ class App(customtkinter.CTk):
     def clear_ui(self):
         for widget in self.main_frame.winfo_children():
             widget.destroy()
-
-if __name__ == "__main__":
-    app = App()
-    app.mainloop()
