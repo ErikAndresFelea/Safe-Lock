@@ -1,9 +1,9 @@
 import customtkinter
-from widgets.login_widget import LoginWidget
-from widgets.password_widget import PasswordWidget
-from widgets.edit_pass_widget import EditPasswordWidget
-from widgets.view_pass_widget import ViewPasswordWidget
-from widgets.add_pass_widget import AddPasswordWidget
+from gui.widgets.login_widget import LoginWidget
+from gui.widgets.password_widget import PasswordWidget
+from gui.widgets.edit_pass_widget import EditPasswordWidget
+from gui.widgets.view_pass_widget import ViewPasswordWidget
+from gui.widgets.add_pass_widget import AddPasswordWidget
 
 
 customtkinter.set_appearance_mode("System")
