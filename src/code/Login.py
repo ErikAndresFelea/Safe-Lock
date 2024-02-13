@@ -2,7 +2,7 @@ import os
 import keyring
 import json
 
-from dataHandler import DataHandler
+from code.dataHandler import DataHandler
 
 class Login:
     def __init__(self, storage_file: str) -> None:

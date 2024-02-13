@@ -1,8 +1,8 @@
 import os
-from login import Login
-from startUp import StartUp
-from passwordManager import PasswordManager
-from menu import safe_lock
+from code.login import Login
+from code.startUp import StartUp
+from code.passwordManager import PasswordManager
+from code.menu import safe_lock
 
 class App():
     def __init__(self):
@@ -11,6 +11,7 @@ class App():
     def run(self):
         ##### IMPORTANT VARIABLES #####
         main_path = os.path.dirname(os.path.abspath(__file__))
+        print(main_path)
         ##### IMPORTANT VARIABLES #####
 
 
@@ -39,3 +40,7 @@ class App():
         password_manager = PasswordManager(storage_file, data_handler)
         safe_lock(password_manager)
         ##### MAIN PROGRAM #####
+
+if __name__ == "__main__":
+    x = App()
+    x.run()

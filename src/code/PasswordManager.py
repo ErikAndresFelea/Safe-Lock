@@ -1,8 +1,8 @@
 import uuid
 import json
 
-from dataHandler import DataHandler
-from password import Password
+from code.dataHandler import DataHandler
+from code.password import Password
 
 class PasswordManager:
     def __init__(self, storage_file: str, data_handler: DataHandler) -> None:

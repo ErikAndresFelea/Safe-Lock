@@ -1,8 +1,12 @@
+import code.login
+import code.app_main
+
 class Controller:
     def __init__(self):
         super().__init__()
 
     def login(self, name: str, password: str):
+        code.app_main.App()
         print("Controller: " + name + " " + password)
 
     def register(self, name, password, confirm_password):
