@@ -40,7 +40,3 @@ class App():
         password_manager = PasswordManager(storage_file, data_handler)
         safe_lock(password_manager)
         ##### MAIN PROGRAM #####
-
-if __name__ == "__main__":
-    x = App()
-    x.run()

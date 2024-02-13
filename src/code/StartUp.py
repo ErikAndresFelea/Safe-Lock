@@ -9,7 +9,7 @@ class StartUp:
     def __init__(self, main_path: str) -> None:
         self.path = main_path
 
-
+    ''' This code has been replaced
     ##### CREATE STORAGE FILE IF ! EXISTS ##### 
     def check(self) -> tuple[bool, str]:
         DIR = os.getenv("APPDATA")
@@ -29,9 +29,13 @@ class StartUp:
 
         return status, storage_file
     ##### CREATE STORAGE FILE IF ! EXISTS ##### 
+    '''
 
 
 
+
+
+    ''' This will be moved into "register" file in the future
     ##### CREATE PROGRAM PASSWORD #####
     def create_password(self, storage_file: str) -> bool:
         token = Fernet.generate_key()
@@ -65,3 +69,4 @@ class StartUp:
 
         keyring.set_password(service_name, username, password)
     ##### SAVE KEY #####
+    '''
