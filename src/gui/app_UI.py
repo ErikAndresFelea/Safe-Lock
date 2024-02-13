@@ -11,11 +11,11 @@ customtkinter.set_default_color_theme("blue")
 
 
 class App(customtkinter.CTk):
-    def __init__(self):
+    def __init__(self, folder, file):
         super().__init__()
 
         # Backend comunication
-        self.controller = Controller()
+        self.controller = Controller(folder, file)
 
         self.title("SafeLock")
         self.geometry(f"{1280}x{720}")
@@ -38,6 +38,9 @@ class App(customtkinter.CTk):
 
     def login(self, name, password):
         self.controller.login(name, password)
+
+    def register(self, name, email, password, rep_password):
+        self.controller.register(name, email, password, rep_password)
 
     def home(self):
         self.clear_ui()

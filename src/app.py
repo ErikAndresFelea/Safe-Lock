@@ -13,9 +13,8 @@ class App:
         # Checks if the app folder/files are ok
         self.app_exe_check(app_folder_path, storage_file_path)
 
-        # Instance of the controller and the ui
-        self.front = Frontend()
-        self.back = Controller()
+        # Instance of the ui
+        self.front = Frontend(app_folder_path, storage_file_path)
         self.front.mainloop()
 
     # Returns a string with the path to the app dir and storage file

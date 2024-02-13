@@ -1,15 +1,18 @@
-import code.login
-from code.app_main import App
+from code.login import Login
+from code.register import Register
 
 class Controller:
-    def __init__(self):
+    def __init__(self, folder, file):
         super().__init__()
+        self.folder = folder
+        self.file = file
 
     def login(self, name: str, password: str):
         print("Controller: " + name + " " + password)
 
-    def register(self, name, password, confirm_password):
-        pass
+    def register(self, name, email, password, confirm_password):
+        new_user = Register(name, email, password, confirm_password, self.file)
+        confirm = new_user.create_account()
     
     def get_password(self, id):
         pass
