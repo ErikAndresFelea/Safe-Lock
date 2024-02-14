@@ -1,5 +1,6 @@
 from code.login import Login
 from code.register import Register
+from code.passwordManager import PasswordManager
 
 class Controller:
     def __init__(self, folder, file):
@@ -11,8 +12,8 @@ class Controller:
         user_login = Login(email, password, self.file)
         confirm, data_handler = user_login.check_credentials()
 
-        # Keep the instance of the data_handler for future use
-        self.data_handler = data_handler
+        # Create an instance of PasswordManager using the dataHandler created on the login
+        self.password_manager = PasswordManager(self.file, data_handler)
 
         return confirm
 
