@@ -71,25 +71,23 @@ class PasswordManager:
 
 
 
-    ##### GET PASSWORDS #####
-    def get_passwords(self) -> bool:
-        print("Mostrando contraseñas\n")
+    # Reads file and retrieves all the passwords stored
+    def get_passwords(self) -> list:
         with open(self.file, "r", encoding="utf-8") as json_file:
             data = json.load(json_file)
 
         passwords = data["all_passwords"]
 
+        # Get all data from all passwords and save them in an array
         password_array = []
         for password in passwords:
-            decrypted_title = self.data_handler.decrypt(password["app_name"])
+            decrypted_password_id = self.data_handler.decrypt(password["unique_id"])
+            decrypted_name = self.data_handler.decrypt(password["app_name"])
             decrypted_password = self.data_handler.decrypt(password["password"])
-            password_array.append([decrypted_title, decrypted_password])
+            decrypted_email = self.data_handler.decrypt(password["email"])
+            decrypted_app_id =  self.data_handler.decrypt(password["app_id"])
+            decrypted_url = self.data_handler.decrypt(password["url"])
+            password_array.append([decrypted_password_id, decrypted_name, decrypted_password, decrypted_email, decrypted_app_id, decrypted_url])
 
         sorted_passwords = sorted(password_array, key=lambda x: x[0])
-
-        print("Contraseñas guardadas:")
-        for password in sorted_passwords:
-            print(f'{password[0]}: {password[1]}')
-        print()
-        return True
-    ##### GET PASSWORDS #####
+        return sorted_passwords

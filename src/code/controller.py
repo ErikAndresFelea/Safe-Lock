@@ -25,8 +25,9 @@ class Controller:
     def get_password(self, id):
         pass
 
-    def get_all_passwords(self):
-        pass
+    def get_all_passwords(self) -> list:
+        passwords_list = self.password_manager.get_passwords()
+        return passwords_list
 
     def add_password(self, name, password, id):
         pass
