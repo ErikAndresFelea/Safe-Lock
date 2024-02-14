@@ -67,11 +67,11 @@ class App(customtkinter.CTk):
         self.current_title.grid(row=0, column=0, padx=20, pady=20)
 
         for i in range(len(passwords)):
-            self.current_frame = PasswordWidget(self.main_frame, app=self)
+            self.current_frame = PasswordWidget(self.main_frame, self, passwords[i][0], passwords[i][1], passwords[i][2] )
             self.current_frame.grid(row=(i + 1), column=0, padx=20, pady=20)
 
         self.add_button = customtkinter.CTkButton(self.main_frame, text="Añadir", command=self.view_add_pass, width=75)
-        self.add_button.grid(row=len(passwords), column=0, padx=20, pady=20)
+        self.add_button.grid(row=len(passwords) + 1, column=0, padx=20, pady=20)
 
 
     def edit_pass(self):
