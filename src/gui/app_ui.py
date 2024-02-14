@@ -70,7 +70,7 @@ class App(customtkinter.CTk):
             self.current_frame = PasswordWidget(self.main_frame, app=self)
             self.current_frame.grid(row=(i + 1), column=0, padx=20, pady=20)
 
-        self.add_button = customtkinter.CTkButton(self.main_frame, text="Añadir", command=self.add_pass, width=75)
+        self.add_button = customtkinter.CTkButton(self.main_frame, text="Añadir", command=self.view_add_pass, width=75)
         self.add_button.grid(row=len(passwords), column=0, padx=20, pady=20)
 
 
@@ -106,15 +106,24 @@ class App(customtkinter.CTk):
         # Delete password from backend and refresh UI
         pass
 
-    def add_pass(self):
+    def view_add_pass(self):
         self.clear_ui()
         self.current_title = customtkinter.CTkLabel(self.main_frame, text="Añadir Contraseña", font=customtkinter.CTkFont(size=20, weight="bold"))
         self.current_title.grid(row=0, column=0, padx=20, pady=20)
 
-        self.current_frame = AddPasswordWidget(self.main_frame, app=self)
+        self.current_frame = AddPasswordWidget(self.main_frame, self)
         self.current_frame.grid(row=1, column=0, padx=20, pady=20)
         # Add password to backend and refresh UI
         pass
+
+    def add_pass(self, name, password, email, app_id, url):
+        confirm = self.controller.add_password(name, password, email, app_id, url)
+        if confirm is False:
+            ''' Show UI error msg '''
+            pass
+        else:
+            ''' Show UI feedback msg '''
+            self.home()
 
     def clear_ui(self):
         for widget in self.main_frame.winfo_children():

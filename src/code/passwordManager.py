@@ -10,27 +10,17 @@ class PasswordManager:
         self.data_handler = data_handler
 
 
-    ##### ADD NEW PASSWORD #####
-    def add_password(self) -> bool:
-        print("Añadir una contraseña nueva\n")
-        proced, title = self.data_handler.user_input("Introduce un título para la contraseña: ")
-        if not proced:
-            return False
-        proced, new_password = self.data_handler.user_input("Introduce la nueva contraseña: ")
-        if not proced:
-            return False
-        proced, confirmation = self.data_handler.user_input("Confirma la contraseña: ")
-        if not proced:
-            return False
-        if new_password != confirmation:
-            print("Las contraseñas no coinciden.")
-            return False
-        
-        password_id = str(uuid.uuid4())
-        password_id = self.data_handler.encrypt(password_id)
-        title = self.data_handler.encrypt(title.capitalize())
-        new_password = self.data_handler.encrypt(new_password)
-        password = Password(password_id, title, new_password)
+    # Adds a new password to the json file
+    def add_password(self, name: str, password: str, email: str, app_id: str, url: str) -> bool:
+        encrypted_password_id = str(uuid.uuid4())
+        encrypted_password_id = self.data_handler.encrypt(encrypted_password_id)
+        encrypted_name = self.data_handler.encrypt(name.capitalize())
+        encrypted_password = self.data_handler.encrypt(password)
+        encrypted_email = self.data_handler.encrypt(email)
+        encrypted_app_id = self.data_handler.encrypt(app_id)
+        encrypted_url =self.data_handler.encrypt(url)
+
+        password = Password(encrypted_password_id, encrypted_name, encrypted_password, encrypted_email, encrypted_app_id, encrypted_url)
 
         with open(self.file, "r", encoding="utf-8") as json_file:
             data = json.load(json_file)
@@ -39,9 +29,7 @@ class PasswordManager:
         with open(self.file, "w", encoding="utf-8") as json_file:
             json.dump(data, json_file, indent=4)
 
-        print("Contraseña guardada con éxito.\n")
         return True
-    ##### ADD NEW PASSWORD #####
 
 
 
