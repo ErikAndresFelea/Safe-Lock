@@ -4,55 +4,38 @@ import json
 
 from code.dataHandler import DataHandler
 
+
 class Login:
-    def __init__(self, storage_file: str) -> None:
+    def __init__(self, email: str, password: str, storage_file: str) -> None:
         self.file = storage_file
+        self.email = email
+        self.password = password
         self.data_hanlder = DataHandler(None)
 
-
-    ##### CHECK PASSWORD #####
+    # Check if password is correct
     def check_credentials(self) -> tuple[bool, DataHandler]:
-        status, key = self.recover_key()
-        if not status:
-            print("Error al recuperar clave")
+        # Get encrypted key from windows password manager
+        result, key = self.obtain_key()
+        if result is False:
             return False, None
-        self.data_hanlder.set_key(key)
 
+        # Decrypt password from file and check if its the same as the user input
+        self.data_hanlder.set_key(key)
         with open(self.file, "r", encoding="utf-8") as json_file:
             data = json.load(json_file)
             encrypted_password = data.get('app_password', '')
 
-        while True:
-            proceed, user_password = self.data_hanlder.user_input("Introduce la contraseña: ")
-            if not proceed:
-                print("\n\nInicio de sesion abortado.\n")
-                return False, None
-            
-            status = self.confirm_password(encrypted_password, user_password)
-            if status:
-                return status, self.data_hanlder
-            
-            print("\nContraseña incorrecta, intentalo de nuevo.\n")
-    ##### CHECK PASSWORD #####
+        confirm = self.authentiacte_user(encrypted_password, self.password)
+        return confirm, self.data_hanlder
 
-
-
-    ##### OBTAIN PROGRAM PASSOWRD #####
-    def confirm_password(self, encrypted_password: str, user_password: str) -> bool:
+    # Check if sotred password its the same as the user input
+    def authentiacte_user(self, encrypted_password: str, user_password: str) -> bool:
         password = self.data_hanlder.decrypt(encrypted_password)
+        result = True if user_password == password else False
+        return result
 
-        os.system('cls')
-        if user_password == password:
-            print("Contraseña correcta.\n")
-            return True
-
-        return False
-    ##### OBTAIN PROGRAM PASSOWRD #####
-
-
-
-    ##### RECOVER KEY #####
-    def recover_key(self) -> tuple[bool, str | None]:
+    # Get key from windows password manager
+    def obtain_key(self) -> tuple[bool, str | None]:
         service_name = "safe_lock_password"
         username = "generic_user"
 
@@ -61,4 +44,3 @@ class Login:
             return False, None
         else:
             return True, key
-    ##### RECOVER KEY #####

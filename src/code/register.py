@@ -4,9 +4,8 @@ from code.dataHandler import DataHandler
 from cryptography.fernet import Fernet
 
 class Register:
-    def __init__(self, name, email, password, rep_password, file) -> None:
+    def __init__(self, email: str, password: str, rep_password: str, file) -> None:
         super().__init__()
-        self.name = name
         self.email = email
         self.password = password
         self.rep_password = rep_password
@@ -30,7 +29,6 @@ class Register:
             json.dump(data, json_file, indent=4)
 
         self.save_key(key)
-        print("Contraseña creada con éxito.")
         return True
 
 
@@ -48,4 +46,6 @@ class Register:
 
         Also change code to check if an user already exist 
         with name/email before creating a new one
+
+        Avoid overriding existing user
         '''

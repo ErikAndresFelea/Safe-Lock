@@ -1,6 +1,6 @@
 import os
-from code.controller import Controller
 from gui.app_ui import App as Frontend
+from code.controller import Controller as Backend
 
 
 class App:
@@ -13,9 +13,10 @@ class App:
         # Checks if the app folder/files are ok
         self.app_exe_check(app_folder_path, storage_file_path)
 
-        # Instance of the ui
-        self.front = Frontend(app_folder_path, storage_file_path)
-        self.front.mainloop()
+        # Instance of the ui and controller
+        controller = Backend(app_folder_path, storage_file_path)
+        front = Frontend(controller)
+        front.mainloop()
 
     # Returns a string with the path to the app dir and storage file
     def get_path(self) -> tuple[str, str]:
