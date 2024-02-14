@@ -4,7 +4,7 @@ from code.dataHandler import DataHandler
 from cryptography.fernet import Fernet
 
 class Register:
-    def __init__(self, email, password, rep_password, file) -> None:
+    def __init__(self, email: str, password: str, rep_password: str, file) -> None:
         super().__init__()
         self.email = email
         self.password = password
@@ -29,7 +29,6 @@ class Register:
             json.dump(data, json_file, indent=4)
 
         self.save_key(key)
-        print("Contraseña creada con éxito.")
         return True
 
 

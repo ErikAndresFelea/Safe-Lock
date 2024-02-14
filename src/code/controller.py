@@ -16,9 +16,10 @@ class Controller:
 
         return confirm
 
-    def register(self, name, email, password, confirm_password):
-        new_user = Register(name, email, password, confirm_password, self.file)
+    def register(self, email: str, password: str, confirm_password: str) -> bool:
+        new_user = Register(email, password, confirm_password, self.file)
         confirm = new_user.create_account()
+        return confirm
     
     def get_password(self, id):
         pass

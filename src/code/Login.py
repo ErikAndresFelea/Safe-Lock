@@ -24,7 +24,6 @@ class Login:
         with open(self.file, "r", encoding="utf-8") as json_file:
             data = json.load(json_file)
             encrypted_password = data.get('app_password', '')
-            print(encrypted_password)
 
         confirm = self.authentiacte_user(encrypted_password, self.password)
         return confirm, self.data_hanlder
@@ -41,7 +40,6 @@ class Login:
         username = "generic_user"
 
         key = keyring.get_password(service_name, username)
-        print(key)
         if key is None:
             return False, None
         else:
