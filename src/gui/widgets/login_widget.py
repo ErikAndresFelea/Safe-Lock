@@ -15,11 +15,12 @@ class LoginWidget(customtkinter.CTkFrame):
         self.password_entry = customtkinter.CTkEntry(self, placeholder_text="Contraseña", width=250)
         self.password_entry.grid(row=1, column=0, padx=20, pady=5)
 
+        self.register_button = customtkinter.CTkButton(self.frame, text="Register", command=app.view_register, width=75)
+        self.register_button.grid(row=0, column=0, padx=20, pady=(5, 15))
+        
         self.login_button = customtkinter.CTkButton(self.frame, text="Login", 
             command=lambda: app.login(self.email_entry.get(), self.password_entry.get()), 
             width=75)
-        self.login_button.grid(row=0, column=0, padx=20, pady=(5, 15))
+        self.login_button.grid(row=0, column=1, padx=20, pady=(5, 15))
 
-        self.register_button = customtkinter.CTkButton(self.frame, text="Register", command=app.view_register, width=75)
-        self.register_button.grid(row=0, column=1, padx=20, pady=(5, 15))
         
