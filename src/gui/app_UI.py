@@ -11,11 +11,11 @@ customtkinter.set_default_color_theme("blue")
 
 
 class App(customtkinter.CTk):
-    def __init__(self, folder, file):
+    def __init__(self, controller: Controller):
         super().__init__()
 
         # Backend comunication
-        self.controller = Controller(folder, file)
+        self.controller = controller
 
         self.title("SafeLock")
         self.geometry(f"{1280}x{720}")
@@ -36,8 +36,13 @@ class App(customtkinter.CTk):
         self.current_frame = LoginWidget(self.main_frame, app=self)
         self.current_frame.grid(row=1, column=0, padx=20, pady=20)
 
-    def login(self, name, password):
-        self.controller.login(name, password)
+    def login(self, email: str, password: str):
+        confirm = self.controller.login(email, password)
+        if confirm is False:
+            ''' Show ui error name or pasasword incorrect'''
+            pass
+        else:
+            self.home()
 
     def register(self, name, email, password, rep_password):
         self.controller.register(name, email, password, rep_password)

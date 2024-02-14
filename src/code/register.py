@@ -4,9 +4,8 @@ from code.dataHandler import DataHandler
 from cryptography.fernet import Fernet
 
 class Register:
-    def __init__(self, name, email, password, rep_password, file) -> None:
+    def __init__(self, email, password, rep_password, file) -> None:
         super().__init__()
-        self.name = name
         self.email = email
         self.password = password
         self.rep_password = rep_password
