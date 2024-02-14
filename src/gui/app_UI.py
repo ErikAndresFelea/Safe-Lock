@@ -4,6 +4,7 @@ from gui.widgets.password_widget import PasswordWidget
 from gui.widgets.edit_pass_widget import EditPasswordWidget
 from gui.widgets.view_pass_widget import ViewPasswordWidget
 from gui.widgets.add_pass_widget import AddPasswordWidget
+from gui.widgets.register_widget import RegisterWidget
 from code.controller import Controller
 
 customtkinter.set_appearance_mode("System")
@@ -30,11 +31,7 @@ class App(customtkinter.CTk):
         self.main_frame.grid_columnconfigure(0, weight=1)
 
         # Current widget displayed on the main widget
-        self.current_title = customtkinter.CTkLabel(self.main_frame, text="Safe Lock", font=customtkinter.CTkFont(size=20, weight="bold"))
-        self.current_title.grid(row=0, column=0, padx=20, pady=20)
-
-        self.current_frame = LoginWidget(self.main_frame, app=self)
-        self.current_frame.grid(row=1, column=0, padx=20, pady=20)
+        self.welcome_screen()
 
     def login(self, email: str, password: str):
         confirm = self.controller.login(email, password)
@@ -44,9 +41,22 @@ class App(customtkinter.CTk):
         else:
             self.home()
 
-    def register(self, name, email, password, rep_password):
-        self.controller.register(name, email, password, rep_password)
+    def register(self, email: str, password: str, rep_password: str):
+        confirm = self.controller.register(email, password, rep_password)
+        if confirm is False:
+            ''' Show ui error '''
+            pass
+        else:
+            ''' Show ui feedback and proceed to login '''
 
+    def welcome_screen(self):
+        self.clear_ui()
+        self.current_title = customtkinter.CTkLabel(self.main_frame, text="Safe Lock", font=customtkinter.CTkFont(size=20, weight="bold"))
+        self.current_title.grid(row=0, column=0, padx=20, pady=20)
+
+        self.current_frame = LoginWidget(self.main_frame, app=self)
+        self.current_frame.grid(row=1, column=0, padx=20, pady=20)
+    
     def home(self):
         self.clear_ui()
         self.current_title = customtkinter.CTkLabel(self.main_frame, text="Contraseñas", font=customtkinter.CTkFont(size=20, weight="bold"))
@@ -64,6 +74,14 @@ class App(customtkinter.CTk):
         self.current_frame = EditPasswordWidget(self.main_frame, app=self)
         self.current_frame.grid(row=1, column=0, padx=20, pady=20)
         # Get data from backend and change to new widget UI
+
+    def view_register(self):
+        self.clear_ui()
+        self.current_title = customtkinter.CTkLabel(self.main_frame, text="Registro", font=customtkinter.CTkFont(size=20, weight="bold"))
+        self.current_title.grid(row=0, column=0, padx=20, pady=20)
+
+        self.current_frame = RegisterWidget(self.main_frame, app=self)
+        self.current_frame.grid(row=1, column=0, padx=20, pady=20)
 
     def view_pass(self):
         self.clear_ui()

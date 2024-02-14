@@ -46,4 +46,6 @@ class Register:
 
         Also change code to check if an user already exist 
         with name/email before creating a new one
+
+        Avoid overriding existing user
         '''
