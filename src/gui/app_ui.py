@@ -48,6 +48,8 @@ class App(customtkinter.CTk):
             pass
         else:
             ''' Show ui feedback and proceed to login '''
+            self.clear_ui()
+            self.welcome_screen()
 
     def welcome_screen(self):
         self.clear_ui()
