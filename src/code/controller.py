@@ -28,15 +28,16 @@ class Controller:
         return confirm, password
 
     def get_all_passwords(self) -> list:
-        passwords_list = self.password_manager.get_passwords()
+        passwords_list = self.password_manager.get_all_passwords()
         return passwords_list
 
     def add_password(self, name: str, password: str, email: str, app_id: str, url: str) -> bool:
         confirm = self.password_manager.add_password(name, password, email, app_id, url)
         return confirm
 
-    def update_password(self, name, password, id):
-        pass
+    def update_password(self, id: str, name: str, password: str, email: str, app_id: str, url: str) -> bool:
+        confirm = self.password_manager.update_password(id, name, password, email, app_id, url)
+        return confirm
 
     def delete_password(self, id):
         pass

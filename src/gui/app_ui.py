@@ -73,15 +73,30 @@ class App(customtkinter.CTk):
         self.add_button = customtkinter.CTkButton(self.main_frame, text="Añadir", command=self.view_add_pass, width=75)
         self.add_button.grid(row=len(passwords) + 1, column=0, padx=20, pady=20)
 
-
-    def edit_pass(self):
+    def view_edit_pass(self, id: str):
         self.clear_ui()
+        confirm, password = self.controller.get_password(id)
+
         self.current_title = customtkinter.CTkLabel(self.main_frame, text="Editar contraseña", font=customtkinter.CTkFont(size=20, weight="bold"))
         self.current_title.grid(row=0, column=0, padx=20, pady=20)
 
-        self.current_frame = EditPasswordWidget(self.main_frame, app=self)
-        self.current_frame.grid(row=1, column=0, padx=20, pady=20)
-        # Get data from backend and change to new widget UI
+        if confirm is False:
+            ''' Send feedback and UI error '''
+            pass
+
+        else:
+            self.current_frame = EditPasswordWidget(self.main_frame, self, password[0], password[1], password[2], password[3], password[4], password[5])
+            self.current_frame.grid(row=1, column=0, padx=20, pady=20)
+
+    def edit_pass(self, id: str, name: str, password: str, email: str, app_id: str, url: str):
+        confirm = self.controller.update_password(id, name, password, email, app_id, url)
+
+        if confirm is False:
+            ''' Send feedback and UI error '''
+            pass
+
+        else:
+            self.home()
 
     def view_register(self):
         self.clear_ui()
@@ -95,19 +110,17 @@ class App(customtkinter.CTk):
         self.clear_ui()
         confirm, password = self.controller.get_password(id)
 
+        self.current_title = customtkinter.CTkLabel(self.main_frame, text="Ver Contraseña", font=customtkinter.CTkFont(size=20, weight="bold"))
+        self.current_title.grid(row=0, column=0, padx=20, pady=20)
+
         if confirm is False:
             ''' Send feedback and UI error '''
             pass
 
         else:
-            self.clear_ui()
-            self.current_title = customtkinter.CTkLabel(self.main_frame, text="Ver Contraseña", font=customtkinter.CTkFont(size=20, weight="bold"))
-            self.current_title.grid(row=0, column=0, padx=20, pady=20)
 
             self.current_frame = ViewPasswordWidget(self.main_frame, self, password[1], password[2], password[3], password[4], password[5])
             self.current_frame.grid(row=1, column=0, padx=20, pady=20)
-        # Get data from backend and change to new widget UI
-        pass
 
     def delete_pass(self):
         print("Contraseña borrada")
@@ -121,8 +134,6 @@ class App(customtkinter.CTk):
 
         self.current_frame = AddPasswordWidget(self.main_frame, self)
         self.current_frame.grid(row=1, column=0, padx=20, pady=20)
-        # Add password to backend and refresh UI
-        pass
 
     def add_pass(self, name: str, password: str, email: str, app_id: str, url: str):
         confirm = self.controller.add_password(name, password, email, app_id, url)

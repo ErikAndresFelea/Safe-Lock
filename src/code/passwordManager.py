@@ -10,7 +10,6 @@ class PasswordManager:
         self.data_handler = data_handler
 
 
-    # Adds a new password to the json file
     def add_password(self, name: str, password: str, email: str, app_id: str, url: str) -> bool:
         encrypted_password_id = str(uuid.uuid4())
         encrypted_password_id = self.data_handler.encrypt(encrypted_password_id)
@@ -31,6 +30,24 @@ class PasswordManager:
 
         return True
 
+
+    def update_password(self, id: str, name: str, app_password: str, email: str, app_id: str, url: str) -> bool:
+        with open(self.file, "r", encoding="utf-8") as json_file:
+            data = json.load(json_file)
+
+        for password in data["all_passwords"]:
+            decrypted_password_id = self.data_handler.decrypt(password["unique_id"])
+            if decrypted_password_id == id:
+                password["app_name"] = self.data_handler.encrypt(name)
+                password["password"] = self.data_handler.encrypt(app_password)
+                password["email"] = self.data_handler.encrypt(email)
+                password["app_id"] = self.data_handler.encrypt(app_id)
+                password["url"] = self.data_handler.encrypt(url)
+                break
+
+        with open(self.file, "w", encoding="utf-8") as json_file:
+            json.dump(data, json_file, indent=4)
+        return True
 
 
     ##### REMOVE PASSWORD #####
@@ -79,7 +96,7 @@ class PasswordManager:
         return False, None
 
     # Reads file and retrieves all the passwords stored
-    def get_passwords(self) -> list:
+    def get_all_passwords(self) -> list:
         with open(self.file, "r", encoding="utf-8") as json_file:
             data = json.load(json_file)
 
