@@ -118,14 +118,18 @@ class App(customtkinter.CTk):
             pass
 
         else:
-
             self.current_frame = ViewPasswordWidget(self.main_frame, self, password[1], password[2], password[3], password[4], password[5])
             self.current_frame.grid(row=1, column=0, padx=20, pady=20)
 
-    def delete_pass(self):
-        print("Contraseña borrada")
-        # Delete password from backend and refresh UI
-        pass
+    def delete_pass(self, id):
+        confirm = self.controller.delete_password(id)
+        
+        if confirm is False:
+            ''' Send feedback and UI error '''
+            pass
+
+        else:
+            self.home()
 
     def view_add_pass(self):
         self.clear_ui()

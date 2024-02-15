@@ -39,3 +39,13 @@ class App:
 
 if __name__ == "__main__":
     app = App()
+
+
+''' TO DO LIST
+
+- Replace comunication data from str to Password class
+- Optimice password manager and other clases code
+- Clean up overall code (repeated code, make new defs)
+- Change function parameters to add their expected type and also their return
+
+'''

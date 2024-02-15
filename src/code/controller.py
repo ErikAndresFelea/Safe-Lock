@@ -39,6 +39,7 @@ class Controller:
         confirm = self.password_manager.update_password(id, name, password, email, app_id, url)
         return confirm
 
-    def delete_password(self, id):
-        pass
+    def delete_password(self, id: str) -> bool:
+        confirm = self.password_manager.delete_password(id)
+        return confirm
     

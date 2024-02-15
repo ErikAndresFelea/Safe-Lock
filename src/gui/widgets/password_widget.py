@@ -33,9 +33,5 @@ class PasswordWidget(customtkinter.CTkFrame):
         self.edit_button = customtkinter.CTkButton(self.right_frame, text="Edit", command=lambda: app.view_edit_pass(id), width=50)
         self.edit_button.grid(row=0, column=2, padx=5, pady=20, sticky="nsew")
 
-        self.delete_button = customtkinter.CTkButton(self.right_frame, text="Delete", command=lambda: app.delete_pass, width=50)
+        self.delete_button = customtkinter.CTkButton(self.right_frame, text="Delete", command=lambda: app.delete_pass(id), width=50)
         self.delete_button.grid(row=0, column=3, padx=(0, 20), pady=20, sticky="nsew")
-
-''' On the buttons of a password change 
-lambda function to pass the id of the password
-'''

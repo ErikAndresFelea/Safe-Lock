@@ -48,25 +48,19 @@ class PasswordManager:
         return True
 
 
-    def delete_password(self) -> bool:
-        name = input("Introduce el nombre de la contraseña a borrar: ")
-    
+    def delete_password(self, id: str) -> bool:
         with open(self.file, "r", encoding="utf-8") as json_file:
             data = json.load(json_file)
-        passwords = data["all_passwords"]
-        found = False
-        
-        for password in passwords:
-            dectrypted_password = self.data_handler.decrypt(password["app_name"])
-            if dectrypted_password.lower() == name.lower():
-                passwords.remove(password)
-                found = True
-                print("Contraseña borrada.\n")
+
+        for password in data["all_passwords"]:
+            decrypted_password_id = self.data_handler.decrypt(password["unique_id"])
+            if decrypted_password_id == id:
+                data["all_passwords"].remove(password)
                 break
             
         with open(self.file, "w", encoding="utf-8") as json_file:
             json.dump(data, json_file, indent=4)
-        return found
+        return True
 
 
     def get_password(self, id: str) -> tuple[bool, list | None]:
