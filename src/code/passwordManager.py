@@ -18,7 +18,6 @@ class PasswordManager:
         encrypted_email = self.data_handler.encrypt(email)
         encrypted_app_id = self.data_handler.encrypt(app_id)
         encrypted_url =self.data_handler.encrypt(url)
-
         password = Password(encrypted_password_id, encrypted_name, encrypted_password, encrypted_email, encrypted_app_id, encrypted_url)
 
         with open(self.file, "r", encoding="utf-8") as json_file:
@@ -27,7 +26,6 @@ class PasswordManager:
         data["all_passwords"].append(password.__dict__)
         with open(self.file, "w", encoding="utf-8") as json_file:
             json.dump(data, json_file, indent=4)
-
         return True
 
 
@@ -50,13 +48,11 @@ class PasswordManager:
         return True
 
 
-    ##### REMOVE PASSWORD #####
     def delete_password(self) -> bool:
         name = input("Introduce el nombre de la contraseña a borrar: ")
     
         with open(self.file, "r", encoding="utf-8") as json_file:
             data = json.load(json_file)
-
         passwords = data["all_passwords"]
         found = False
         
@@ -70,19 +66,14 @@ class PasswordManager:
             
         with open(self.file, "w", encoding="utf-8") as json_file:
             json.dump(data, json_file, indent=4)
-
         return found
-    ##### REMOVE PASSWORD #####
 
 
-    # Returns the password with the correct id
     def get_password(self, id: str) -> tuple[bool, list | None]:
         with open(self.file, "r", encoding="utf-8") as json_file:
             data = json.load(json_file)
 
-        passwords = data["all_passwords"]
-
-        for password in passwords:
+        for password in data["all_passwords"]:
             decrypted_password_id = self.data_handler.decrypt(password["unique_id"])
             if decrypted_password_id == id:
                 decrypted_name = self.data_handler.decrypt(password["app_name"])
@@ -92,19 +83,15 @@ class PasswordManager:
                 decrypted_url = self.data_handler.decrypt(password["url"])
                 data = [decrypted_password_id, decrypted_name, decrypted_password, decrypted_email, decrypted_app_id, decrypted_url]
                 return True, data
-
         return False, None
 
-    # Reads file and retrieves all the passwords stored
+
     def get_all_passwords(self) -> list:
         with open(self.file, "r", encoding="utf-8") as json_file:
             data = json.load(json_file)
 
-        passwords = data["all_passwords"]
-
-        # Get all data from all passwords and save them in an array
         password_array = []
-        for password in passwords:
+        for password in data["all_passwords"]:
             decrypted_password_id = self.data_handler.decrypt(password["unique_id"])
             decrypted_name = self.data_handler.decrypt(password["app_name"])
             decrypted_password = self.data_handler.decrypt(password["password"])
