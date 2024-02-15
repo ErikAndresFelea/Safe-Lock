@@ -27,7 +27,7 @@ class PasswordWidget(customtkinter.CTkFrame):
         self.right_frame.grid(row=0, column=1, padx=0, pady=0, sticky="nsew")
         self.right_frame.grid_columnconfigure((0, 1, 2), weight=1)
 
-        self.view_button = customtkinter.CTkButton(self.right_frame, text="View", command=lambda: app.view_pass, width=50)
+        self.view_button = customtkinter.CTkButton(self.right_frame, text="View", command=lambda: app.view_pass(id), width=50)
         self.view_button.grid(row=0, column=1, padx=(20, 0), pady=20, sticky="nsew")
 
         self.edit_button = customtkinter.CTkButton(self.right_frame, text="Edit", command=lambda: app.edit_pass, width=50)

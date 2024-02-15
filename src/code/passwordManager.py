@@ -58,6 +58,25 @@ class PasswordManager:
     ##### REMOVE PASSWORD #####
 
 
+    # Returns the password with the correct id
+    def get_password(self, id: str) -> tuple[bool, list | None]:
+        with open(self.file, "r", encoding="utf-8") as json_file:
+            data = json.load(json_file)
+
+        passwords = data["all_passwords"]
+
+        for password in passwords:
+            decrypted_password_id = self.data_handler.decrypt(password["unique_id"])
+            if decrypted_password_id == id:
+                decrypted_name = self.data_handler.decrypt(password["app_name"])
+                decrypted_password = self.data_handler.decrypt(password["password"])
+                decrypted_email = self.data_handler.decrypt(password["email"])
+                decrypted_app_id =  self.data_handler.decrypt(password["app_id"])
+                decrypted_url = self.data_handler.decrypt(password["url"])
+                data = [decrypted_password_id, decrypted_name, decrypted_password, decrypted_email, decrypted_app_id, decrypted_url]
+                return True, data
+
+        return False, None
 
     # Reads file and retrieves all the passwords stored
     def get_passwords(self) -> list:

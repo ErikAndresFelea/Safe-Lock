@@ -91,13 +91,21 @@ class App(customtkinter.CTk):
         self.current_frame = RegisterWidget(self.main_frame, app=self)
         self.current_frame.grid(row=1, column=0, padx=20, pady=20)
 
-    def view_pass(self):
+    def view_pass(self, id: str):
         self.clear_ui()
-        self.current_title = customtkinter.CTkLabel(self.main_frame, text="Ver Contraseña", font=customtkinter.CTkFont(size=20, weight="bold"))
-        self.current_title.grid(row=0, column=0, padx=20, pady=20)
+        confirm, password = self.controller.get_password(id)
 
-        self.current_frame = ViewPasswordWidget(self.main_frame, app=self)
-        self.current_frame.grid(row=1, column=0, padx=20, pady=20)
+        if confirm is False:
+            ''' Send feedback and UI error '''
+            pass
+
+        else:
+            self.clear_ui()
+            self.current_title = customtkinter.CTkLabel(self.main_frame, text="Ver Contraseña", font=customtkinter.CTkFont(size=20, weight="bold"))
+            self.current_title.grid(row=0, column=0, padx=20, pady=20)
+
+            self.current_frame = ViewPasswordWidget(self.main_frame, self, password[1], password[2], password[3], password[4], password[5])
+            self.current_frame.grid(row=1, column=0, padx=20, pady=20)
         # Get data from backend and change to new widget UI
         pass
 
@@ -116,7 +124,7 @@ class App(customtkinter.CTk):
         # Add password to backend and refresh UI
         pass
 
-    def add_pass(self, name, password, email, app_id, url):
+    def add_pass(self, name: str, password: str, email: str, app_id: str, url: str):
         confirm = self.controller.add_password(name, password, email, app_id, url)
         if confirm is False:
             ''' Show UI error msg '''

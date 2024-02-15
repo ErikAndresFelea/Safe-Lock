@@ -1,6 +1,7 @@
 from code.login import Login
 from code.register import Register
 from code.passwordManager import PasswordManager
+from code.password import Password
 
 class Controller:
     def __init__(self, folder, file):
@@ -22,8 +23,9 @@ class Controller:
         confirm = new_user.create_account()
         return confirm
     
-    def get_password(self, id):
-        pass
+    def get_password(self, id: str) -> tuple[bool, list | None]:
+        confirm, password = self.password_manager.get_password(id)
+        return confirm, password
 
     def get_all_passwords(self) -> list:
         passwords_list = self.password_manager.get_passwords()
