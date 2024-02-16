@@ -27,7 +27,7 @@ class Controller:
         confirm, password = self.password_manager.get_password(id)
         return confirm, password
 
-    def get_all_passwords(self) -> list:
+    def get_all_passwords(self) -> list[Password]:
         passwords_list = self.password_manager.get_all_passwords()
         return passwords_list
 

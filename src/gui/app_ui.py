@@ -66,17 +66,17 @@ class App(customtkinter.CTk):
 
     def home(self):
         self.clear_ui()
-        passwords = self.controller.get_all_passwords()
+        all_passwords = self.controller.get_all_passwords()
 
         self.current_title = customtkinter.CTkLabel(self.main_frame, text="Contraseñas", font=customtkinter.CTkFont(size=20, weight="bold"))
         self.current_title.grid(row=0, column=0, padx=20, pady=20)
 
-        for i in range(len(passwords)):
-            self.current_frame = PasswordWidget(self.main_frame, self, passwords[i][0], passwords[i][1], passwords[i][2] )
+        for i in range(len(all_passwords)):
+            self.current_frame = PasswordWidget(self.main_frame, self, all_passwords[i])
             self.current_frame.grid(row=(i + 1), column=0, padx=20, pady=20)
 
         self.add_button = customtkinter.CTkButton(self.main_frame, text="Añadir", command=self.view_add_pass, width=75)
-        self.add_button.grid(row=len(passwords) + 1, column=0, padx=20, pady=20)
+        self.add_button.grid(row=len(all_passwords) + 1, column=0, padx=20, pady=20)
 
 
     def view_update_pass(self, id: str):
