@@ -46,6 +46,6 @@ if __name__ == "__main__":
 - Replace comunication data from str to Password class
 - Optimice password manager and other clases code
 - Clean up overall code (repeated code, make new defs)
-- Change function parameters to add their expected type and also their return
+- Check if set_all and get_all methods are useful (Password)
 
 '''

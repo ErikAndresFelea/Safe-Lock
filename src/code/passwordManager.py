@@ -80,19 +80,29 @@ class PasswordManager:
         return False, None
 
 
-    def get_all_passwords(self) -> list:
+    def get_all_passwords(self) -> list[Password]:
         with open(self.file, "r", encoding="utf-8") as json_file:
             data = json.load(json_file)
 
-        password_array = []
-        for password in data["all_passwords"]:
-            decrypted_password_id = self.data_handler.decrypt(password["unique_id"])
-            decrypted_name = self.data_handler.decrypt(password["app_name"])
-            decrypted_password = self.data_handler.decrypt(password["password"])
-            decrypted_email = self.data_handler.decrypt(password["email"])
-            decrypted_app_id =  self.data_handler.decrypt(password["app_id"])
-            decrypted_url = self.data_handler.decrypt(password["url"])
-            password_array.append([decrypted_password_id, decrypted_name, decrypted_password, decrypted_email, decrypted_app_id, decrypted_url])
-
-        sorted_passwords = sorted(password_array, key=lambda x: x[0])
+        # Decrypts all passwords from json and stores them into a list
+        all_password_array = []
+        for element in data["all_passwords"]:
+            password = self.decrypt_password(element)
+            all_password_array.append(password)
+        
+        sorted_passwords = sorted(all_password_array, key=lambda x: x.get_app_name())
         return sorted_passwords
+
+
+    def encrypt_password(self):
+        pass
+
+
+    # Receives a json password and turns it into an obj
+    def decrypt_password(self, data: dict) -> Password:
+        decrypted_data = []
+        for element in data:
+            decrypted_element = self.data_handler.decrypt(data[element])
+            decrypted_data.append(decrypted_element)
+        password = Password(decrypted_data[0], decrypted_data[1], decrypted_data[2], decrypted_data[3], decrypted_data[4], decrypted_data[5])
+        return password
