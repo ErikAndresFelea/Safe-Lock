@@ -4,7 +4,7 @@ from code.passwordManager import PasswordManager
 from code.password import Password
 
 class Controller:
-    def __init__(self, folder, file):
+    def __init__(self, folder: str, file: str):
         super().__init__()
         self.folder = folder
         self.file = file

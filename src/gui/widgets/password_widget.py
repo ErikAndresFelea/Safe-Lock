@@ -1,7 +1,7 @@
 import customtkinter
 
 class PasswordWidget(customtkinter.CTkFrame):
-    def __init__(self, master, app, id, name, password):
+    def __init__(self, master, app, id: str, name: str, password: str):
         super().__init__(master)
         self.grid_rowconfigure((0, 1), weight=1)
 

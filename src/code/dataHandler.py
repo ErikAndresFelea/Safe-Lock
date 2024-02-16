@@ -1,7 +1,7 @@
 from cryptography.fernet import Fernet
 
 class DataHandler:
-    def __init__(self, token: str) -> None:
+    def __init__(self, token: str):
         self.key = token
 
 
@@ -23,5 +23,5 @@ class DataHandler:
         return token_to_string
 
 
-    def set_key(self, key: str) -> None:
+    def set_key(self, key: str):
         self.key = key

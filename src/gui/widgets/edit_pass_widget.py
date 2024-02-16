@@ -1,7 +1,7 @@
 import customtkinter
 
 class EditPasswordWidget(customtkinter.CTkFrame):
-    def __init__(self, master, app, id, name, password, email, app_id, url):
+    def __init__(self, master, app, id: str, name: str, password: str, email: str, app_id: str, url: str):
         super().__init__(master)
 
         # Widget split into 2 frames. Top and Bottom

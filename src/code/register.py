@@ -4,7 +4,7 @@ from code.dataHandler import DataHandler
 from cryptography.fernet import Fernet
 
 class Register:
-    def __init__(self, email: str, password: str, rep_password: str, file) -> None:
+    def __init__(self, email: str, password: str, rep_password: str, file: str):
         super().__init__()
         self.email = email
         self.password = password
@@ -34,7 +34,7 @@ class Register:
 
 
     # Save user key
-    def save_key(self, key: str) -> None:
+    def save_key(self, key: str):
         service_name = "safe_lock_password"
         username = "generic_user"
 

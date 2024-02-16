@@ -26,7 +26,7 @@ class App:
         return app_dir, storage_file
 
     # Checks if all the files are ok in the app folder
-    def app_exe_check(self, app_folder, store_file):
+    def app_exe_check(self, app_folder: str, store_file: str):
         # Create app dir if needed
         if not os.path.isdir(app_folder):
             os.makedirs(app_folder)

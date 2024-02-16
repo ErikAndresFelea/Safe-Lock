@@ -8,29 +8,27 @@ class Password:
         self.url = url
 
 
-    ##### GETTERS #####
-    def get_app_name(self):
+    # Getters
+    def get_app_name(self) -> str:
         return self.app_name
 
-    def get_password(self):
+    def get_password(self) -> str:
         return self.password
 
-    def get_email(self):
+    def get_email(self) -> str:
         return self.email
 
-    def get_app_id(self):
+    def get_app_id(self) -> str:
         return self.app_id
 
-    def get_unique_id(self):
+    def get_unique_id(self) -> str:
         return self.unique_id
 
-    def get_url(self):
+    def get_url(self) -> str:
         return self.url
-    ##### GETTERS #####
 
 
-
-    ##### SETTERS #####
+    # Setters
     def set_app_name(self, app_name):
         self.app_name = app_name
 
@@ -45,4 +43,3 @@ class Password:
 
     def set_url(self, url):
         self.url = url
-    ##### SETTERS #####

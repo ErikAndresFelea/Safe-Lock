@@ -1,7 +1,7 @@
 import customtkinter
 
 class LoginWidget(customtkinter.CTkFrame):
-    def __init__(self, master=None, app=None):
+    def __init__(self, master, app):
         super().__init__(master)
         self.grid_rowconfigure((0, 1, 2), weight=1)
 

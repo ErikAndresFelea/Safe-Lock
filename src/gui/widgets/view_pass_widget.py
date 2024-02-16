@@ -1,7 +1,7 @@
 import customtkinter
 
 class ViewPasswordWidget(customtkinter.CTkFrame):
-    def __init__(self, master, app, name, password, email, id, url):
+    def __init__(self, master, app, name: str, password: str, email: str, id: str, url: str):
         super().__init__(master)
 
         # Widget split into 2 frames. Left and Right

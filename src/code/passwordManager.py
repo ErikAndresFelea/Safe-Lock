@@ -5,7 +5,7 @@ from code.dataHandler import DataHandler
 from code.password import Password
 
 class PasswordManager:
-    def __init__(self, storage_file: str, data_handler: DataHandler) -> None:
+    def __init__(self, storage_file: str, data_handler: DataHandler):
         self.file = storage_file
         self.data_handler = data_handler
 

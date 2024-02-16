@@ -1,7 +1,7 @@
 import customtkinter
 
 class RegisterWidget(customtkinter.CTkFrame):    
-    def __init__(self, master=None, app=None):
+    def __init__(self, master, app):
         super().__init__(master)
 
         # Widget split into 2 frames. Top and Bottom
