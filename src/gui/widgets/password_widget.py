@@ -30,7 +30,7 @@ class PasswordWidget(customtkinter.CTkFrame):
         self.view_button = customtkinter.CTkButton(self.right_frame, text="View", command=lambda: app.view_pass(id), width=50)
         self.view_button.grid(row=0, column=1, padx=(20, 0), pady=20, sticky="nsew")
 
-        self.edit_button = customtkinter.CTkButton(self.right_frame, text="Edit", command=lambda: app.view_edit_pass(id), width=50)
+        self.edit_button = customtkinter.CTkButton(self.right_frame, text="Edit", command=lambda: app.view_update_pass(id), width=50)
         self.edit_button.grid(row=0, column=2, padx=5, pady=20, sticky="nsew")
 
         self.delete_button = customtkinter.CTkButton(self.right_frame, text="Delete", command=lambda: app.delete_pass(id), width=50)

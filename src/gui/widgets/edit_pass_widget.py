@@ -48,7 +48,7 @@ class EditPasswordWidget(customtkinter.CTkFrame):
         self.bottom_frame.grid(row=1, column=0, padx=0, pady=0, sticky="nsew")
         self.bottom_frame.grid_columnconfigure((0, 1), weight=1)
 
-        self.edit_button = customtkinter.CTkButton(self.bottom_frame, text="Editar", command=lambda: app.edit_pass(id, self.name_entry.get(), self.password_entry.get(), self.email_entry.get(), self.app_id_entry.get(), self.url_entry.get()), width=75)
+        self.edit_button = customtkinter.CTkButton(self.bottom_frame, text="Editar", command=lambda: app.update_pass(id, self.name_entry.get(), self.password_entry.get(), self.email_entry.get(), self.app_id_entry.get(), self.url_entry.get()), width=75)
         self.edit_button.grid(row=0, column=0, padx=5, pady=(5, 15), sticky="e")
 
         self.cancel_button = customtkinter.CTkButton(self.bottom_frame, text="Cancelar", command=app.home, width=75)
