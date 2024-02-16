@@ -1,5 +1,4 @@
-import uuid
-import json
+import uuid, json
 
 from code.dataHandler import DataHandler
 from code.password import Password
@@ -11,8 +10,8 @@ class PasswordManager:
 
 
     def add_password(self, password: Password):
-        encrypted_password_id = str(uuid.uuid4())
-        password.set_unique_id(encrypted_password_id)
+        password_id = str(uuid.uuid4())
+        password.set_unique_id(password_id)
         encrypted_password = self.encrypt_password(password)
 
         with open(self.file, "r", encoding="utf-8") as json_file:
@@ -53,7 +52,7 @@ class PasswordManager:
             json.dump(data, json_file, indent=4)
         return True
 
-
+    '''
     def get_password(self, id: str) -> tuple[bool, list | None]:
         with open(self.file, "r", encoding="utf-8") as json_file:
             data = json.load(json_file)
@@ -69,7 +68,7 @@ class PasswordManager:
                 data = [decrypted_password_id, decrypted_name, decrypted_password, decrypted_email, decrypted_app_id, decrypted_url]
                 return True, data
         return False, None
-
+    '''
 
     def get_all_passwords(self) -> list[Password]:
         with open(self.file, "r", encoding="utf-8") as json_file:

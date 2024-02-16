@@ -116,8 +116,8 @@ class App(customtkinter.CTk):
 
     ''' Create update delete mehthods below '''
     def update_pass(self, password: Password):
-        self.home()
         self.controller.update_password(password)
+        self.home()
 
 
     def delete_pass(self, id: str):

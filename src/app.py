@@ -43,7 +43,6 @@ if __name__ == "__main__":
 
 ''' TO DO LIST
 
-- Fix add and update password not displaying values
 - Check if set_all and get_all methods are useful (Password)
 - get_password from PM Not used after major changes on code, maybe useful later when implementing favorits 
  

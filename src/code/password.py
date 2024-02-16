@@ -1,5 +1,5 @@
 class Password:
-    def __init__(self, unique_id: str | None, app_name: str, password: str, email = None, app_id = None, url = None):
+    def __init__(self, unique_id: str, app_name: str, password: str, email = str, app_id = str, url = str):
         self.unique_id = unique_id      # Id set by SafeLock to make operations
         self.app_name = app_name
         self.password = password
