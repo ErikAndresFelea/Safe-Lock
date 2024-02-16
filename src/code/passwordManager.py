@@ -10,37 +10,30 @@ class PasswordManager:
         self.data_handler = data_handler
 
 
-    def add_password(self, name: str, password: str, email: str, app_id: str, url: str) -> bool:
+    def add_password(self, password: Password):
         encrypted_password_id = str(uuid.uuid4())
-        encrypted_password_id = self.data_handler.encrypt(encrypted_password_id)
-        encrypted_name = self.data_handler.encrypt(name.capitalize())
-        encrypted_password = self.data_handler.encrypt(password)
-        encrypted_email = self.data_handler.encrypt(email)
-        encrypted_app_id = self.data_handler.encrypt(app_id)
-        encrypted_url =self.data_handler.encrypt(url)
-        password = Password(encrypted_password_id, encrypted_name, encrypted_password, encrypted_email, encrypted_app_id, encrypted_url)
+        password.set_unique_id(encrypted_password_id)
+        encrypted_password = self.encrypt_password(password)
 
         with open(self.file, "r", encoding="utf-8") as json_file:
             data = json.load(json_file)
         
-        data["all_passwords"].append(password.__dict__)
+        data["all_passwords"].append(encrypted_password.__dict__)
         with open(self.file, "w", encoding="utf-8") as json_file:
             json.dump(data, json_file, indent=4)
         return True
 
 
-    def update_password(self, id: str, name: str, app_password: str, email: str, app_id: str, url: str) -> bool:
+    def update_password(self, password: Password):
         with open(self.file, "r", encoding="utf-8") as json_file:
             data = json.load(json_file)
 
-        for password in data["all_passwords"]:
-            decrypted_password_id = self.data_handler.decrypt(password["unique_id"])
-            if decrypted_password_id == id:
-                password["app_name"] = self.data_handler.encrypt(name)
-                password["password"] = self.data_handler.encrypt(app_password)
-                password["email"] = self.data_handler.encrypt(email)
-                password["app_id"] = self.data_handler.encrypt(app_id)
-                password["url"] = self.data_handler.encrypt(url)
+        # Looks for the correct password and updates it
+        for i, element in enumerate(data["all_passwords"]):
+            decrypted_password_id = self.data_handler.decrypt(element["unique_id"])
+            if decrypted_password_id == password.get_unique_id():
+                encrypted_password = self.encrypt_password(password)
+                data["all_passwords"][i] = encrypted_password.__dict__
                 break
 
         with open(self.file, "w", encoding="utf-8") as json_file:
@@ -51,13 +44,11 @@ class PasswordManager:
     def delete_password(self, id: str) -> bool:
         with open(self.file, "r", encoding="utf-8") as json_file:
             data = json.load(json_file)
-
-        for password in data["all_passwords"]:
-            decrypted_password_id = self.data_handler.decrypt(password["unique_id"])
+        for element in data["all_passwords"]:
+            decrypted_password_id = self.data_handler.decrypt(element["unique_id"])
             if decrypted_password_id == id:
-                data["all_passwords"].remove(password)
+                data["all_passwords"].remove(element)
                 break
-            
         with open(self.file, "w", encoding="utf-8") as json_file:
             json.dump(data, json_file, indent=4)
         return True
@@ -94,8 +85,15 @@ class PasswordManager:
         return sorted_passwords
 
 
-    def encrypt_password(self):
-        pass
+    # Recives a Password obj and turns it into data
+    def encrypt_password(self, password: Password) -> Password:
+        data = password.get_all()
+        encrypted_data = []
+        for element in data:
+            encrypted_element = self.data_handler.encrypt(element)
+            encrypted_data.append(encrypted_element)
+        password = Password(encrypted_data[0], encrypted_data[1], encrypted_data[2], encrypted_data[3], encrypted_data[4], encrypted_data[5])
+        return password
 
 
     # Receives a json password and turns it into an obj

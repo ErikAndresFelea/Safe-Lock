@@ -6,6 +6,7 @@ from gui.widgets.view_pass_widget import ViewPasswordWidget
 from gui.widgets.add_pass_widget import AddPasswordWidget
 from gui.widgets.register_widget import RegisterWidget
 from code.controller import Controller
+from code.password import Password
 
 customtkinter.set_appearance_mode("System")
 customtkinter.set_default_color_theme("blue")
@@ -79,20 +80,13 @@ class App(customtkinter.CTk):
         self.add_button.grid(row=len(all_passwords) + 1, column=0, padx=20, pady=20)
 
 
-    def view_update_pass(self, id: str):
+    def view_add_pass(self):
         self.clear_ui()
-        confirm, password = self.controller.get_password(id)
-
-        self.current_title = customtkinter.CTkLabel(self.main_frame, text="Editar contraseña", font=customtkinter.CTkFont(size=20, weight="bold"))
+        self.current_title = customtkinter.CTkLabel(self.main_frame, text="Añadir Contraseña", font=customtkinter.CTkFont(size=20, weight="bold"))
         self.current_title.grid(row=0, column=0, padx=20, pady=20)
 
-        if confirm is False:
-            ''' Send feedback and UI error '''
-            pass
-
-        else:
-            self.current_frame = EditPasswordWidget(self.main_frame, self, password[0], password[1], password[2], password[3], password[4], password[5])
-            self.current_frame.grid(row=1, column=0, padx=20, pady=20)
+        self.current_frame = AddPasswordWidget(self.main_frame, self)
+        self.current_frame.grid(row=1, column=0, padx=20, pady=20)
 
     
     def view_register(self):
@@ -104,62 +98,36 @@ class App(customtkinter.CTk):
         self.current_frame.grid(row=1, column=0, padx=20, pady=20)
 
 
-    def view_pass(self, id: str):
+    def view_update_pass(self, password: Password):
         self.clear_ui()
-        confirm, password = self.controller.get_password(id)
+        self.current_title = customtkinter.CTkLabel(self.main_frame, text="Editar contraseña", font=customtkinter.CTkFont(size=20, weight="bold"))
+        self.current_title.grid(row=0, column=0, padx=20, pady=20)
+        self.current_frame = EditPasswordWidget(self.main_frame, self, password)
+        self.current_frame.grid(row=1, column=0, padx=20, pady=20)
 
+
+    def view_pass(self, password: Password):
+        self.clear_ui()
         self.current_title = customtkinter.CTkLabel(self.main_frame, text="Ver Contraseña", font=customtkinter.CTkFont(size=20, weight="bold"))
         self.current_title.grid(row=0, column=0, padx=20, pady=20)
-
-        if confirm is False:
-            ''' Send feedback and UI error '''
-            pass
-
-        else:
-            self.current_frame = ViewPasswordWidget(self.main_frame, self, password[1], password[2], password[3], password[4], password[5])
-            self.current_frame.grid(row=1, column=0, padx=20, pady=20)
-
-
-    def view_add_pass(self):
-        self.clear_ui()
-        self.current_title = customtkinter.CTkLabel(self.main_frame, text="Añadir Contraseña", font=customtkinter.CTkFont(size=20, weight="bold"))
-        self.current_title.grid(row=0, column=0, padx=20, pady=20)
-
-        self.current_frame = AddPasswordWidget(self.main_frame, self)
+        self.current_frame = ViewPasswordWidget(self.main_frame, self, password)
         self.current_frame.grid(row=1, column=0, padx=20, pady=20)
         
 
     ''' Create update delete mehthods below '''
-    def update_pass(self, id: str, name: str, password: str, email: str, app_id: str, url: str):
-        confirm = self.controller.update_password(id, name, password, email, app_id, url)
-
-        if confirm is False:
-            ''' Send feedback and UI error '''
-            pass
-
-        else:
-            self.home()
+    def update_pass(self, password: Password):
+        self.home()
+        self.controller.update_password(password)
 
 
-    def delete_pass(self, id):
-        confirm = self.controller.delete_password(id)
-        
-        if confirm is False:
-            ''' Send feedback and UI error '''
-            pass
-
-        else:
-            self.home()
+    def delete_pass(self, id: str):
+        self.controller.delete_password(id)
+        self.home()
 
 
-    def add_pass(self, name: str, password: str, email: str, app_id: str, url: str):
-        confirm = self.controller.add_password(name, password, email, app_id, url)
-        if confirm is False:
-            ''' Show UI error msg '''
-            pass
-        else:
-            ''' Show UI feedback msg '''
-            self.home()
+    def add_pass(self, password: Password):
+        self.controller.add_password(password)
+        self.home()
 
 
     ''' Other methods '''

@@ -31,15 +31,12 @@ class Controller:
         passwords_list = self.password_manager.get_all_passwords()
         return passwords_list
 
-    def add_password(self, name: str, password: str, email: str, app_id: str, url: str) -> bool:
-        confirm = self.password_manager.add_password(name, password, email, app_id, url)
-        return confirm
+    def add_password(self, password: Password):
+        self.password_manager.add_password(password)
 
-    def update_password(self, id: str, name: str, password: str, email: str, app_id: str, url: str) -> bool:
-        confirm = self.password_manager.update_password(id, name, password, email, app_id, url)
-        return confirm
+    def update_password(self, password: Password):
+        self.password_manager.update_password(password)
 
-    def delete_password(self, id: str) -> bool:
-        confirm = self.password_manager.delete_password(id)
-        return confirm
+    def delete_password(self, id: str):
+        self.password_manager.delete_password(id)
     

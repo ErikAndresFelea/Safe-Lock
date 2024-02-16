@@ -1,4 +1,5 @@
 import customtkinter
+from code.password import Password
 
 class AddPasswordWidget(customtkinter.CTkFrame):
     def __init__(self, master, app):
@@ -43,9 +44,9 @@ class AddPasswordWidget(customtkinter.CTkFrame):
         self.bottom_frame.grid(row=1, column=0, padx=0, pady=0, sticky="nsew")
         self.bottom_frame.grid_columnconfigure((0, 1), weight=1)
 
+        password = Password(None, self.name_entry.get().capitalize(), self.password_entry.get(), self.email_entry.get(), self.id_entry.get(), self.url_entry.get())
         self.add_button = customtkinter.CTkButton(self.bottom_frame, text="Añadir", 
-            command=lambda: app.add_pass(self.name_entry.get(), self.password_entry.get(), self.email_entry.get(), self.id_entry.get(), self.url_entry.get()), 
-            width=75)
+            command=lambda: app.add_pass(password), width=75)
         self.add_button.grid(row=0, column=0, padx=5, pady=(5, 15), sticky="e")
 
         self.cancel_button = customtkinter.CTkButton(self.bottom_frame, text="Cancelar", command=app.home, width=75)
