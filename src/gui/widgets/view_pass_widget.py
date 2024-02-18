@@ -1,5 +1,4 @@
 import customtkinter
-from code.password import Password
 
 class ViewPasswordWidget(customtkinter.CTkFrame):
     def __init__(self, master, app, data: list[str]):
@@ -54,8 +53,8 @@ class ViewPasswordWidget(customtkinter.CTkFrame):
         self.done_button.grid(row=0, column=0, padx=5, pady=(5, 15))
 
 
-    def onClick():
-        print("Copiado!")
-
-
-    ''' Fix error when coppy data to clipboard '''
+    def onClick(self, event):
+        data = event.widget.cget("text")
+        self.clipboard_clear()
+        self.clipboard_append(data)
+        print(data)

@@ -1,7 +1,6 @@
 from code.login import Login
 from code.register import Register
 from code.passwordManager import PasswordManager
-from code.password import Password
 
 class Controller:
     def __init__(self, folder: str, file: str):
