@@ -3,7 +3,6 @@ import customtkinter
 class ViewPasswordWidget(customtkinter.CTkFrame):
     def __init__(self, master, app, data: list[str]):
         super().__init__(master)
-        self.parent_app = app
 
         # Widget split into 2 frames. Left and Right
         self.grid_rowconfigure((0, 1), weight=1)
@@ -57,4 +56,3 @@ class ViewPasswordWidget(customtkinter.CTkFrame):
         data = event.widget.cget("text")
         self.clipboard_clear()
         self.clipboard_append(data)
-        print(data)
