@@ -3,6 +3,7 @@ import customtkinter
 class RegisterWidget(customtkinter.CTkFrame):    
     def __init__(self, master, app):
         super().__init__(master)
+        self.parent_app = app
 
         # Widget split into 2 frames. Top and Bottom
         self.grid_rowconfigure((0, 1), weight=1)
@@ -34,10 +35,12 @@ class RegisterWidget(customtkinter.CTkFrame):
         self.bottom_frame.grid(row=1, column=0, padx=0, pady=0, sticky="nsew")
         self.bottom_frame.grid_columnconfigure((0, 1), weight=1)
 
-        self.register_button = customtkinter.CTkButton(self.bottom_frame, text="Registrarse", 
-            command=lambda: app.register(self.email_entry.get(), self.password_entry.get(), self.conf_password_entry.get()), 
-            width=75)
+        self.register_button = customtkinter.CTkButton(self.bottom_frame, text="Registrarse", command=self.register, width=75)
         self.register_button.grid(row=0, column=0, padx=5, pady=(5, 15), sticky="e")
 
         self.cancel_button = customtkinter.CTkButton(self.bottom_frame, text="Cancelar", command=app.welcome_screen, width=75)
         self.cancel_button.grid(row=0, column=1, padx=5, pady=(5, 15), sticky="w")
+
+
+    def register(self):
+        self.parent_app.register(self.email_entry.get(), self.password_entry.get(), self.conf_password_entry.get())

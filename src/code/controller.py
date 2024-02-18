@@ -15,7 +15,6 @@ class Controller:
 
         # Create an instance of PasswordManager using the dataHandler created on the login
         self.password_manager = PasswordManager(self.file, data_handler)
-
         return confirm
 
     def register(self, email: str, password: str, confirm_password: str) -> bool:
@@ -23,20 +22,23 @@ class Controller:
         confirm = new_user.create_account()
         return confirm
     
-    def get_password(self, id: str) -> tuple[bool, list | None]:
+    def get_password(self, id: str) -> tuple[bool, list[str] | None]:
         confirm, password = self.password_manager.get_password(id)
         return confirm, password
 
-    def get_all_passwords(self) -> list[Password]:
+    def get_all_passwords(self) -> list[list[str]]:
         passwords_list = self.password_manager.get_all_passwords()
-        return passwords_list
+        data = []
+        for password in passwords_list:
+            data.append(password.get_all())
+        return data
 
-    def add_password(self, password: Password):
-        self.password_manager.add_password(password)
+    def add_password(self, data: list[str]):
+        self.password_manager.add_password(data)
 
-    def update_password(self, password: Password):
-        self.password_manager.update_password(password)
+    def update_password(self, data: list[str]):
+        self.password_manager.update_password(data)
 
-    def delete_password(self, id: str):
+    def delete_password(self, id: list[str]):
         self.password_manager.delete_password(id)
     

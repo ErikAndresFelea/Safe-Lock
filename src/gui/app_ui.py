@@ -6,7 +6,6 @@ from gui.widgets.view_pass_widget import ViewPasswordWidget
 from gui.widgets.add_pass_widget import AddPasswordWidget
 from gui.widgets.register_widget import RegisterWidget
 from code.controller import Controller
-from code.password import Password
 
 customtkinter.set_appearance_mode("System")
 customtkinter.set_default_color_theme("blue")
@@ -52,7 +51,6 @@ class App(customtkinter.CTk):
             pass
         else:
             ''' Show ui feedback and proceed to login '''
-            self.clear_ui()
             self.welcome_screen()
 
 
@@ -98,25 +96,25 @@ class App(customtkinter.CTk):
         self.current_frame.grid(row=1, column=0, padx=20, pady=20)
 
 
-    def view_update_pass(self, password: Password):
+    def view_update_pass(self, data: list[str]):
         self.clear_ui()
         self.current_title = customtkinter.CTkLabel(self.main_frame, text="Editar contraseña", font=customtkinter.CTkFont(size=20, weight="bold"))
         self.current_title.grid(row=0, column=0, padx=20, pady=20)
-        self.current_frame = EditPasswordWidget(self.main_frame, self, password)
+        self.current_frame = EditPasswordWidget(self.main_frame, self, data)
         self.current_frame.grid(row=1, column=0, padx=20, pady=20)
 
 
-    def view_pass(self, password: Password):
+    def view_pass(self, data: list[str]):
         self.clear_ui()
         self.current_title = customtkinter.CTkLabel(self.main_frame, text="Ver Contraseña", font=customtkinter.CTkFont(size=20, weight="bold"))
         self.current_title.grid(row=0, column=0, padx=20, pady=20)
-        self.current_frame = ViewPasswordWidget(self.main_frame, self, password)
+        self.current_frame = ViewPasswordWidget(self.main_frame, self, data)
         self.current_frame.grid(row=1, column=0, padx=20, pady=20)
         
 
     ''' Create update delete mehthods below '''
-    def update_pass(self, password: Password):
-        self.controller.update_password(password)
+    def update_pass(self, data: list[str]):
+        self.controller.update_password(data)
         self.home()
 
 
@@ -125,8 +123,8 @@ class App(customtkinter.CTk):
         self.home()
 
 
-    def add_pass(self, password: Password):
-        self.controller.add_password(password)
+    def add_pass(self, data: list[str]):
+        self.controller.add_password(data)
         self.home()
 
 

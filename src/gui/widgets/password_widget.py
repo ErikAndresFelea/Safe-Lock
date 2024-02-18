@@ -1,14 +1,11 @@
 import customtkinter
-from code.password import Password
 
 class PasswordWidget(customtkinter.CTkFrame):
-    def __init__(self, master, app, password: Password):
-        # Useful variables
-        unique_id = password.get_unique_id()
-        name = password.get_app_name()
-        app_password = password.get_password()
-
+    def __init__(self, master, app, data: list[str]):
         super().__init__(master)
+        self.parent_app = app
+        self.password_data = data
+
         self.grid_rowconfigure((0, 1), weight=1)
 
         # Widget split into 2 frames. Left and Right
@@ -22,10 +19,10 @@ class PasswordWidget(customtkinter.CTkFrame):
         self.left_frame.grid_rowconfigure((0, 1), weight=1)
         self.left_frame.grid_columnconfigure((0, 1, 2), weight=1)
 
-        self.name_label = customtkinter.CTkLabel(self.left_frame, text="Nombre: " + name)
+        self.name_label = customtkinter.CTkLabel(self.left_frame, text="Nombre: " + data[1])
         self.name_label.grid(row=0, column=0, padx=20, pady=(5, 2.5), sticky="w")
 
-        self.password_label = customtkinter.CTkLabel(self.left_frame, text="Contraseña: " + app_password)
+        self.password_label = customtkinter.CTkLabel(self.left_frame, text="Contraseña: " + data[2])
         self.password_label.grid(row=1, column=0, padx=20, pady=(2.5, 5), sticky="w")
 
         # Right frame. 3 columns and 1 row
@@ -33,11 +30,21 @@ class PasswordWidget(customtkinter.CTkFrame):
         self.right_frame.grid(row=0, column=1, padx=0, pady=0, sticky="nsew")
         self.right_frame.grid_columnconfigure((0, 1, 2), weight=1)
 
-        self.view_button = customtkinter.CTkButton(self.right_frame, text="View", command=lambda: app.view_pass(password), width=50)
+        self.view_button = customtkinter.CTkButton(self.right_frame, text="View", command=self.view_pass, width=50)
         self.view_button.grid(row=0, column=1, padx=(20, 0), pady=20, sticky="nsew")
 
-        self.edit_button = customtkinter.CTkButton(self.right_frame, text="Edit", command=lambda: app.view_update_pass(password), width=50)
+        self.edit_button = customtkinter.CTkButton(self.right_frame, text="Edit", command=self.view_update_pass, width=50)
         self.edit_button.grid(row=0, column=2, padx=5, pady=20, sticky="nsew")
 
-        self.delete_button = customtkinter.CTkButton(self.right_frame, text="Delete", command=lambda: app.delete_pass(unique_id), width=50)
+        self.delete_button = customtkinter.CTkButton(self.right_frame, text="Delete", command=self.delete_pass, width=50)
         self.delete_button.grid(row=0, column=3, padx=(0, 20), pady=20, sticky="nsew")
+
+    def view_pass(self):
+        self.parent_app.view_pass(self.password_data)
+
+    def view_update_pass(self):
+        self.parent_app.view_update_pass(self.password_data)
+    
+    def delete_pass(self):
+        self.parent_app.delete_pass(self.password_data[0])
+    

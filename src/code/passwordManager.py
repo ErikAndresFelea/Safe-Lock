@@ -9,10 +9,10 @@ class PasswordManager:
         self.data_handler = data_handler
 
 
-    def add_password(self, password: Password):
+    def add_password(self, password_data: list[str]):
         password_id = str(uuid.uuid4())
-        password.set_unique_id(password_id)
-        encrypted_password = self.encrypt_password(password)
+        password_data[0] = password_id
+        encrypted_password = self.encrypt_password(password_data)
 
         with open(self.file, "r", encoding="utf-8") as json_file:
             data = json.load(json_file)
@@ -20,24 +20,22 @@ class PasswordManager:
         data["all_passwords"].append(encrypted_password.__dict__)
         with open(self.file, "w", encoding="utf-8") as json_file:
             json.dump(data, json_file, indent=4)
-        return True
 
 
-    def update_password(self, password: Password):
+    def update_password(self, password_data: list[str]):
         with open(self.file, "r", encoding="utf-8") as json_file:
             data = json.load(json_file)
 
         # Looks for the correct password and updates it
         for i, element in enumerate(data["all_passwords"]):
             decrypted_password_id = self.data_handler.decrypt(element["unique_id"])
-            if decrypted_password_id == password.get_unique_id():
-                encrypted_password = self.encrypt_password(password)
+            if decrypted_password_id == password_data[0]:
+                encrypted_password = self.encrypt_password(password_data)
                 data["all_passwords"][i] = encrypted_password.__dict__
                 break
 
         with open(self.file, "w", encoding="utf-8") as json_file:
             json.dump(data, json_file, indent=4)
-        return True
 
 
     def delete_password(self, id: str) -> bool:
@@ -50,7 +48,6 @@ class PasswordManager:
                 break
         with open(self.file, "w", encoding="utf-8") as json_file:
             json.dump(data, json_file, indent=4)
-        return True
 
     '''
     def get_password(self, id: str) -> tuple[bool, list | None]:
@@ -85,8 +82,7 @@ class PasswordManager:
 
 
     # Recives a Password obj and turns it into data
-    def encrypt_password(self, password: Password) -> Password:
-        data = password.get_all()
+    def encrypt_password(self, data: list[str]) -> Password:
         encrypted_data = []
         for element in data:
             encrypted_element = self.data_handler.encrypt(element)

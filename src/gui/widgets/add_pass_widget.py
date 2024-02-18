@@ -1,9 +1,9 @@
 import customtkinter
-from code.password import Password
 
 class AddPasswordWidget(customtkinter.CTkFrame):
     def __init__(self, master, app):
         super().__init__(master)
+        self.parent_app = app
 
         # Widget split into 2 frames. Top and Bottom
         self.grid_rowconfigure((0, 1), weight=1)
@@ -29,10 +29,10 @@ class AddPasswordWidget(customtkinter.CTkFrame):
         self.email_entry = customtkinter.CTkEntry(self.top_frame, placeholder_text="ejemplo@mail.com", width=250)
         self.email_entry.grid(row=2, column=1, padx=20, pady=5)
 
-        self.id_label = customtkinter.CTkLabel(self.top_frame, text="ID")
-        self.id_label.grid(row=3, column=0, padx=20, pady=5, sticky="w")
-        self.id_entry = customtkinter.CTkEntry(self.top_frame, placeholder_text="Identificador app", width=250)
-        self.id_entry.grid(row=3, column=1, padx=20, pady=5)
+        self.app_id_label = customtkinter.CTkLabel(self.top_frame, text="ID")
+        self.app_id_label.grid(row=3, column=0, padx=20, pady=5, sticky="w")
+        self.app_id_entry = customtkinter.CTkEntry(self.top_frame, placeholder_text="Identificador app", width=250)
+        self.app_id_entry.grid(row=3, column=1, padx=20, pady=5)
 
         self.url_label = customtkinter.CTkLabel(self.top_frame, text="URL")
         self.url_label.grid(row=4, column=0, padx=20, pady=5, sticky="w")
@@ -44,11 +44,12 @@ class AddPasswordWidget(customtkinter.CTkFrame):
         self.bottom_frame.grid(row=1, column=0, padx=0, pady=0, sticky="nsew")
         self.bottom_frame.grid_columnconfigure((0, 1), weight=1)
 
-        self.add_button = customtkinter.CTkButton(self.bottom_frame, text="Añadir", 
-            command=lambda: app.add_pass(
-                Password(None, self.name_entry.get().capitalize(), self.password_entry.get(), self.email_entry.get(), self.id_entry.get(), self.url_entry.get())
-                ), width=75)
+        self.add_button = customtkinter.CTkButton(self.bottom_frame, text="Añadir", command=self.add_pass, width=75)
         self.add_button.grid(row=0, column=0, padx=5, pady=(5, 15), sticky="e")
 
         self.cancel_button = customtkinter.CTkButton(self.bottom_frame, text="Cancelar", command=app.home, width=75)
         self.cancel_button.grid(row=0, column=1, padx=5, pady=(5, 15), sticky="w")
+
+    def add_pass(self):
+        password_data = ["", self.name_entry.get().capitalize(), self.password_entry.get(), self.email_entry.get(), self.app_id_entry.get(), self.url_entry.get()]
+        self.parent_app.add_pass(password_data)
