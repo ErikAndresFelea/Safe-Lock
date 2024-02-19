@@ -41,7 +41,6 @@ class Register:
 
         # Add the new user to the data
         new_user = {
-            'name': encrypted_name,
             'app_password': encrypted_password,
             'email': encrypted_email,
             'all_passwords': []
