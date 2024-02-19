@@ -49,5 +49,8 @@ if __name__ == "__main__":
 
 - Check if set_all and get_all methods are useful (Password)
 - get_password from PM Not used after major changes on code, maybe useful later when implementing favorits 
+- Update login class to new json structure
+- Update login to check also for the username
+- Update passwordManager to work with new json structure
  
 '''

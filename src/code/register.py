@@ -14,6 +14,12 @@ class Register:
 
     # Creates an account
     def create_account(self) -> bool:
+        # Check if user already exists
+        
+        if self.user_exists():
+            return False
+        
+        
         # Check if passwords match
         if self.password != self.rep_password:
             return False
@@ -23,7 +29,7 @@ class Register:
         key = token.decode('utf-8')
         data_hanlder = DataHandler(key)
         
-        # Encrypt the password
+        # Encrypt the data
         encrypted_name = data_hanlder.encrypt(self.name)
         encrypted_password = data_hanlder.encrypt(self.password)
         encrypted_email = data_hanlder.encrypt(self.email)
@@ -53,6 +59,14 @@ class Register:
         return True
 
 
+    # Check if user already exists
+    def user_exists(self) -> bool:
+        service_name = "safe_lock_password"
+        username = self.name
+
+        password = keyring.get_password(service_name, username)
+        return password is not None
+
 
     # Save user key
     def save_key(self, key: str):
@@ -60,13 +74,3 @@ class Register:
         username = self.name
 
         keyring.set_password(service_name, username, key)
-
-        '''
-        Change code to add name, email etc..
-        rn has old functionality to check if it works
-
-        Also change code to check if an user already exist 
-        with name/email before creating a new one
-
-        Avoid overriding existing user
-        '''
