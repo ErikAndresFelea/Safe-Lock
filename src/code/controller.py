@@ -16,8 +16,8 @@ class Controller:
         self.password_manager = PasswordManager(self.file, data_handler)
         return confirm
 
-    def register(self, email: str, password: str, confirm_password: str) -> bool:
-        new_user = Register(email, password, confirm_password, self.file)
+    def register(self, name: str, email: str, password: str, confirm_password: str) -> bool:
+        new_user = Register(name, email, password, confirm_password, self.file)
         confirm = new_user.create_account()
         return confirm
     

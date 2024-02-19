@@ -44,8 +44,8 @@ class App(customtkinter.CTk):
             self.home()
 
 
-    def register(self, email: str, password: str, rep_password: str):
-        confirm = self.controller.register(email, password, rep_password)
+    def register(self, name: str, email: str, password: str, rep_password: str):
+        confirm = self.controller.register(name, email, password, rep_password)
         if confirm is False:
             ''' Show ui error '''
             pass
