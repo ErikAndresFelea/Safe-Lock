@@ -30,7 +30,7 @@ class DataHandler:
 
     # Check if user already exists
     def user_exists(self, name: str) -> bool:
-        service_name = "safe_lock_password"
+        service_name = "safe_lock"
 
         password = keyring.get_password(service_name, name)
         return password is not None
@@ -38,14 +38,14 @@ class DataHandler:
 
     # Save user key
     def save_key(self, key: str, name: str):
-        service_name = "safe_lock_password"
+        service_name = "safe_lock"
 
         keyring.set_password(service_name, name, key)
 
     
     # Get key from windows password manager
     def obtain_key(self, name: str) -> tuple[bool, str | None]:
-        service_name = "safe_lock_password"
+        service_name = "safe_lock"
 
         key = keyring.get_password(service_name, name)
         if key is None:
