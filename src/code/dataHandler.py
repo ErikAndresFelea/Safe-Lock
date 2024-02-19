@@ -1,3 +1,4 @@
+import keyring
 from cryptography.fernet import Fernet
 
 class DataHandler:
@@ -25,3 +26,29 @@ class DataHandler:
 
     def set_key(self, key: str):
         self.key = key
+
+
+    # Check if user already exists
+    def user_exists(self, name: str) -> bool:
+        service_name = "safe_lock_password"
+
+        password = keyring.get_password(service_name, name)
+        return password is not None
+
+
+    # Save user key
+    def save_key(self, key: str, name: str):
+        service_name = "safe_lock_password"
+
+        keyring.set_password(service_name, name, key)
+
+    
+    # Get key from windows password manager
+    def obtain_key(self, name: str) -> tuple[bool, str | None]:
+        service_name = "safe_lock_password"
+
+        key = keyring.get_password(service_name, name)
+        if key is None:
+            return False, None
+        else:
+            return True, key

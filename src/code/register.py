@@ -1,4 +1,3 @@
-import keyring
 import json
 from code.dataHandler import DataHandler
 from cryptography.fernet import Fernet
@@ -14,19 +13,18 @@ class Register:
 
     # Creates an account
     def create_account(self) -> bool:
+        # Generate a new key and a data handler instance
+        token = Fernet.generate_key()
+        key = token.decode('utf-8')
+        data_hanlder = DataHandler(key)
+
         # Check if user already exists
-        
-        if self.user_exists():
+        if data_hanlder.user_exists(self.name):
             return False
         
         # Check if passwords match
         if self.password != self.rep_password:
             return False
-        
-        # Generate a new key and create a DataHandler instance
-        token = Fernet.generate_key()
-        key = token.decode('utf-8')
-        data_hanlder = DataHandler(key)
         
         # Encrypt the data
         encrypted_name = data_hanlder.encrypt(self.name)
@@ -54,22 +52,6 @@ class Register:
         with open(self.storage_file, "w", encoding="utf-8") as json_file:
             json.dump(data, json_file, indent=4)
 
-        self.save_key(key)
+        data_hanlder.save_key(key, self.name)
         return True
 
-
-    # Check if user already exists
-    def user_exists(self) -> bool:
-        service_name = "safe_lock_password"
-        username = self.name
-
-        password = keyring.get_password(service_name, username)
-        return password is not None
-
-
-    # Save user key
-    def save_key(self, key: str):
-        service_name = "safe_lock_password"
-        username = self.name
-
-        keyring.set_password(service_name, username, key)
