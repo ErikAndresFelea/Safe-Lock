@@ -1,4 +1,5 @@
 import os
+import json
 from gui.app_ui import App as Frontend
 from code.controller import Controller as Backend
 
@@ -33,8 +34,11 @@ class App:
 
         # Create store file if needed
         if not os.path.isfile(store_file):
-            file = open(store_file, "w", encoding="utf-8")
-            file.close()
+            initial_data = {
+                "users": {}
+            }
+            with open(store_file, "w", encoding="utf-8") as json_file:
+                json.dump(initial_data, json_file, indent=4)
 
 
 if __name__ == "__main__":
