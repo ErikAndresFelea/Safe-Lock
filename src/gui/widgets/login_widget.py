@@ -23,5 +23,6 @@ class LoginWidget(customtkinter.CTkFrame):
         self.login_button = customtkinter.CTkButton(self.frame, text="Login", command=self.login, width=75)
         self.login_button.grid(row=0, column=1, padx=20, pady=(5, 15))
 
+
     def login(self):
         self.parent_app.login(self.email_entry.get(), self.password_entry.get())

@@ -19,7 +19,6 @@ class Register:
         if self.user_exists():
             return False
         
-        
         # Check if passwords match
         if self.password != self.rep_password:
             return False
