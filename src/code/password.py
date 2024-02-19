@@ -56,3 +56,14 @@ class Password:
         self.email = data[3]
         self.app_id = data[4]
         self.url = data[5]
+
+    @classmethod
+    def from_dict(cls, password_dict: dict) -> 'Password':
+        unique_id = password_dict['unique_id']
+        app_name = password_dict['app_name']
+        password = password_dict['password']
+        email = password_dict['email']
+        app_id = password_dict['app_id']
+        url = password_dict['url']
+
+        return cls(unique_id, app_name, password, email, app_id, url)
