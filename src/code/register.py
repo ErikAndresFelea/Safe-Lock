@@ -27,6 +27,7 @@ class Register:
             return False
         
         # Encrypt the data
+        encrypted_username = data_hanlder.encrypt(self.user_name)
         encrypted_password = data_hanlder.encrypt(self.password)
         encrypted_email = data_hanlder.encrypt(self.email)
 
@@ -44,7 +45,7 @@ class Register:
             'email': encrypted_email,
             'all_passwords': []
             }
-        data['users'][self.user_name] = new_user
+        data['users'][encrypted_username] = new_user
 
         # Save the data into the storage file 
         with open(self.storage_file, "w", encoding="utf-8") as json_file:
