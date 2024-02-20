@@ -48,7 +48,4 @@ class DataHandler:
         service_name = "safe_lock"
 
         key = keyring.get_password(service_name, name)
-        if key is None:
-            return False, None
-        else:
-            return True, key
+        return key is not None, key

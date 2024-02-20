@@ -35,8 +35,8 @@ class App(customtkinter.CTk):
 
 
     ''' UI related mehotds below '''
-    def login(self, email: str, password: str):
-        confirm = self.controller.login(email, password)
+    def login(self, name: str, password: str):
+        confirm = self.controller.login(name, password)
         if confirm is False:
             ''' Show ui error name or pasasword incorrect'''
             pass

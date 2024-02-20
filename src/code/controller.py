@@ -8,8 +8,8 @@ class Controller:
         self.folder = folder
         self.file = file
 
-    def login(self, email: str, password: str) -> bool:
-        user_login = Login(email, password, self.file)
+    def login(self, name: str, password: str) -> bool:
+        user_login = Login(name, password, self.file)
         confirm, data_handler = user_login.check_credentials()
 
         # Create an instance of PasswordManager using the dataHandler created on the login
