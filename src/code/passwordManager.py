@@ -26,13 +26,15 @@ class PasswordManager:
     def update_password(self, password_data: list[str]):
         with open(self.file, "r", encoding="utf-8") as json_file:
             data = json.load(json_file)
+            users = data.get('users', {})
+            user = users.get(self.username)
 
         # Looks for the correct password and updates it
-        for i, element in enumerate(data["all_passwords"]):
+        for i, element in enumerate(user["all_passwords"]):
             decrypted_password_id = self.data_handler.decrypt(element["unique_id"])
             if decrypted_password_id == password_data[0]:
                 encrypted_password = self.encrypt_password(password_data)
-                data["all_passwords"][i] = encrypted_password.__dict__
+                user["all_passwords"][i] = encrypted_password.__dict__
                 break
 
         with open(self.file, "w", encoding="utf-8") as json_file:
