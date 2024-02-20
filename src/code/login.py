@@ -22,17 +22,16 @@ class Login:
             data = json.load(json_file)
             users = data.get('users', {})
 
-        encrypted_name = self.data_handler.encrypt(self.name)
-        if encrypted_name not in users:
+        if self.name not in users.keys():
             return False, None
         
-        encrypted_password = users[encrypted_name].get('app_password', '')
+        encrypted_password = users[self.name].get('app_password', '')
         confirm = self.authentiacte_user(encrypted_password, self.password)
         return confirm, self.data_handler
 
 
     # Check if sotred password its the same as the user input
     def authentiacte_user(self, encrypted_password: str, user_password: str) -> bool:
-        password = self.data_handler.encrypt(user_password)
-        result = encrypted_password == password
+        password = self.data_handler.decrypt(encrypted_password)
+        result = user_password == password
         return result

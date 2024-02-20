@@ -5,7 +5,7 @@ from cryptography.fernet import Fernet
 class Register:
     def __init__(self, name: str, email: str, password: str, rep_password: str, file: str):
         super().__init__()
-        self.name = name
+        self.user_name = name
         self.email = email
         self.password = password
         self.rep_password = rep_password
@@ -19,7 +19,7 @@ class Register:
         data_hanlder = DataHandler(key)
 
         # Check if user already exists
-        if data_hanlder.user_exists(self.name):
+        if data_hanlder.user_exists(self.user_name):
             return False
         
         # Check if passwords match
@@ -27,7 +27,6 @@ class Register:
             return False
         
         # Encrypt the data
-        encrypted_name = data_hanlder.encrypt(self.name)
         encrypted_password = data_hanlder.encrypt(self.password)
         encrypted_email = data_hanlder.encrypt(self.email)
 
@@ -45,12 +44,12 @@ class Register:
             'email': encrypted_email,
             'all_passwords': []
             }
-        data['users'][encrypted_name] = new_user
+        data['users'][self.user_name] = new_user
 
         # Save the data into the storage file 
         with open(self.storage_file, "w", encoding="utf-8") as json_file:
             json.dump(data, json_file, indent=4)
 
-        data_hanlder.save_key(key, self.name)
+        data_hanlder.save_key(self.user_name, key)
         return True
 

@@ -24,8 +24,8 @@ class DataHandler:
         return token_to_string
 
 
-    def set_key(self, key: str):
-        self.key = key
+    def set_key(self, token: str):
+        self.key = token
 
 
     # Check if user already exists
@@ -37,7 +37,7 @@ class DataHandler:
 
 
     # Save user key
-    def save_key(self, key: str, name: str):
+    def save_key(self, name: str, key: str):
         service_name = "safe_lock"
 
         keyring.set_password(service_name, name, key)
