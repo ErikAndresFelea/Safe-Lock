@@ -26,8 +26,7 @@ class PasswordManager:
     def update_password(self, password_data: list[str]):
         with open(self.file, "r", encoding="utf-8") as json_file:
             data = json.load(json_file)
-            users = data.get('users', {})
-            user = users.get(self.username)
+            user = data.get('users', {}).get(self.username)
 
         # Looks for the correct password and updates it
         for i, element in enumerate(user["all_passwords"]):
@@ -44,8 +43,7 @@ class PasswordManager:
     def delete_password(self, id: str) -> bool:
         with open(self.file, "r", encoding="utf-8") as json_file:
             data = json.load(json_file)
-            users = data.get('users', {})
-            user = users.get(self.username)
+            user = data.get('users', {}).get(self.username)
 
         for element in user["all_passwords"]:
             decrypted_password_id = self.data_handler.decrypt(element["unique_id"])
@@ -76,8 +74,8 @@ class PasswordManager:
     def get_all_passwords(self) -> list[Password]:
         with open(self.file, "r", encoding="utf-8") as json_file:
             data = json.load(json_file)
-            users = data.get('users', {})
-            user = users.get(self.username)
+            user = data.get('users', {}).get(self.username)
+            
 
         # Decrypts all passwords from json and stores them into a list
         all_password_array = []

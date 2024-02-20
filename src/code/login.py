@@ -9,7 +9,6 @@ class Login:
         self.name = name
         self.password = password
         self.data_handler = DataHandler(None)
-        self.username = None
 
     # Check if password is correct
     def check_credentials(self) -> tuple[bool, DataHandler]:
@@ -23,20 +22,14 @@ class Login:
         with open(self.file, "r", encoding="utf-8") as json_file:
             data = json.load(json_file)
             users = data.get('users', {})
-            user_keys = users.keys()
-
-        for user in user_keys:
-            current_user = self.data_handler.decrypt(user)
-            if (self.name == current_user):
-                self.username = user
 
         # Check if user exists
-        if self.username is None:
+        if self.name not in users.keys():
             return False, None, None
         
-        encrypted_password = users[self.username].get('app_password', '')
+        encrypted_password = users[self.name].get('app_password', '')
         confirm = self.authentiacte_user(encrypted_password, self.password)
-        return confirm, self.data_handler, self.username
+        return confirm, self.data_handler, self.name
 
 
     # Check if sotred password its the same as the user input
