@@ -10,10 +10,10 @@ class Controller:
 
     def login(self, name: str, password: str) -> bool:
         user_login = Login(name, password, self.file)
-        confirm, data_handler = user_login.check_credentials()
+        confirm, data_handler, username = user_login.check_credentials()
 
         # Create an instance of PasswordManager using the dataHandler created on the login
-        self.password_manager = PasswordManager(self.file, data_handler)
+        self.password_manager = PasswordManager(self.file, data_handler, username)
         return confirm
 
     def register(self, name: str, email: str, password: str, confirm_password: str) -> bool:

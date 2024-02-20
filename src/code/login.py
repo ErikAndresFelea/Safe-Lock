@@ -1,5 +1,6 @@
 import json
 from code.dataHandler import DataHandler
+from typing import Tuple
 
 
 class Login:
@@ -27,11 +28,10 @@ class Login:
         
         encrypted_password = users[self.name].get('app_password', '')
         confirm = self.authentiacte_user(encrypted_password, self.password)
-        return confirm, self.data_handler
+        return confirm, self.data_handler, self.name
 
 
     # Check if sotred password its the same as the user input
     def authentiacte_user(self, encrypted_password: str, user_password: str) -> bool:
         password = self.data_handler.decrypt(encrypted_password)
-        result = user_password == password
-        return result
+        return user_password == password
