@@ -71,10 +71,12 @@ class PasswordManager:
     def get_all_passwords(self) -> list[Password]:
         with open(self.file, "r", encoding="utf-8") as json_file:
             data = json.load(json_file)
+            users = data.get('users', {})
+            user = users.get(self.username)
 
         # Decrypts all passwords from json and stores them into a list
         all_password_array = []
-        for element in data["all_passwords"]:
+        for element in user["all_passwords"]:
             password = self.decrypt_password(element)
             all_password_array.append(password)
         
