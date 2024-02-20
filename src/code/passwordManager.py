@@ -7,6 +7,7 @@ class PasswordManager:
     def __init__(self, storage_file: str, data_handler: DataHandler, username: str):
         self.file = storage_file
         self.data_handler = data_handler
+        self.username = username
 
 
     def add_password(self, password_data: list[str]):
@@ -17,7 +18,7 @@ class PasswordManager:
         with open(self.file, "r", encoding="utf-8") as json_file:
             data = json.load(json_file)
         
-        data["all_passwords"].append(encrypted_password.__dict__)
+        data['users'][self.username]["all_passwords"].append(encrypted_password.__dict__)
         with open(self.file, "w", encoding="utf-8") as json_file:
             json.dump(data, json_file, indent=4)
 
