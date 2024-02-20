@@ -44,10 +44,13 @@ class PasswordManager:
     def delete_password(self, id: str) -> bool:
         with open(self.file, "r", encoding="utf-8") as json_file:
             data = json.load(json_file)
-        for element in data["all_passwords"]:
+            users = data.get('users', {})
+            user = users.get(self.username)
+
+        for element in user["all_passwords"]:
             decrypted_password_id = self.data_handler.decrypt(element["unique_id"])
             if decrypted_password_id == id:
-                data["all_passwords"].remove(element)
+                user["all_passwords"].remove(element)
                 break
         with open(self.file, "w", encoding="utf-8") as json_file:
             json.dump(data, json_file, indent=4)
