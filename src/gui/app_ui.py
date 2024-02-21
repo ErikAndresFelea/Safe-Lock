@@ -18,16 +18,19 @@ class App(customtkinter.CTk):
         # Backend comunication
         self.controller = controller
 
-        self.title("SafeLock")
+        self.title("Safe Lock")
         self.geometry(f"{1280}x{720}")
-        self.grid_rowconfigure(0, weight=1)
+        self.grid_rowconfigure((0, 1), weight=1)
         self.grid_columnconfigure(0, weight=1)
 
         # Main widget (root)
-        self.main_frame = customtkinter.CTkFrame(self)
-        self.main_frame.grid(row=0, column=0, padx=20, pady=20)
+        self.title = customtkinter.CTkLabel(self, text="Safe Lock", font=customtkinter.CTkFont(size=80, weight="bold", family="Verdana"), text_color="deepskyblue")
+        self.title.grid(row=0, column=0, padx=20, pady=20)
 
-        self.main_frame.grid_rowconfigure((0, 1), weight=1)
+        self.main_frame = customtkinter.CTkFrame(self)
+        self.main_frame.grid(row=1, column=0, padx=20, pady=20)
+
+        self.main_frame.grid_rowconfigure(0, weight=1)
         self.main_frame.grid_columnconfigure(0, weight=1)
 
         # Current widget displayed on the main widget
@@ -56,9 +59,6 @@ class App(customtkinter.CTk):
 
     def welcome_screen(self):
         self.clear_ui()
-        self.current_title = customtkinter.CTkLabel(self.main_frame, text="Safe Lock", font=customtkinter.CTkFont(size=20, weight="bold"))
-        self.current_title.grid(row=0, column=0, padx=20, pady=20)
-
         self.current_frame = LoginWidget(self.main_frame, self)
         self.current_frame.grid(row=1, column=0, padx=20, pady=20)
     
@@ -110,6 +110,10 @@ class App(customtkinter.CTk):
         self.current_title.grid(row=0, column=0, padx=20, pady=20)
         self.current_frame = ViewPasswordWidget(self.main_frame, self, data)
         self.current_frame.grid(row=1, column=0, padx=20, pady=20)
+
+
+    def view_forgot_pass(self):
+        pass
         
 
     ''' Create update delete mehthods below '''
