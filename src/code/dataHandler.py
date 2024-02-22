@@ -25,17 +25,17 @@ class DataHandler:
             return True, msg
 
     ''' Decrypt a string using user key '''
-    def decrypt(self, data: str) -> Status:
+    def decrypt(self, data: str) -> tuple[Error, Msg]:
         try:
             data_to_bytes = data.encode('utf-8')
             fernet = Fernet(self.key)
             token = fernet.decrypt(data_to_bytes)
             token_to_string = token.decode('utf-8')
-            return False, True, token_to_string
+            return False, token_to_string
         except Exception as e:
             print(e.__traceback__)
             msg = "Error al desencriptar"
-            return True, False, msg
+            return True, msg
 
 
     def set_key(self, token: str):
