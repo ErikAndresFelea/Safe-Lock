@@ -47,7 +47,7 @@ class LoginWidget(ctk.CTkFrame):
         self.register_button.grid(row=5, column=0, padx=20, pady=20)
         
 
-
+    ''' TO DO: Update UI depending on results'''
     def login(self):
         error, data = self.parent_app.login(self.user_entry.get(), self.password_entry.get())
         if error:

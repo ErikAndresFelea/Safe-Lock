@@ -24,16 +24,16 @@ class Login:
 
         # Checks if user is registered
         with open(self.file, "r", encoding="utf-8") as json_file:
-            data = json.load(json_file)
-            users = data.get('users', {})
+            json_data = json.load(json_file)
+            users = json_data.get('users', {})
         if self.user not in users.keys():
             return False, False, None, None
-        
 
         # Checks if user password is correct
         self.data_handler.set_key(data)
         encrypted_password = users[self.user].get('app_password', '')
-        error, status, data = self.authentiacte_password(encrypted_password, self.password)
+        error, status, data = self.authentiacte_password(
+            encrypted_password, self.password)
         if not status:
             return error, status, None, data
 

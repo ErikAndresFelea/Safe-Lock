@@ -19,10 +19,10 @@ class DataHandler:
             token = fernet.encrypt(data_to_bytes)
             token_to_string = token.decode('utf-8')
             return False, token_to_string
-        except Exception as e:
-            print(e.__traceback__)
+        except Exception:
             msg = "Error al encriptar"
             return True, msg
+
 
     ''' Decrypt a string using user key '''
     def decrypt(self, data: str) -> tuple[Error, Msg]:
@@ -32,8 +32,7 @@ class DataHandler:
             token = fernet.decrypt(data_to_bytes)
             token_to_string = token.decode('utf-8')
             return False, token_to_string
-        except Exception as e:
-            print(e.__traceback__)
+        except Exception:
             msg = "Error al desencriptar"
             return True, msg
 
