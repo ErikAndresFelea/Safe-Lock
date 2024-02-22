@@ -2,19 +2,22 @@ from code.login import Login
 from code.register import Register
 from code.passwordManager import PasswordManager
 
+Operation = bool
+Error = bool
+
 class Controller:
     def __init__(self, folder: str, file: str):
         super().__init__()
         self.folder = folder
         self.file = file
 
-    def login(self, name: str, password: str) -> bool:
+    def login(self, name: str, password: str) -> tuple[Error, Operation, str | None]:
         user_login = Login(name, password, self.file)
-        confirm, data_handler, username = user_login.check_credentials()
+        error, status, data_handler, data = user_login.check_credentials()
 
-        # Create an instance of PasswordManager using the dataHandler created on the login
-        self.password_manager = PasswordManager(self.file, data_handler, username)
-        return confirm
+        # Create an PasswordManager using the dataHandler and the user
+        self.password_manager = PasswordManager(self.file, data_handler, data)
+        return error, status, data
 
     def register(self, name: str, email: str, password: str, confirm_password: str) -> bool:
         new_user = Register(name, email, password, confirm_password, self.file)
