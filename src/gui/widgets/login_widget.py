@@ -1,4 +1,6 @@
 import customtkinter as ctk
+from PIL import Image
+import os
 
 ''' 
 The interface is divided in 6 rows. Each row contains:
@@ -7,11 +9,11 @@ The interface is divided in 6 rows. Each row contains:
     · 3rd: Password entry
     · 4th: A frame with two columns: 
         · Remember checkbox
-        · Forgot password label
+        · Forgot password button
     · 5th: Login button
-    · 6th Register label
-
+    · 6th Register button
 '''
+
 class LoginWidget(ctk.CTkFrame):
     def __init__(self, master, app):
         super().__init__(master)
@@ -45,6 +47,10 @@ class LoginWidget(ctk.CTkFrame):
         self.register_button.grid(row=5, column=0, padx=20, pady=20)
         
 
-
+    ''' TO DO: Update UI depending on results'''
     def login(self):
-        self.parent_app.login(self.user_entry.get(), self.password_entry.get())
+        error, data = self.parent_app.login(self.user_entry.get(), self.password_entry.get())
+        if error:
+            print("Error a la hora de realizar el login: " + data)
+        else:
+            print("Usuario o contraseña incorrectos")
