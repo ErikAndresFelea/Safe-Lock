@@ -49,8 +49,17 @@ if __name__ == "__main__":
 
 - Check if set_all and get_all methods are useful (Password)
 - get_password from PM Not used after major changes on code, maybe useful later when implementing favorits 
+- Set minimum length for a password
+- Send email to new user with personal data in case they forget
+- Feedback on UI:
+    · register
+    · home
+    · view password
+    · edit password
+    · add password
+- Login checkbox should remember last user data (or automatic login)
 - Update UI on: 
-    · loging
+    · login
     · register
     · home
     · view password

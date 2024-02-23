@@ -32,8 +32,7 @@ class Login:
         # Checks if user password is correct
         self.data_handler.set_key(data)
         encrypted_password = users[self.user].get('app_password', '')
-        error, status, data = self.authentiacte_password(
-            encrypted_password, self.password)
+        error, status, data = self.authentiacte_password(encrypted_password, self.password)
         if not status:
             return error, status, None, data
 
