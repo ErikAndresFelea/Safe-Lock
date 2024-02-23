@@ -13,7 +13,6 @@ The interface is divided in 6 rows. Each row contains:
     · 5th: Login button
     · 6th Register button
 '''
-
 class LoginWidget(ctk.CTkFrame):
     def __init__(self, master, app):
         super().__init__(master)
@@ -49,8 +48,11 @@ class LoginWidget(ctk.CTkFrame):
 
     ''' TO DO: Update UI depending on results'''
     def login(self):
-        error, data = self.parent_app.login(self.user_entry.get(), self.password_entry.get())
+        error, status, data = self.parent_app.login(self.user_entry.get(), self.password_entry.get())
         if error:
             print("Error a la hora de realizar el login: " + data)
-        else:
+        elif not status:
             print("Usuario o contraseña incorrectos")
+        else:
+            self.parent_app.home()
+        

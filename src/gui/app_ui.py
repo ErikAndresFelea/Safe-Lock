@@ -38,12 +38,8 @@ class App(customtkinter.CTk):
 
 
     ''' UI related mehotds below '''
-    def login(self, name: str, password: str):
-        error, status, data = self.controller.login(name, password)
-        if status:
-            self.home()
-        else:
-            return error, data
+    def login(self, name: str, password: str) -> tuple[bool, bool, str]:
+        return self.controller.login(name, password)
 
 
     def register(self, name: str, email: str, password: str, rep_password: str):
