@@ -24,6 +24,9 @@ class Controller:
         confirm = new_user.create_account()
         return confirm
     
+    def forgot_password(self, email: str) -> bool:
+        pass
+    
     def get_password(self, id: str) -> tuple[bool, list[str] | None]:
         confirm, password = self.password_manager.get_password(id)
         return confirm, password

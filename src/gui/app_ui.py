@@ -52,6 +52,16 @@ class App(customtkinter.CTk):
             self.welcome_screen()
 
 
+    def forgot_pass(self, email: str) -> bool:
+        confirm = self.controller.forgot_password(email)
+        if confirm is False:
+            ''' Show ui error '''
+            pass
+        else:
+            ''' Show ui feedback and proceed to login '''
+            self.welcome_screen()
+
+
     def welcome_screen(self):
         self.clear_ui()
         self.current_frame = LoginWidget(self.main_frame, self)
@@ -108,8 +118,12 @@ class App(customtkinter.CTk):
 
 
     def view_forgot_pass(self):
-        pass
-        
+        self.clear_ui()
+        self.current_title = customtkinter.CTkLabel(self.main_frame, text="Ver Contraseña", font=customtkinter.CTkFont(size=20, weight="bold"))
+        self.current_title.grid(row=0, column=0, padx=20, pady=20)
+        self.current_frame = ViewPasswordWidget(self.main_frame, self)
+        self.current_frame.grid(row=1, column=0, padx=20, pady=20)
+
 
     ''' Create update delete mehthods below '''
     def update_pass(self, data: list[str]):
