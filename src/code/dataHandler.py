@@ -10,6 +10,11 @@ class DataHandler:
         self.key = token
 
 
+    # Setter
+    def set_key(self, token: str):
+        self.key = token
+
+
     ''' Encrypt a string using user key '''
     def encrypt(self, data: str) -> tuple[Error, Operation, Msg]:
         try:
@@ -36,29 +41,39 @@ class DataHandler:
             return True, False, msg
 
 
-    def set_key(self, token: str):
-        self.key = token
+    ''' 
+    Atempts to retriev user credentials from WCM
+    to veryfie if it exists
+    Returns: operation success or a error msg
+    '''
+    def user_exists(self, name: str) -> tuple[Error, Operation, Msg]:
+        try:
+            service_name = "safe_lock"
+            password = keyring.get_password(service_name, name)
+            return False, password is not None, None
+        except Exception as e:
+            print(e.__traceback__)
+            msg = "Error al comprobar disponibilidad del usuario"
+            return True, False, msg
 
 
-    ''' Need to update '''
-    # Check if user already exists
-    def user_exists(self, name: str) -> bool:
-        service_name = "safe_lock"
-
-        password = keyring.get_password(service_name, name)
-        return password is not None
-
-
-    ''' Need to update '''
+    '''
+    Stores password in WCM or returns an error
+    '''
     # Save user key
-    def save_key(self, name: str, key: str):
-        service_name = "safe_lock"
-
-        keyring.set_password(service_name, name, key)
-
+    def save_key(self, name: str, key: str) -> tuple[Error, Operation, Msg]:
+        try:
+            service_name = "safe_lock"
+            keyring.set_password(service_name, name, key)
+            return False, True, None
+        except Exception as e:
+            print(e.__traceback__)
+            msg = "Error al comprobar disponibilidad del usuario"
+            return True, False, msg
+        
     
     '''
-    Retrieves user key from windows credential manager 
+    Retrieves user key from WCM 
     Returns: operation success and key or a error msg
     '''
     def obtain_key(self, user: str) -> tuple[Error, Operation, Msg]:
