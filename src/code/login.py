@@ -3,6 +3,7 @@ from code.dataHandler import DataHandler
 
 Operation = bool
 Error = bool
+Msg = str | None
 
 class Login:
     def __init__(self, user: str, password: str, storage_file: str) -> None:
@@ -14,9 +15,8 @@ class Login:
 
     ''' 
     Checks if there is a user registered with the password provided
-    The string returned can be a error msg, nothing or the username
     '''
-    def check_credentials(self) -> tuple[Error, Operation, DataHandler | None, str | None]:
+    def check_credentials(self) -> tuple[Error, Operation, DataHandler | None, Msg]:
         # Checks if the user has a key
         error, status, data = self.data_handler.obtain_key(self.user)
         if not status:
@@ -40,8 +40,8 @@ class Login:
 
 
     # Obtains user stored password and checks if its same as provided
-    def authentiacte_password(self, encrypted_password: str, user_password: str) -> tuple[Error, Operation, str | None]:
-        error, data = self.data_handler.decrypt(encrypted_password)
+    def authentiacte_password(self, encrypted_password: str, user_password: str) -> tuple[Error, Operation, Msg]:
+        error, status, data = self.data_handler.decrypt(encrypted_password)
         if error:
-            return True, False, data
+            return True, status, data
         return False, user_password == data, None
