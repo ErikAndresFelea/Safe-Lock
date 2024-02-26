@@ -49,8 +49,8 @@ class DataHandler:
     def user_exists(self, name: str) -> tuple[Error, Operation, Msg]:
         try:
             service_name = "safe_lock"
-            password = keyring.get_password(service_name, name)
-            return False, password is not None, None
+            key = keyring.get_password(service_name, name)
+            return False, key is not None, None
         except Exception as e:
             print(e.__traceback__)
             msg = "Error al comprobar disponibilidad del usuario"

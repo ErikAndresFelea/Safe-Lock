@@ -10,6 +10,9 @@ from code.controller import Controller
 customtkinter.set_appearance_mode("System")
 customtkinter.set_default_color_theme("blue")
 
+Operation = bool
+Error = bool
+Msg = str | None
 
 class App(customtkinter.CTk):
     def __init__(self, controller: Controller):
@@ -38,18 +41,12 @@ class App(customtkinter.CTk):
 
 
     ''' UI related mehotds below '''
-    def login(self, name: str, password: str) -> tuple[bool, bool, str]:
+    def login(self, name: str, password: str) -> tuple[Error, Operation, Msg]:
         return self.controller.login(name, password)
 
 
-    def register(self, name: str, email: str, password: str, rep_password: str):
-        confirm = self.controller.register(name, email, password, rep_password)
-        if confirm is False:
-            ''' Show ui error '''
-            pass
-        else:
-            ''' Show ui feedback and proceed to login '''
-            self.welcome_screen()
+    def register(self, name: str, email: str, password: str, rep_password: str) -> tuple[Error, Operation, Msg]:
+        return self.controller.register(name, email, password, rep_password)
 
 
     def forgot_pass(self, email: str) -> bool:
