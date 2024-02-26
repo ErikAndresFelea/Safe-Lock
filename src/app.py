@@ -66,11 +66,12 @@ if __name__ == "__main__":
     · edit password
     · add password
 - Add profile UI
-- Add forgot password UI
+- Add forgot password UI (still need to implement email feature)
 - Add favorite password section
 - Add import export data
 - ** Maybe work on clod backup **
 - ** Maybe work on multiple languages **
 - Work on the installer of the app
+- Update app to use UUI4 instead of plain user name
  
 '''
