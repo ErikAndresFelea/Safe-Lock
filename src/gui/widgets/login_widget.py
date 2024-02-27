@@ -27,8 +27,8 @@ class LoginWidget(ctk.CTkFrame):
         login_frame.grid(row=1, column=0, padx=20, pady=20)
         login_frame.grid_rowconfigure((0, 1, 2), weight=1)
         
-        error_label = ctk.CTkLabel(login_frame, text=None, text_color="red", font=ctk.CTkFont(size=10))
-        error_label.grid(row=0, column=0, padx=20, pady=20)
+        self.error_label = ctk.CTkLabel(login_frame, text=None, text_color="red", font=ctk.CTkFont(size=10))
+        self.error_label.grid(row=0, column=0, padx=20, pady=20)
         
         self.user_entry = ctk.CTkEntry(login_frame, placeholder_text="Usuario *", width=250)
         self.user_entry.grid(row=1, column=0, padx=20, pady=20)

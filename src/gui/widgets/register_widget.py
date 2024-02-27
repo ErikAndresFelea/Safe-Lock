@@ -17,8 +17,8 @@ class RegisterWidget(ctk.CTkFrame):
         form_frame.grid_rowconfigure((0, 1, 2, 3), weight=1)
         form_frame.grid_columnconfigure((0, 1), weight=1)
 
-        # error_label = ctk.CTkLabel(form_frame, text=None, text_color="red", font=ctk.CTkFont(size=10))
-        # error_label.grid(row=0, column=0, padx=20, pady=20)
+        # self.error_label = ctk.CTkLabel(form_frame, text=None, text_color="red", font=ctk.CTkFont(size=10))
+        # self.error_label.grid(row=0, column=0, padx=20, pady=20)
 
         user_label = ctk.CTkLabel(form_frame, text="Usuario")
         user_label.grid(row=0, column=0, padx=20, pady=20, sticky="w")
