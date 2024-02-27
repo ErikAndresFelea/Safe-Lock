@@ -50,9 +50,7 @@ class RegisterWidget(ctk.CTkFrame):
     def register(self):
         self.reset_ui()
         status = self.check_user_input()
-        # delete this later
-        status = True
-        
+
         if status:
             error, status, data = self.parent_app.register(self.name_entry.get(), self.email_entry.get(), self.password_entry.get(), self.conf_password_entry.get())
             if error:
@@ -66,10 +64,38 @@ class RegisterWidget(ctk.CTkFrame):
 
 
     def check_user_input(self) -> bool:
-        # Check for correct input
-        pass
+        user = len(self.name_entry.get()) > 0
+        email = len(self.email_entry.get()) > 0
+        password = len(self.password_entry.get()) > 0
+        rep_password = len(self.conf_password_entry.get()) > 0
+
+        if not user:
+            # self.user_label.configure(text="Introduce ..."
+            self.name_entry.configure(border_color="darkred")
+
+        if not email:
+            # self.user_label.configure(text="Introduce ..."
+            self.email_entry.configure(border_color="darkred")
+
+        if not password:
+            # self.user_label.configure(text="Introduce ..."
+            self.password_entry.configure(border_color="darkred")
+
+        if not rep_password:
+            # self.user_label.configure(text="Introduce ..."
+            self.conf_password_entry.configure(border_color="darkred")
+
+        if not self.password_entry.get() == self.conf_password_entry.get():
+            # self.user_label.configure(text="Contraseñas no coinciden")
+            self.password_entry.configure(border_color="darkred")
+            self.conf_password_entry.configure(border_color="darkred")
+            return False
+        return user and email and password and rep_password
 
 
     def reset_ui(self):
-        # reset ui
-        pass
+        # self.user_label.configure(text=None)
+        self.name_entry.configure(border_color="gray50")
+        self.email_entry.configure(border_color="gray50")
+        self.password_entry.configure(border_color="gray50")
+        self.conf_password_entry.configure(border_color="gray50")
