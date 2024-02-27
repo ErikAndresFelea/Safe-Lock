@@ -6,11 +6,14 @@ class RegisterWidget(ctk.CTkFrame):
         self.parent_app = app
 
         # Widget split into 2 frames. Top and Bottom
-        self.grid_rowconfigure((0, 1), weight=1)
+        self.grid_rowconfigure((0, 1, 2), weight=1)
+
+        title_label = ctk.CTkLabel(self, text="Registro", font=ctk.CTkFont(size=40, weight="bold", family="Verdana"))
+        title_label.grid(row=0, column=0, padx=20, pady=20)
 
         # Top frame. 2 columns and 5 rows
         self.top_frame = ctk.CTkFrame(self)
-        self.top_frame.grid(row=0, column=0, padx=0, pady=0)
+        self.top_frame.grid(row=1, column=0, padx=20, pady=20)
         self.top_frame.grid_rowconfigure((0, 1, 2, 3), weight=1)
         self.top_frame.grid_columnconfigure((0, 1), weight=1)
 
@@ -37,7 +40,7 @@ class RegisterWidget(ctk.CTkFrame):
 
         # Bottom frame. 2 columns and 1 row
         self.bottom_frame = ctk.CTkFrame(self)
-        self.bottom_frame.grid(row=1, column=0, padx=0, pady=0, sticky="nsew")
+        self.bottom_frame.grid(row=2, column=0, padx=20, pady=20, sticky="nsew")
         self.bottom_frame.grid_columnconfigure((0, 1), weight=1)
 
         self.cancel_button = ctk.CTkButton(self.bottom_frame, text="Cancelar", command=app.welcome_screen, width=75)
