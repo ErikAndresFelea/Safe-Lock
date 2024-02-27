@@ -27,8 +27,8 @@ class LoginWidget(ctk.CTkFrame):
         login_frame.grid(row=1, column=0, padx=20, pady=20)
         login_frame.grid_rowconfigure((0, 1, 2), weight=1)
         
-        self.user_label = ctk.CTkLabel(login_frame, text=None, text_color="red", font=ctk.CTkFont(size=10))
-        self.user_label.grid(row=0, column=0, padx=20, pady=20)
+        error_label = ctk.CTkLabel(login_frame, text=None, text_color="red", font=ctk.CTkFont(size=10))
+        error_label.grid(row=0, column=0, padx=20, pady=20)
         
         self.user_entry = ctk.CTkEntry(login_frame, placeholder_text="Usuario *", width=250)
         self.user_entry.grid(row=1, column=0, padx=20, pady=20)
@@ -40,17 +40,17 @@ class LoginWidget(ctk.CTkFrame):
         check_forgot_frame.grid(row=2, column=0, padx=20, pady=20)
         check_forgot_frame.grid_columnconfigure((0, 1), weight=1)
 
-        self.remember_checkbox = ctk.CTkCheckBox(check_forgot_frame, text="Recordar", checkbox_width=18, checkbox_height=18, border_width=2)
-        self.remember_checkbox.grid(row=0, column=0, padx=20, pady=20)
+        remember_checkbox = ctk.CTkCheckBox(check_forgot_frame, text="Recordar", checkbox_width=18, checkbox_height=18, border_width=2)
+        remember_checkbox.grid(row=0, column=0, padx=20, pady=20)
 
-        self.forgot_button = ctk.CTkButton(check_forgot_frame, text="¿Contraseña olvidada?", text_color="deepskyblue", command=app.view_forgot_pass, border_width=0, corner_radius=0, bg_color="transparent", fg_color="transparent", hover=False)
-        self.forgot_button.grid(row=0, column=1, padx=20, pady=20)
+        forgot_button = ctk.CTkButton(check_forgot_frame, text="¿Contraseña olvidada?", text_color="deepskyblue", command=app.view_forgot_pass, border_width=0, corner_radius=0, bg_color="transparent", fg_color="transparent", hover=False)
+        forgot_button.grid(row=0, column=1, padx=20, pady=20)
 
-        self.login_button = ctk.CTkButton(self, text="Iniciar sesion", command=self.login, width=75)
-        self.login_button.grid(row=3, column=0, padx=20, pady=20)
+        login_button = ctk.CTkButton(self, text="Iniciar sesion", command=self.login, width=75)
+        login_button.grid(row=3, column=0, padx=20, pady=20)
         
-        self.register_button = ctk.CTkButton(self, text="Registrarse", text_color="deepskyblue", command=app.view_register, border_width=0, corner_radius=0, bg_color="transparent", fg_color="transparent", hover=False)
-        self.register_button.grid(row=4, column=0, padx=20, pady=20)
+        register_button = ctk.CTkButton(self, text="Registrarse", text_color="deepskyblue", command=app.view_register, border_width=0, corner_radius=0, bg_color="transparent", fg_color="transparent", hover=False)
+        register_button.grid(row=4, column=0, padx=20, pady=20)
         
 
     ''' 
@@ -66,7 +66,7 @@ class LoginWidget(ctk.CTkFrame):
             if error:
                 print("Error a la hora de realizar el login: " + data)
             elif not status:
-                self.user_label.configure(text="Credenciales invalidas")
+                self.error_label.configure(text="Credenciales invalidas")
                 self.user_entry.configure(border_color="darkred")
                 self.password_entry.configure(border_color="darkred")
             else:
@@ -78,22 +78,22 @@ class LoginWidget(ctk.CTkFrame):
         password = len(self.password_entry.get()) > 0
 
         if (not user and not password):
-            self.user_label.configure(text="Introduce credenciales")
+            self.error_label.configure(text="Introduce credenciales")
             self.user_entry.configure(border_color="darkred")
             self.password_entry.configure(border_color="darkred")
 
         elif not user:
-            self.user_label.configure(text="Introduce usuario")
+            self.error_label.configure(text="Introduce usuario")
             self.user_entry.configure(border_color="darkred")
 
         elif not password:
-            self.user_label.configure(text="Introduce contraseña")
+            self.error_label.configure(text="Introduce contraseña")
             self.password_entry.configure(border_color="darkred")
         return user and password
     
 
     def reset_ui(self):
-        self.user_label.configure(text=None)
+        self.error_label.configure(text=None)
         self.user_entry.configure(border_color="gray50")
         self.password_entry.configure(border_color="gray50")
         
