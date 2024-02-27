@@ -20,8 +20,8 @@ class Controller:
         self.password_manager = PasswordManager(self.file, data_handler, data)
         return error, status, data
 
-    def register(self, name: str, email: str, password: str, confirm_password: str) -> tuple[Error, Operation, Msg]:
-        new_user = Register(name, email, password, confirm_password, self.file)
+    def register(self, name: str, email: str, password: str) -> tuple[Error, Operation, Msg]:
+        new_user = Register(name, email, password, self.file)
         return new_user.create_account()
     
     def forgot_password(self, email: str) -> bool:

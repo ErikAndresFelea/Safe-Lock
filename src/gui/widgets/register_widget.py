@@ -32,12 +32,12 @@ class RegisterWidget(ctk.CTkFrame):
 
         password_label = ctk.CTkLabel(form_frame, text="Contraseña")
         password_label.grid(row=2, column=0, padx=20, pady=20, sticky="w")
-        self.password_entry = ctk.CTkEntry(form_frame, placeholder_text="******", width=250)
+        self.password_entry = ctk.CTkEntry(form_frame, placeholder_text="******", show="*", width=250)
         self.password_entry.grid(row=2, column=1, padx=20, pady=20)
 
         rep_password_label = ctk.CTkLabel(form_frame, text="Repetir contraseña")
         rep_password_label.grid(row=3, column=0, padx=20, pady=20, sticky="w")
-        self.rep_password_entry = ctk.CTkEntry(form_frame, placeholder_text="******", width=250)
+        self.rep_password_entry = ctk.CTkEntry(form_frame, placeholder_text="******", show="*", width=250)
         self.rep_password_entry.grid(row=3, column=1, padx=20, pady=20)
 
 
@@ -58,7 +58,7 @@ class RegisterWidget(ctk.CTkFrame):
         status = self.check_user_input()
 
         if status:
-            error, status, data = self.parent_app.register(self.user_entry.get(), self.email_entry.get(), self.password_entry.get(), self.rep_password_entry.get())
+            error, status, data = self.parent_app.register(self.user_entry.get(), self.email_entry.get(), self.password_entry.get())
             if error:
                 print("Error a la hora de realizar el registro: " + data)
             elif not status:

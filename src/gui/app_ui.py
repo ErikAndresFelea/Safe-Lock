@@ -45,8 +45,8 @@ class App(customtkinter.CTk):
         return self.controller.login(name, password)
 
 
-    def register(self, name: str, email: str, password: str, rep_password: str) -> tuple[Error, Operation, Msg]:
-        return self.controller.register(name, email, password, rep_password)
+    def register(self, name: str, email: str, password: str) -> tuple[Error, Operation, Msg]:
+        return self.controller.register(name, email, password)
 
 
     def forgot_pass(self, email: str) -> bool:
@@ -62,7 +62,7 @@ class App(customtkinter.CTk):
     def welcome_screen(self):
         self.clear_ui()
         self.current_frame = LoginWidget(self.main_frame, self)
-        self.current_frame.grid(row=1, column=0, padx=20, pady=20)
+        self.current_frame.grid(row=0, column=0, padx=20, pady=20)
     
 
     def home(self):
@@ -91,11 +91,8 @@ class App(customtkinter.CTk):
     
     def view_register(self):
         self.clear_ui()
-        self.current_title = customtkinter.CTkLabel(self.main_frame, text="Registro", font=customtkinter.CTkFont(size=20, weight="bold"))
-        self.current_title.grid(row=0, column=0, padx=20, pady=20)
-
         self.current_frame = RegisterWidget(self.main_frame, app=self)
-        self.current_frame.grid(row=1, column=0, padx=20, pady=20)
+        self.current_frame.grid(row=0, column=0, padx=20, pady=20)
 
 
     def view_update_pass(self, data: list[str]):
