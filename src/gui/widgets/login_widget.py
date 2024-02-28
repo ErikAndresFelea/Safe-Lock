@@ -59,9 +59,9 @@ class LoginWidget(ctk.CTkFrame):
     '''
     def login(self):
         self.reset_ui()
-        status = self.check_user_input()
+        user_input_validation = self.check_user_input()
 
-        if status:
+        if user_input_validation:
             error, status, data = self.parent_app.login(self.user_entry.get(), self.password_entry.get())
             if error:
                 print("Error a la hora de realizar el login: " + data)
