@@ -68,7 +68,7 @@ class DataHandler:
             return False, True, None
         except Exception as e:
             print(e.__traceback__)
-            msg = "Error al comprobar disponibilidad del usuario"
+            msg = "Error al crear el usuario usuario"
             return True, False, msg
         
     

@@ -26,8 +26,11 @@ class Register:
 
         # Check if user already exists
         error, status, data = data_handler.user_exists(self.user_name)
-        if status:
-            return error, status, data
+        if status or error:
+            if not error:
+                msg = "El usuario ya existe"
+                return error, False, msg
+            return error, False, data
         
         # Encrypt the data
         error, status, data_password = data_handler.encrypt(self.password)
