@@ -65,10 +65,15 @@ class App(customtkinter.CTk):
         self.current_frame.grid(row=0, column=0, padx=20, pady=20)
     
 
+    ''' Turn this into a widget for a better handling '''
     def home(self):
         self.clear_ui()
-        all_passwords = self.controller.get_all_passwords()
-
+        error, status, all_passwords = self.controller.get_all_passwords()
+        if not status or error:
+            # When turned this into a widget, give UI feedback
+            pass
+        
+        ''' Work with label to change it latter '''
         self.current_title = customtkinter.CTkLabel(self.main_frame, text="Contraseñas", font=customtkinter.CTkFont(size=20, weight="bold"))
         self.current_title.grid(row=0, column=0, padx=20, pady=20)
 

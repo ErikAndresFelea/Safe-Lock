@@ -18,7 +18,7 @@ class RegisterWidget(ctk.CTkFrame):
         form_frame.grid_columnconfigure((0, 1), weight=1)
 
         self.error_label = ctk.CTkLabel(form_frame, text=None, text_color="red", font=ctk.CTkFont(size=10))
-        self.error_label.grid(row=0, column=0, padx=20, pady=20)
+        self.error_label.grid(row=0, column=1, padx=20, pady=20)
 
         user_label = ctk.CTkLabel(form_frame, text="Usuario")
         user_label.grid(row=1, column=0, padx=20, pady=20, sticky="w")
@@ -62,6 +62,7 @@ class RegisterWidget(ctk.CTkFrame):
             if error:
                 print("Error a la hora de realizar el registro: " + data)
             elif not status:
+                self.user_entry.configure(border_color="darkred")
                 self.error_label.configure(text="El usuario ya existe")
             else:
                 self.parent_app.welcome_screen()
