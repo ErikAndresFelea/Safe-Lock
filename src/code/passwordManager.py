@@ -3,6 +3,10 @@ import uuid, json
 from code.dataHandler import DataHandler
 from code.password import Password
 
+Operation = bool
+Error = bool
+Msg = str | None
+
 class PasswordManager:
     def __init__(self, storage_file: str, data_handler: DataHandler, username: str):
         self.file = storage_file
@@ -10,6 +14,7 @@ class PasswordManager:
         self.username = username
 
 
+    ''' Update '''
     def add_password(self, password_data: list[str]):
         password_id = str(uuid.uuid4())
         password_data[0] = password_id
@@ -23,6 +28,7 @@ class PasswordManager:
             json.dump(data, json_file, indent=4)
 
 
+    ''' Update '''
     def update_password(self, password_data: list[str]):
         with open(self.file, "r", encoding="utf-8") as json_file:
             data = json.load(json_file)
@@ -40,6 +46,7 @@ class PasswordManager:
             json.dump(data, json_file, indent=4)
 
 
+    ''' Update '''
     def delete_password(self, id: str) -> bool:
         with open(self.file, "r", encoding="utf-8") as json_file:
             data = json.load(json_file)
@@ -71,22 +78,28 @@ class PasswordManager:
         return False, None
     '''
 
-    def get_all_passwords(self) -> list[Password]:
-        with open(self.file, "r", encoding="utf-8") as json_file:
-            data = json.load(json_file)
-            user = data.get('users', {}).get(self.username)
-            
+    def get_all_passwords(self) -> tuple[Error, Operation, list[Password] | Msg]:
+        try:
+            with open(self.file, "r", encoding="utf-8") as json_file:
+                json_data = json.load(json_file)
+                user = json_data.get('users', {}).get(self.username)
+        except FileNotFoundError:
+                msg = "No se ha encontrado el archivo"
+                return True, False, msg
 
         # Decrypts all passwords from json and stores them into a list
         all_password_array = []
         for element in user["all_passwords"]:
-            password = self.decrypt_password(element)
+            error, status, data, password = self.decrypt_password(element)
+            if not status or error:
+                return error, status, data
             all_password_array.append(password)
         
         sorted_passwords = sorted(all_password_array, key=lambda x: x.get_app_name())
-        return sorted_passwords
+        return False, True, sorted_passwords
 
-
+    
+    ''' Update '''
     # Recives a Password obj and turns it into data
     def encrypt_password(self, data: list[str]) -> Password:
         encrypted_data = []
@@ -98,10 +111,12 @@ class PasswordManager:
 
 
     # Receives a json password and turns it into an obj
-    def decrypt_password(self, data: dict) -> Password:
-        decrypted_data = []
-        for element in data:
-            decrypted_element = self.data_handler.decrypt(data[element])
-            decrypted_data.append(decrypted_element)
-        password = Password(decrypted_data[0], decrypted_data[1], decrypted_data[2], decrypted_data[3], decrypted_data[4], decrypted_data[5])
-        return password
+    def decrypt_password(self, json_password: dict) -> tuple[Error, Operation, Msg, Password]:
+        object_password = []
+        for element in json_password:
+            error, status, data = self.data_handler.decrypt(json_password[element])
+            if error:
+                return error, status, data, None
+            object_password.append(data)
+        password = Password(object_password[0], object_password[1], object_password[2], object_password[3], object_password[4], object_password[5])
+        return False, True, None, password

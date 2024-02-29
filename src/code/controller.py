@@ -31,12 +31,14 @@ class Controller:
         confirm, password = self.password_manager.get_password(id)
         return confirm, password
 
-    def get_all_passwords(self) -> list[list[str]]:
-        passwords_list = self.password_manager.get_all_passwords()
-        data = []
-        for password in passwords_list:
-            data.append(password.get_all())
-        return data
+    def get_all_passwords(self) -> tuple[Error, Operation, list[list[str]] | Msg]:
+        error, status, data = self.password_manager.get_all_passwords()
+        if not status or error:
+            return error, status, data
+        all_passwords = []
+        for password in data:
+            all_passwords.append(password.get_all())
+        return False, True, all_passwords
 
     def add_password(self, data: list[str]):
         self.password_manager.add_password(data)
