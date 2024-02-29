@@ -62,7 +62,7 @@ class RegisterWidget(ctk.CTkFrame):
             if error:
                 print("Error a la hora de realizar el registro: " + data)
             elif not status:
-                print(data)
+                self.error_label.configure(text="El usuario ya existe")
             else:
                 self.parent_app.welcome_screen()
 
@@ -74,31 +74,31 @@ class RegisterWidget(ctk.CTkFrame):
         rep_password = len(self.rep_password_entry.get()) > 0
 
         if not user:
-            # self.user_label.configure(text="Introduce ..."
             self.user_entry.configure(border_color="darkred")
 
         if not email:
-            # self.user_label.configure(text="Introduce ..."
             self.email_entry.configure(border_color="darkred")
 
         if not password:
-            # self.user_label.configure(text="Introduce ..."
             self.password_entry.configure(border_color="darkred")
 
         if not rep_password:
-            # self.user_label.configure(text="Introduce ..."
             self.rep_password_entry.configure(border_color="darkred")
 
         if not self.password_entry.get() == self.rep_password_entry.get():
-            # self.user_label.configure(text="Contraseñas no coinciden")
+            self.error_label.configure(text="Las contraseñas no coinciden")
             self.password_entry.configure(border_color="darkred")
             self.rep_password_entry.configure(border_color="darkred")
             return False
+        
+        elif not (user and email and password and rep_password):
+            self.error_label.configure(text="Verifica los campos marcados")
+
         return user and email and password and rep_password
 
 
     def reset_ui(self):
-        # self.user_label.configure(text=None)
+        self.error_label.configure(text=None)
         self.user_entry.configure(border_color="gray50")
         self.email_entry.configure(border_color="gray50")
         self.password_entry.configure(border_color="gray50")
