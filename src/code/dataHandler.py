@@ -1,4 +1,4 @@
-import keyring
+import keyring, json
 from cryptography.fernet import Fernet
 
 Error = bool
@@ -6,8 +6,9 @@ Operation = bool
 Msg = str | None
 
 class DataHandler:
-    def __init__(self, token: str):
+    def __init__(self, token: str, file: str):
         self.key = token
+        self.file = file
 
 
     # Setter
@@ -85,3 +86,29 @@ class DataHandler:
             print(e.__traceback__)
             msg = "Error al obtener llave"
             return True, False, msg
+
+
+    '''
+    Loads data from a json
+    '''
+    def json_load(self) -> tuple[Error, Operation, Msg]:
+        try:
+            with open(self.file, "r", encoding="utf-8") as json_file:
+                json_data = json.load(json_file)
+        except FileNotFoundError:
+                msg = "No se ha encontrado el archivo"
+                return True, False, msg
+        return False, True, json_data
+
+
+    '''
+    Stores data in a json
+    '''
+    def json_dump(self, json_data: str) -> tuple[Error, Operation, Msg]:
+        try:
+            with open(self.file, "w", encoding="utf-8") as json_file:
+                json.dump(json_data, json_file, indent=4)
+        except FileNotFoundError:
+                msg = "No se ha encontrado el archivo"
+                return True, False, msg
+        return False, True, None
