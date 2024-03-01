@@ -1,4 +1,4 @@
-import uuid, json
+import uuid
 
 from code.dataHandler import DataHandler
 from code.password import Password
@@ -8,8 +8,7 @@ Error = bool
 Msg = str | None
 
 class PasswordManager:
-    def __init__(self, storage_file: str, data_handler: DataHandler, username: str):
-        self.file = storage_file
+    def __init__(self, data_handler: DataHandler, username: str):
         self.data_handler = data_handler
         self.username = username
 
@@ -21,32 +20,23 @@ class PasswordManager:
         if not status or error:
                 return error, status, data
 
-        try:
-            with open(self.file, "r", encoding="utf-8") as json_file:
-                json_data = json.load(json_file)
-        except FileNotFoundError:
-                msg = "No se ha encontrado el archivo"
-                return True, False, msg
-        
-        json_data['users'][self.username]["all_passwords"].append(password.__dict__)
+        error, status, json_data = self.data_handler.json_load()
+        if not status or error:
+                return error, status, data
 
-        try:
-            with open(self.file, "w", encoding="utf-8") as json_file:
-                json.dump(json_data, json_file, indent=4)
-        except FileNotFoundError:
-                msg = "No se ha encontrado el archivo"
-                return True, False, msg
+        json_data['users'][self.username]["all_passwords"].append(password.__dict__)
+        error, status, json_data = self.data_handler.json_dump(json_data)
+        if not status or error:
+                return error, status, data
         return False, True, None
 
 
     def update_password(self, password_data: list[str]) -> tuple[Error, Operation, Msg]:
-        try:
-            with open(self.file, "r", encoding="utf-8") as json_file:
-                json_data = json.load(json_file)
-                user = json_data.get('users', {}).get(self.username)
-        except FileNotFoundError:
-                msg = "No se ha encontrado el archivo"
-                return True, False, msg
+        error, status, json_data = self.data_handler.json_load()
+        if not status or error:
+                return error, status, data
+        user = json_data.get('users', {}).get(self.username)
+        
         # Looks for the correct password and updates it
         for i, element in enumerate(user["all_passwords"]):
             error, status, data = self.data_handler.decrypt(element["unique_id"])
@@ -59,23 +49,17 @@ class PasswordManager:
                 user["all_passwords"][i] = password.__dict__
                 break
 
-        try:
-            with open(self.file, "w", encoding="utf-8") as json_file:
-                json.dump(json_data, json_file, indent=4)
-        except FileNotFoundError:
-                msg = "No se ha encontrado el archivo"
-                return True, False, msg
+        error, status, json_data = self.data_handler.json_dump(json_data)
+        if not status or error:
+                return error, status, data
         return False, True, None
 
 
     def delete_password(self, id: str) -> tuple[Error, Operation, Msg]:
-        try:
-            with open(self.file, "r", encoding="utf-8") as json_file:
-                json_data = json.load(json_file)
-                user = json_data.get('users', {}).get(self.username)
-        except FileNotFoundError:
-                msg = "No se ha encontrado el archivo"
-                return True, False, msg
+        error, status, json_data = self.data_handler.json_load()
+        if not status or error:
+                return error, status, data
+        user = json_data.get('users', {}).get(self.username)
     
         for element in user["all_passwords"]:
             error, status, data = self.data_handler.decrypt(element["unique_id"])
@@ -85,12 +69,9 @@ class PasswordManager:
                 user["all_passwords"].remove(element)
                 break
 
-        try:
-            with open(self.file, "w", encoding="utf-8") as json_file:
-                json.dump(json_data, json_file, indent=4)
-        except FileNotFoundError:
-                msg = "No se ha encontrado el archivo"
-                return True, False, msg
+        error, status, json_data = self.data_handler.json_dump(json_data)
+        if not status or error:
+                return error, status, data
         return False, True, None
 
     '''
@@ -112,13 +93,10 @@ class PasswordManager:
     '''
 
     def get_all_passwords(self) -> tuple[Error, Operation, list[Password] | Msg]:
-        try:
-            with open(self.file, "r", encoding="utf-8") as json_file:
-                json_data = json.load(json_file)
-                user = json_data.get('users', {}).get(self.username)
-        except FileNotFoundError:
-                msg = "No se ha encontrado el archivo"
-                return True, False, msg
+        error, status, json_data = self.data_handler.json_load()
+        if not status or error:
+                return error, status, data
+        user = json_data.get('users', {}).get(self.username)
 
         # Decrypts all passwords from json and stores them into a list
         all_password_array = []
