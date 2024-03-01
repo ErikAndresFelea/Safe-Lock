@@ -17,7 +17,7 @@ class Controller:
         error, status, data_handler, data = user_login.check_credentials()
 
         # Create an PasswordManager using the dataHandler and the user
-        self.password_manager = PasswordManager(self.file, data_handler, data)
+        self.password_manager = PasswordManager(data_handler, data)
         return error, status, data
 
     def register(self, name: str, email: str, password: str) -> tuple[Error, Operation, Msg]:

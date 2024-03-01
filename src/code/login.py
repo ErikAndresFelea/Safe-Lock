@@ -6,11 +6,11 @@ Error = bool
 Msg = str | None
 
 class Login:
-    def __init__(self, user: str, password: str, storage_file: str) -> None:
-        self.file = storage_file
+    def __init__(self, user: str, password: str, file: str) -> None:
+        self.file = file
         self.user = user
         self.password = password
-        self.data_handler = DataHandler(None)
+        self.data_handler = DataHandler(None, self.file)
 
 
     ''' 
@@ -23,11 +23,10 @@ class Login:
             return error, status, None, data
 
         # Checks if user is registered
-        with open(self.file, "r", encoding="utf-8") as json_file:
-            json_data = json.load(json_file)
-            users = json_data.get('users', {})
-        if self.user not in users.keys():
-            return False, False, None, None
+        error, status, json_data = self.data_handler.json_load()
+        if not status or error:
+                return error, status, data
+        users = json_data.get('users', {})
 
         # Checks if user password is correct
         self.data_handler.set_key(data)
@@ -35,7 +34,6 @@ class Login:
         error, status, data = self.authentiacte_password(encrypted_password, self.password)
         if not status:
             return error, status, None, data
-
         return False, True, self.data_handler, self.user
 
 
