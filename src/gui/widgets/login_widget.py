@@ -70,7 +70,7 @@ class LoginWidget(ctk.CTkFrame):
                 self.user_entry.configure(border_color="darkred")
                 self.password_entry.configure(border_color="darkred")
             else:
-                self.parent_app.home()
+                self.parent_app.view_home()
 
 
     def check_user_input(self) -> bool:
