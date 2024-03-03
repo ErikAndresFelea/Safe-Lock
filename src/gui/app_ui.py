@@ -87,7 +87,7 @@ class App(customtkinter.CTk):
     def view_add_pass(self):
         self.clear_ui()
         self.current_frame = AddPasswordWidget(self.main_frame, self)
-        self.current_frame.grid(row=1, column=0, padx=20, pady=20)
+        self.current_frame.grid(row=0, column=0, padx=20, pady=20)
 
     
     def view_register(self):
@@ -99,23 +99,19 @@ class App(customtkinter.CTk):
     def view_update_pass(self, data: list[str]):
         self.clear_ui()
         self.current_frame = EditPasswordWidget(self.main_frame, self, data)
-        self.current_frame.grid(row=1, column=0, padx=20, pady=20)
+        self.current_frame.grid(row=0, column=0, padx=20, pady=20)
 
 
     def view_pass(self, data: list[str]):
         self.clear_ui()
-        self.current_title = customtkinter.CTkLabel(self.main_frame, text="Ver Contraseña", font=customtkinter.CTkFont(size=20, weight="bold"))
-        self.current_title.grid(row=0, column=0, padx=20, pady=20)
         self.current_frame = ViewPasswordWidget(self.main_frame, self, data)
-        self.current_frame.grid(row=1, column=0, padx=20, pady=20)
+        self.current_frame.grid(row=0, column=0, padx=20, pady=20)
 
 
     def view_forgot_pass(self):
         self.clear_ui()
-        self.current_title = customtkinter.CTkLabel(self.main_frame, text="Ver Contraseña", font=customtkinter.CTkFont(size=20, weight="bold"))
-        self.current_title.grid(row=0, column=0, padx=20, pady=20)
         self.current_frame = ViewPasswordWidget(self.main_frame, self)
-        self.current_frame.grid(row=1, column=0, padx=20, pady=20)
+        self.current_frame.grid(row=0, column=0, padx=20, pady=20)
 
 
     ''' Create update delete mehthods below '''
