@@ -9,35 +9,36 @@ class PasswordWidget(customtkinter.CTkFrame):
         self.grid_rowconfigure((0, 1), weight=1)
 
         # Widget split into 2 frames. Left and Right
-        self.main_frame = customtkinter.CTkFrame(self)
-        self.main_frame.grid(row=0, column=0)
-        self.main_frame.grid_columnconfigure((0, 1), weight=1)
+        main_frame = customtkinter.CTkFrame(self)
+        main_frame.grid(row=0, column=0, padx=20, pady=20)
+        main_frame.grid_columnconfigure((0, 1), weight=1)
 
         # Left frame. 1 column and 2 rows
-        self.left_frame = customtkinter.CTkFrame(self.main_frame, corner_radius=0)
-        self.left_frame.grid(row=0, column=0, padx=0, pady=0, sticky="nsew")
-        self.left_frame.grid_rowconfigure((0, 1), weight=1)
-        self.left_frame.grid_columnconfigure((0, 1, 2), weight=1)
+        left_frame = customtkinter.CTkFrame(main_frame, corner_radius=0)
+        left_frame.grid(row=0, column=0, padx=20, pady=20, sticky="nsew")
+        left_frame.grid_rowconfigure((0, 1), weight=1)
+        left_frame.grid_columnconfigure((0, 1, 2), weight=1)
 
-        self.name_label = customtkinter.CTkLabel(self.left_frame, text="Nombre: " + data[1])
-        self.name_label.grid(row=0, column=0, padx=20, pady=(5, 2.5), sticky="w")
+        name_label = customtkinter.CTkLabel(left_frame, text="Nombre: " + data[1])
+        name_label.grid(row=0, column=0, padx=20, pady=20, sticky="w")
 
-        self.password_label = customtkinter.CTkLabel(self.left_frame, text="Contraseña: " + data[2])
-        self.password_label.grid(row=1, column=0, padx=20, pady=(2.5, 5), sticky="w")
+        password_label = customtkinter.CTkLabel(left_frame, text="Contraseña: " + data[2])
+        password_label.grid(row=1, column=0, padx=20, pady=20, sticky="w")
 
         # Right frame. 3 columns and 1 row
-        self.right_frame = customtkinter.CTkFrame(self.main_frame, corner_radius=0)
-        self.right_frame.grid(row=0, column=1, padx=0, pady=0, sticky="nsew")
-        self.right_frame.grid_columnconfigure((0, 1, 2), weight=1)
+        right_frame = customtkinter.CTkFrame(main_frame, corner_radius=0)
+        right_frame.grid(row=0, column=1, padx=20, pady=20, sticky="nsew")
+        right_frame.grid_rowconfigure(0, weight=1)
+        right_frame.grid_columnconfigure((0, 1, 2), weight=1)
 
-        self.view_button = customtkinter.CTkButton(self.right_frame, text="View", command=self.view_pass, width=50)
-        self.view_button.grid(row=0, column=1, padx=(20, 0), pady=20, sticky="nsew")
+        view_button = customtkinter.CTkButton(right_frame, text="View", command=self.view_pass, width=50)
+        view_button.grid(row=0, column=1, padx=20, pady=20, sticky="ew")
 
-        self.edit_button = customtkinter.CTkButton(self.right_frame, text="Edit", command=self.view_update_pass, width=50)
-        self.edit_button.grid(row=0, column=2, padx=5, pady=20, sticky="nsew")
+        edit_button = customtkinter.CTkButton(right_frame, text="Edit", command=self.view_update_pass, width=50)
+        edit_button.grid(row=0, column=2, padx=20, pady=20, sticky="ew")
 
-        self.delete_button = customtkinter.CTkButton(self.right_frame, text="Delete", command=self.delete_pass, width=50)
-        self.delete_button.grid(row=0, column=3, padx=(0, 20), pady=20, sticky="nsew")
+        delete_button = customtkinter.CTkButton(right_frame, text="Delete", command=self.delete_pass, width=50)
+        delete_button.grid(row=0, column=3, padx=20, pady=20, sticky="ew")
 
     def view_pass(self):
         self.parent_app.view_pass(self.password_data)

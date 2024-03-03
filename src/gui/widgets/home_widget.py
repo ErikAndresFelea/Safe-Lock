@@ -14,7 +14,7 @@ class HomeWidget(ctk.CTkFrame):
         self.error_label.grid(row=1, column=0, padx=20, pady=20)
 
         all_passwords = self.get_passwords()
-        main_frame = ctk.CTkScrollableFrame(self, width=400)
+        main_frame = ctk.CTkScrollableFrame(self, width=600)
         main_frame.grid(row=2, column=0, padx=20, pady=20)
 
         for i in range(len(all_passwords)):
