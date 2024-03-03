@@ -37,10 +37,6 @@ class Register:
         if error:
             return True, status, data
         
-        error, status, data_email = data_handler.encrypt(self.email)
-        if error:
-            return True, status, data
-
         # Load existing data or create a new one
         error, status, json_data = data_handler.json_load()
         if not status or error:
@@ -49,7 +45,7 @@ class Register:
         # Add the new user to the data
         new_user = {
             'app_password': data_password,
-            'email': data_email,
+            'email': self.email,
             'all_passwords': []
             }
         json_data['users'][self.user_name] = new_user

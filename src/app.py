@@ -61,8 +61,8 @@ if __name__ == "__main__":
     · view password
     · edit password
     · add password
+    · forgot password
 - Add profile UI
-- Add forgot password UI (still need to implement email feature)
 - Add favorite password section
 - Add import export data
 - ** Maybe work on clod backup **

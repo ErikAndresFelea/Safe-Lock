@@ -4,6 +4,7 @@ from gui.widgets.home_widget import HomeWidget
 from gui.widgets.edit_pass_widget import EditPasswordWidget
 from gui.widgets.view_pass_widget import ViewPasswordWidget
 from gui.widgets.add_pass_widget import AddPasswordWidget
+from gui.widgets.forgot_pass_widget import ForgotPassword
 from gui.widgets.register_widget import RegisterWidget
 from code.controller import Controller
 
@@ -66,7 +67,7 @@ class App(customtkinter.CTk):
 
     def view_forgot_pass(self):
         self.clear_ui()
-        self.current_frame = ViewPasswordWidget(self.main_frame, self)
+        self.current_frame = ForgotPassword(self.main_frame, self)
         self.current_frame.grid(row=0, column=0, padx=20, pady=20)
 
     
@@ -105,13 +106,7 @@ class App(customtkinter.CTk):
 
 
     def forgot_pass(self, email: str) -> bool:
-        confirm = self.controller.forgot_password(email)
-        if confirm is False:
-            ''' Show ui error '''
-            pass
-        else:
-            ''' Show ui feedback and proceed to login '''
-            self.view_login()
+        return self.controller.forgot_password(email)
     
 
     def login(self, name: str, password: str) -> tuple[Error, Operation, Msg]:

@@ -1,5 +1,6 @@
 from code.login import Login
 from code.register import Register
+from code.recoverPassword import RecoverPassword
 from code.passwordManager import PasswordManager
 
 Operation = bool
@@ -24,8 +25,9 @@ class Controller:
         new_user = Register(name, email, password, self.file)
         return new_user.create_account()
     
-    def forgot_password(self, email: str) -> bool:
-        pass
+    def forgot_password(self, email: str) -> tuple[Error, Operation, Msg | list[str]]:
+        forgot_pass = RecoverPassword(email, self.file)
+        return forgot_pass.recover_password()
     
     ''' Not used yet
     def get_password(self, id: str) -> tuple[bool, list[str] | None]:
