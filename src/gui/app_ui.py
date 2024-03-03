@@ -126,8 +126,7 @@ class App(customtkinter.CTk):
 
     ''' Create update delete mehthods below '''
     def update_pass(self, data: list[str]) -> tuple[Error, Operation, Msg]:
-        error, status, data = self.controller.update_password(data)
-        self.home()
+        return self.controller.update_password(data)
 
 
     def delete_pass(self, id: str):

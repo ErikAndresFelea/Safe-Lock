@@ -20,17 +20,17 @@ class AddPasswordWidget(ctk.CTkFrame):
         self.error_label = ctk.CTkLabel(form_frame, text=None, text_color="red", font=ctk.CTkFont(size=10))
         self.error_label.grid(row=0, column=1, padx=20, pady=20)
 
-        name_label = ctk.CTkLabel(form_frame, text="Nombre")
+        name_label = ctk.CTkLabel(form_frame, text="Nombre *")
         name_label.grid(row=1, column=0, padx=20, pady=(15, 5), sticky="w")
         self.name_entry = ctk.CTkEntry(form_frame, placeholder_text="Nombre", width=250)
         self.name_entry.grid(row=1, column=1, padx=20, pady=(15, 5))
 
-        password_label = ctk.CTkLabel(form_frame, text="Contraseña")
+        password_label = ctk.CTkLabel(form_frame, text="Contraseña *")
         password_label.grid(row=2, column=0, padx=20, pady=5, sticky="w")
         self.password_entry = ctk.CTkEntry(form_frame, placeholder_text="******", show="*", width=250)
         self.password_entry.grid(row=2, column=1, padx=20, pady=5)
 
-        rep_password_label = ctk.CTkLabel(form_frame, text="Confirmar contraseña")
+        rep_password_label = ctk.CTkLabel(form_frame, text="Confirmar contraseña *")
         rep_password_label.grid(row=3, column=0, padx=20, pady=5, sticky="w")
         self.rep_password_entry = ctk.CTkEntry(form_frame, placeholder_text="******", show="*", width=250)
         self.rep_password_entry.grid(row=3, column=1, padx=20, pady=5)
@@ -51,14 +51,14 @@ class AddPasswordWidget(ctk.CTkFrame):
         self.url_entry.grid(row=6, column=1, padx=20, pady=5)
 
         # Bottom frame. 2 columns and 1 row
-        bottom_frame = ctk.CTkFrame(self)
-        bottom_frame.grid(row=1, column=0, padx=0, pady=0, sticky="nsew")
-        bottom_frame.grid_columnconfigure((0, 1), weight=1)
+        button_frame = ctk.CTkFrame(self)
+        button_frame.grid(row=1, column=0, padx=0, pady=0, sticky="nsew")
+        button_frame.grid_columnconfigure((0, 1), weight=1)
 
-        add_button = ctk.CTkButton(bottom_frame, text="Añadir", command=self.add_pass, width=75)
+        add_button = ctk.CTkButton(button_frame, text="Añadir", command=self.add_pass, width=75)
         add_button.grid(row=0, column=0, padx=5, pady=(5, 15), sticky="e")
 
-        cancel_button = ctk.CTkButton(bottom_frame, text="Cancelar", command=app.home, width=75)
+        cancel_button = ctk.CTkButton(button_frame, text="Cancelar", command=app.home, width=75)
         cancel_button.grid(row=0, column=1, padx=5, pady=(5, 15), sticky="w")
 
     def add_pass(self):
@@ -76,17 +76,11 @@ class AddPasswordWidget(ctk.CTkFrame):
 
     def check_user_input(self) -> bool:
         name = len(self.name_entry.get()) > 0
-        email = len(self.email_entry.get()) > 0
         password = len(self.password_entry.get()) > 0
         rep_password = len(self.rep_password_entry.get()) > 0
-        app_id =  len(self.app_id_entry.get()) > 0
-        url =  len(self.url_entry.get()) > 0
 
         if not name:
             self.name_entry.configure(border_color="darkred")
-
-        if not email:
-            self.email_entry.configure(border_color="darkred")
 
         if not password:
             self.password_entry.configure(border_color="darkred")
@@ -94,22 +88,16 @@ class AddPasswordWidget(ctk.CTkFrame):
         if not rep_password:
             self.rep_password_entry.configure(border_color="darkred")
 
-        if not app_id:
-            self.app_id_entry.configure(border_color="darkred")
-
-        if not url:
-            self.url_entry.configure(border_color="darkred")
-
         if not self.password_entry.get() == self.rep_password_entry.get():
             self.error_label.configure(text="Las contraseñas no coinciden")
             self.password_entry.configure(border_color="darkred")
             self.rep_password_entry.configure(border_color="darkred")
             return False
         
-        elif not (name and email and password and rep_password and app_id and url):
+        elif not (name and password and rep_password):
             self.error_label.configure(text="Verifica los campos marcados")
 
-        return name and email and password and rep_password and app_id and url
+        return name and password and rep_password
     
 
     def reset_ui(self):
@@ -117,7 +105,4 @@ class AddPasswordWidget(ctk.CTkFrame):
         self.name_entry.configure(border_color="gray50")
         self.password_entry.configure(border_color="gray50")
         self.rep_password_entry.configure(border_color="gray50")
-        self.email_entry.configure(border_color="gray50")
-        self.app_id_entry.configure(border_color="gray50")
-        self.url_entry.configure(border_color="gray50")
         

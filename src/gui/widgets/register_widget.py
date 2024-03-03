@@ -20,22 +20,22 @@ class RegisterWidget(ctk.CTkFrame):
         self.error_label = ctk.CTkLabel(form_frame, text=None, text_color="red", font=ctk.CTkFont(size=10))
         self.error_label.grid(row=0, column=1, padx=20, pady=20)
 
-        user_label = ctk.CTkLabel(form_frame, text="Usuario")
+        user_label = ctk.CTkLabel(form_frame, text="Usuario *")
         user_label.grid(row=1, column=0, padx=20, pady=20, sticky="w")
-        self.user_entry = ctk.CTkEntry(form_frame, placeholder_text="Nombre de usuario *", width=250)
+        self.user_entry = ctk.CTkEntry(form_frame, placeholder_text="Nombre de usuario", width=250)
         self.user_entry.grid(row=1, column=1, padx=20, pady=20)
 
-        email_label = ctk.CTkLabel(form_frame, text="Email")
+        email_label = ctk.CTkLabel(form_frame, text="Email *")
         email_label.grid(row=2, column=0, padx=20, pady=20, sticky="w")
-        self.email_entry = ctk.CTkEntry(form_frame, placeholder_text="ejemplo@gmail.com *", width=250)
+        self.email_entry = ctk.CTkEntry(form_frame, placeholder_text="ejemplo@gmail.com", width=250)
         self.email_entry.grid(row=2, column=1, padx=20, pady=20)
 
-        password_label = ctk.CTkLabel(form_frame, text="Contraseña")
+        password_label = ctk.CTkLabel(form_frame, text="Contraseña *")
         password_label.grid(row=3, column=0, padx=20, pady=20, sticky="w")
         self.password_entry = ctk.CTkEntry(form_frame, placeholder_text="******", show="*", width=250)
         self.password_entry.grid(row=3, column=1, padx=20, pady=20)
 
-        rep_password_label = ctk.CTkLabel(form_frame, text="Repetir contraseña")
+        rep_password_label = ctk.CTkLabel(form_frame, text="Repetir contraseña *")
         rep_password_label.grid(row=4, column=0, padx=20, pady=20, sticky="w")
         self.rep_password_entry = ctk.CTkEntry(form_frame, placeholder_text="******", show="*", width=250)
         self.rep_password_entry.grid(row=4, column=1, padx=20, pady=20)
