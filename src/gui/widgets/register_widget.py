@@ -40,7 +40,6 @@ class RegisterWidget(ctk.CTkFrame):
         self.rep_password_entry = ctk.CTkEntry(form_frame, placeholder_text="******", show="*", width=250)
         self.rep_password_entry.grid(row=4, column=1, padx=20, pady=20)
 
-
         # Bottom frame. 2 columns and 1 row
         button_frame = ctk.CTkFrame(self)
         button_frame.grid(row=2, column=0, padx=20, pady=20, sticky="nsew")
