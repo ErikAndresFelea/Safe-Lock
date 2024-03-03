@@ -48,6 +48,8 @@ class Controller:
     def update_password(self, data: list[str]) -> tuple[Error, Operation, Msg]:
         return self.password_manager.update_password(data)
 
-    def delete_password(self, id: list[str]) -> tuple[Error, Operation, Msg]:
-        return self.password_manager.delete_password(id)
+    def delete_password(self, id: list[str]):
+        self.password_manager.delete_password(id)
+        # do stuff
+        pass
     
