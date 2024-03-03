@@ -1,6 +1,6 @@
 import customtkinter
 from gui.widgets.login_widget import LoginWidget
-from gui.widgets.password_widget import PasswordWidget
+from gui.widgets.home_widget import HomeWidget
 from gui.widgets.edit_pass_widget import EditPasswordWidget
 from gui.widgets.view_pass_widget import ViewPasswordWidget
 from gui.widgets.add_pass_widget import AddPasswordWidget
@@ -40,24 +40,10 @@ class App(customtkinter.CTk):
 
 
     ''' UI related mehotds below '''
-    ''' Turn this into a widget for a better handling '''
     def view_home(self):
         self.clear_ui()
-        error, status, all_passwords = self.controller.get_all_passwords()
-        if not status or error:
-            # When turned this into a widget, give UI feedback
-            pass
-        
-        ''' Work with label to change it latter '''
-        self.current_title = customtkinter.CTkLabel(self.main_frame, text="Contraseñas", font=customtkinter.CTkFont(size=20, weight="bold"))
-        self.current_title.grid(row=0, column=0, padx=20, pady=20)
-
-        for i in range(len(all_passwords)):
-            self.current_frame = PasswordWidget(self.main_frame, self, all_passwords[i])
-            self.current_frame.grid(row=(i + 1), column=0, padx=20, pady=20)
-
-        self.add_button = customtkinter.CTkButton(self.main_frame, text="Añadir", command=self.view_add_pass, width=75)
-        self.add_button.grid(row=len(all_passwords) + 1, column=0, padx=20, pady=20)
+        self.current_frame = HomeWidget(self.main_frame, self)
+        self.current_frame.grid(row=0, column=0, padx=20, pady=20)
 
 
     def view_add_pass(self):
@@ -97,8 +83,8 @@ class App(customtkinter.CTk):
 
 
     ''' Backend comunitacion methods below '''
-    def get_passwords():
-        pass
+    def get_passwords(self) -> tuple[Error, Operation, Msg | list[list[str]]]:
+        return self.controller.get_all_passwords()
 
 
     def add_pass(self, data: list[str]) -> tuple[Error, Operation, Msg]:

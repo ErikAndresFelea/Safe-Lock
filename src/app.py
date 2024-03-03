@@ -52,7 +52,6 @@ if __name__ == "__main__":
 - Set minimum length for a password
 - Send email to new user with personal data in case they forget
 - Feedback on UI:
-    · home
     · view password
 - Login checkbox should remember last user data (or automatic login)
 - Update UI on: 
