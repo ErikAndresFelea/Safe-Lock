@@ -27,12 +27,11 @@ class App(customtkinter.CTk):
         self.grid_columnconfigure(0, weight=1)
 
         # Main widget (root)
-        self.title = customtkinter.CTkLabel(self, text="Safe Lock", font=customtkinter.CTkFont(size=80, weight="bold", family="Verdana"), text_color="deepskyblue")
-        self.title.grid(row=0, column=0, padx=20, pady=20)
+        main_title = customtkinter.CTkLabel(self, text="Safe Lock", font=customtkinter.CTkFont(size=80, weight="bold", family="Verdana"), text_color="deepskyblue")
+        main_title.grid(row=0, column=0, padx=20, pady=20)
 
         self.main_frame = customtkinter.CTkFrame(self)
         self.main_frame.grid(row=1, column=0, padx=20, pady=20)
-
         self.main_frame.grid_rowconfigure(0, weight=1)
         self.main_frame.grid_columnconfigure(0, weight=1)
 
@@ -41,6 +40,12 @@ class App(customtkinter.CTk):
 
 
     ''' UI related mehotds below '''
+    def welcome_screen(self):
+        self.clear_ui()
+        self.current_frame = LoginWidget(self.main_frame, self)
+        self.current_frame.grid(row=0, column=0, padx=20, pady=20)
+
+        
     def login(self, name: str, password: str) -> tuple[Error, Operation, Msg]:
         return self.controller.login(name, password)
 
@@ -57,12 +62,6 @@ class App(customtkinter.CTk):
         else:
             ''' Show ui feedback and proceed to login '''
             self.welcome_screen()
-
-
-    def welcome_screen(self):
-        self.clear_ui()
-        self.current_frame = LoginWidget(self.main_frame, self)
-        self.current_frame.grid(row=0, column=0, padx=20, pady=20)
     
 
     ''' Turn this into a widget for a better handling '''
@@ -87,23 +86,18 @@ class App(customtkinter.CTk):
 
     def view_add_pass(self):
         self.clear_ui()
-        self.current_title = customtkinter.CTkLabel(self.main_frame, text="Añadir Contraseña", font=customtkinter.CTkFont(size=20, weight="bold"))
-        self.current_title.grid(row=0, column=0, padx=20, pady=20)
-
         self.current_frame = AddPasswordWidget(self.main_frame, self)
         self.current_frame.grid(row=1, column=0, padx=20, pady=20)
 
     
     def view_register(self):
         self.clear_ui()
-        self.current_frame = RegisterWidget(self.main_frame, app=self)
+        self.current_frame = RegisterWidget(self.main_frame, self)
         self.current_frame.grid(row=0, column=0, padx=20, pady=20)
 
 
     def view_update_pass(self, data: list[str]):
         self.clear_ui()
-        self.current_title = customtkinter.CTkLabel(self.main_frame, text="Editar contraseña", font=customtkinter.CTkFont(size=20, weight="bold"))
-        self.current_title.grid(row=0, column=0, padx=20, pady=20)
         self.current_frame = EditPasswordWidget(self.main_frame, self, data)
         self.current_frame.grid(row=1, column=0, padx=20, pady=20)
 
