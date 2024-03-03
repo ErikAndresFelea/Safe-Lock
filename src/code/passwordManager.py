@@ -22,19 +22,19 @@ class PasswordManager:
 
         error, status, json_data = self.data_handler.json_load()
         if not status or error:
-                return error, status, data
+                return error, status, json_data
 
         json_data['users'][self.username]["all_passwords"].append(password.__dict__)
         error, status, json_data = self.data_handler.json_dump(json_data)
         if not status or error:
-                return error, status, data
+                return error, status, json_data
         return False, True, None
 
 
     def update_password(self, password_data: list[str]) -> tuple[Error, Operation, Msg]:
         error, status, json_data = self.data_handler.json_load()
         if not status or error:
-                return error, status, data
+                return error, status, json_data
         user = json_data.get('users', {}).get(self.username)
         
         # Looks for the correct password and updates it
@@ -51,14 +51,14 @@ class PasswordManager:
 
         error, status, json_data = self.data_handler.json_dump(json_data)
         if not status or error:
-                return error, status, data
+                return error, status, json_data
         return False, True, None
 
 
     def delete_password(self, id: str) -> tuple[Error, Operation, Msg]:
         error, status, json_data = self.data_handler.json_load()
         if not status or error:
-                return error, status, data
+                return error, status, json_data
         user = json_data.get('users', {}).get(self.username)
     
         for element in user["all_passwords"]:
@@ -71,7 +71,7 @@ class PasswordManager:
 
         error, status, json_data = self.data_handler.json_dump(json_data)
         if not status or error:
-                return error, status, data
+                return error, status, json_data
         return False, True, None
 
     '''
@@ -95,7 +95,7 @@ class PasswordManager:
     def get_all_passwords(self) -> tuple[Error, Operation, list[Password] | Msg]:
         error, status, json_data = self.data_handler.json_load()
         if not status or error:
-                return error, status, data
+                return error, status, json_data
         user = json_data.get('users', {}).get(self.username)
 
         # Decrypts all passwords from json and stores them into a list
