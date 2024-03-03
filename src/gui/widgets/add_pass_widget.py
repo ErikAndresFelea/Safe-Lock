@@ -27,12 +27,12 @@ class AddPasswordWidget(ctk.CTkFrame):
 
         password_label = ctk.CTkLabel(form_frame, text="Contraseña")
         password_label.grid(row=2, column=0, padx=20, pady=5, sticky="w")
-        self.password_entry = ctk.CTkEntry(form_frame, placeholder_text="******", width=250)
+        self.password_entry = ctk.CTkEntry(form_frame, placeholder_text="******", show="*", width=250)
         self.password_entry.grid(row=2, column=1, padx=20, pady=5)
 
         rep_password_label = ctk.CTkLabel(form_frame, text="Confirmar contraseña")
         rep_password_label.grid(row=3, column=0, padx=20, pady=5, sticky="w")
-        self.rep_password_entry = ctk.CTkEntry(form_frame, placeholder_text="******", width=250)
+        self.rep_password_entry = ctk.CTkEntry(form_frame, placeholder_text="******", show="*", width=250)
         self.rep_password_entry.grid(row=3, column=1, padx=20, pady=5)
 
         email_label = ctk.CTkLabel(form_frame, text="Email")
