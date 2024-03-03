@@ -69,5 +69,6 @@ if __name__ == "__main__":
 - ** Maybe work on multiple languages **
 - Work on the installer of the app
 - Update app to use UUI4 instead of plain user name
+- Improve safety on recover password
  
 '''

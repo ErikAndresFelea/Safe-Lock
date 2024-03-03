@@ -46,6 +46,8 @@ class ForgotPassword(ctk.CTkFrame):
                 self.error_label.configure(text="Email invalido")
                 self.email_entry.configure(border_color="darkred")
             else:
+                ''' Send passwords from recovered users to their emails '''
+                ''' find a way to retrive them safely '''
                 self.parent_app.view_login()
 
     
