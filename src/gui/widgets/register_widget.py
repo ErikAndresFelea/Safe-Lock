@@ -45,7 +45,7 @@ class RegisterWidget(ctk.CTkFrame):
         button_frame.grid(row=2, column=0, padx=20, pady=20, sticky="nsew")
         button_frame.grid_columnconfigure((0, 1), weight=1)
 
-        cancel_button = ctk.CTkButton(button_frame, text="Cancelar", command=app.welcome_screen, width=75)
+        cancel_button = ctk.CTkButton(button_frame, text="Cancelar", command=app.view_login, width=75)
         cancel_button.grid(row=0, column=0, padx=20, pady=20, sticky="e")
 
         register_button = ctk.CTkButton(button_frame, text="Registrarse", command=self.register, width=75)
@@ -64,7 +64,7 @@ class RegisterWidget(ctk.CTkFrame):
                 self.user_entry.configure(border_color="darkred")
                 self.error_label.configure(text="El usuario ya existe")
             else:
-                self.parent_app.welcome_screen()
+                self.parent_app.view_login()
 
 
     def check_user_input(self) -> bool:
