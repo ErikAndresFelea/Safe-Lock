@@ -27,9 +27,11 @@ class Controller:
     def forgot_password(self, email: str) -> bool:
         pass
     
+    ''' Not used yet
     def get_password(self, id: str) -> tuple[bool, list[str] | None]:
         confirm, password = self.password_manager.get_password(id)
         return confirm, password
+    '''
 
     def get_all_passwords(self) -> tuple[Error, Operation, list[list[str]] | Msg]:
         error, status, data = self.password_manager.get_all_passwords()
@@ -40,12 +42,12 @@ class Controller:
             all_passwords.append(password.get_all())
         return False, True, all_passwords
 
-    def add_password(self, data: list[str]):
-        self.password_manager.add_password(data)
+    def add_password(self, data: list[str]) -> tuple[Error, Operation, Msg]:
+        return self.password_manager.add_password(data)
 
-    def update_password(self, data: list[str]):
-        self.password_manager.update_password(data)
+    def update_password(self, data: list[str]) -> tuple[Error, Operation, Msg]:
+        return self.password_manager.update_password(data)
 
-    def delete_password(self, id: list[str]):
-        self.password_manager.delete_password(id)
+    def delete_password(self, id: list[str]) -> tuple[Error, Operation, Msg]:
+        return self.password_manager.delete_password(id)
     
