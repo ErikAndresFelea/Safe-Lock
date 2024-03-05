@@ -109,12 +109,18 @@ class App(customtkinter.CTk):
         return self.controller.forgot_password(email)
     
 
-    def login(self, name: str, password: str) -> tuple[Error, Operation, Msg]:
-        return self.controller.login(name, password)
+    def login(self, name: str, password: str, remember: bool) -> tuple[Error, Operation, Msg]:
+        return self.controller.login(name, password, remember)
 
 
     def register(self, name: str, email: str, password: str) -> tuple[Error, Operation, Msg]:
         return self.controller.register(name, email, password)
+    
+
+    '''
+    def last_user(self) -> tuple[Error, Operation, Msg]:
+        return self.controller.get_last_user()
+    '''
 
 
     ''' Other methods '''

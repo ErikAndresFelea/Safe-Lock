@@ -13,12 +13,16 @@ class Controller:
         self.folder = folder
         self.file = file
 
-    def login(self, name: str, password: str) -> tuple[Error, Operation, Msg]:
-        user_login = Login(name, password, self.file)
+    def login(self, name: str, password: str, remember: bool) -> tuple[Error, Operation, Msg]:
+        user_login = Login(name, password, self.file, remember)
         error, status, data_handler, data = user_login.check_credentials()
 
         # Create an PasswordManager using the dataHandler and the user
         self.password_manager = PasswordManager(data_handler, data)
+        '''
+        self.password_manager.set_dataHandler(data_handler)
+        self.password_manager.set_username(name)
+        '''
         return error, status, data
 
     def register(self, name: str, email: str, password: str) -> tuple[Error, Operation, Msg]:
@@ -28,6 +32,15 @@ class Controller:
     def forgot_password(self, email: str) -> tuple[Error, Operation, Msg | list[str]]:
         forgot_pass = RecoverPassword(email, self.file)
         return forgot_pass.recover_password()
+    
+    '''
+    def get_last_user(self) -> tuple[Error, Operation, Msg]:
+        self.password_manager = PasswordManager(None, None)
+        error, status, data = self.password_manager.get_last_user()
+        if not status or error:
+            return error, status, data
+        return False, True, data
+    '''
     
     ''' Not used yet
     def get_password(self, id: str) -> tuple[bool, list[str] | None]:

@@ -35,6 +35,7 @@ class App:
         # Create store file if needed
         if not os.path.isfile(store_file):
             initial_data = {
+                "remember": "",
                 "users": {}
             }
             with open(store_file, "w", encoding="utf-8") as json_file:
@@ -53,7 +54,8 @@ if __name__ == "__main__":
 - Send email to new user with personal data in case they forget
 - Feedback on UI:
     · view password
-- Login checkbox should remember last user data (or automatic login)
+- (Done) Login checkbox should remember last user data (or automatic login)
+    · When launching app, get las user and password
 - Update UI on: 
     · login
     · register

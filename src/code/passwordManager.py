@@ -8,9 +8,19 @@ Error = bool
 Msg = str | None
 
 class PasswordManager:
-    def __init__(self, data_handler: DataHandler, username: str):
+    def __init__(self, data_handler: DataHandler | None, username: str | None):
         self.data_handler = data_handler
         self.username = username
+
+
+    '''
+    def set_dataHandler(self, data_handler: DataHandler):
+         self.data_handler = data_handler
+
+
+    def set_username(self, username: str):
+         self.username = username
+    '''
 
 
     def add_password(self, password_data: list[str]) -> tuple[Error, Operation, Msg]:
@@ -109,6 +119,15 @@ class PasswordManager:
         sorted_passwords = sorted(all_password_array, key=lambda x: x.get_app_name())
         return False, True, sorted_passwords
 
+
+    '''
+    def get_last_user(self) -> tuple[Error, Operation, Msg]:
+        error, status, data = self.data_handler.json_load().get("remember")
+        if not status or error:
+            return error, status, data
+        return False, False if data == "" else True, data
+    '''
+    
     
     # Recives a Password obj and turns it into data
     def encrypt_password(self, data: list[str]) -> tuple[Error, Operation, Msg, Password]:
