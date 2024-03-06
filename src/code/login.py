@@ -26,7 +26,7 @@ class Login:
         # Checks if user is registered
         error, status, json_data = self.data_handler.json_load()
         if not status or error:
-                return error, status, data
+                return error, status, json_data
         users = json_data.get('users', {})
 
         # Checks if user password is correct

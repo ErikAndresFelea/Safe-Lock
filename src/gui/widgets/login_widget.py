@@ -52,7 +52,7 @@ class LoginWidget(ctk.CTkFrame):
         register_button = ctk.CTkButton(self, text="Registrarse", text_color="deepskyblue", command=app.view_register, border_width=0, corner_radius=0, bg_color="transparent", fg_color="transparent", hover=False)
         register_button.grid(row=4, column=0, padx=20, pady=20)
 
-        # self.remember_last_login()
+        self.remember_last_login()
         
 
     ''' 
@@ -66,7 +66,6 @@ class LoginWidget(ctk.CTkFrame):
         if user_input_validation:
             remeber = True if self.remember_checkbox.get() == 1 else False
             error, status, data = self.parent_app.login(self.user_entry.get(), self.password_entry.get(), remeber)
-            print(remeber)
             if error:
                 print("Error a la hora de realizar el login: " + data)
             elif not status:
@@ -102,7 +101,6 @@ class LoginWidget(ctk.CTkFrame):
         self.password_entry.configure(border_color="gray50")
         
 
-    '''
     def remember_last_login(self):
         error, status, data = self.parent_app.last_user()
         if error:
@@ -110,6 +108,7 @@ class LoginWidget(ctk.CTkFrame):
         elif not status:
             print("No hay ultimo login")
         else:
-            self.user_entry.configure(textvariable=data)
-    '''
+            self.user_entry.insert(0, data[0])
+            self.password_entry.insert(0, data[1])
+            self.remember_checkbox.select()
             

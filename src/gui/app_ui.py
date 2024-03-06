@@ -117,10 +117,8 @@ class App(customtkinter.CTk):
         return self.controller.register(name, email, password)
     
 
-    '''
-    def last_user(self) -> tuple[Error, Operation, Msg]:
+    def last_user(self) -> tuple[Error, Operation, Msg | tuple[str, str]]:
         return self.controller.get_last_user()
-    '''
 
 
     ''' Other methods '''

@@ -56,6 +56,14 @@ class DataHandler:
             print(e.__traceback__)
             msg = "Error al comprobar disponibilidad del usuario"
             return True, False, msg
+        
+
+    def get_last_user(self) -> tuple[Error, Operation, Msg]:
+        error, status, json_data = self.json_load()
+        if not status or error:
+            return error, status, json_data
+        remember = json_data.get("remember")
+        return False, False if remember == "" else True, remember
 
 
     '''

@@ -54,8 +54,6 @@ if __name__ == "__main__":
 - Send email to new user with personal data in case they forget
 - Feedback on UI:
     · view password
-- (Done) Login checkbox should remember last user data (or automatic login)
-    · When launching app, get las user and password
 - Update UI on: 
     · login
     · register
@@ -72,5 +70,6 @@ if __name__ == "__main__":
 - Work on the installer of the app
 - Update app to use UUI4 instead of plain user name
 - Improve safety on recover password
+- Improve safety on remember user
  
 '''

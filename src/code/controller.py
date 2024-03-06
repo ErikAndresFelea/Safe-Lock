@@ -2,6 +2,7 @@ from code.login import Login
 from code.register import Register
 from code.recoverPassword import RecoverPassword
 from code.passwordManager import PasswordManager
+from code.dataHandler import DataHandler
 
 Operation = bool
 Error = bool
@@ -33,14 +34,25 @@ class Controller:
         forgot_pass = RecoverPassword(email, self.file)
         return forgot_pass.recover_password()
     
-    '''
-    def get_last_user(self) -> tuple[Error, Operation, Msg]:
-        self.password_manager = PasswordManager(None, None)
-        error, status, data = self.password_manager.get_last_user()
+    def get_last_user(self) -> tuple[Error, Operation, Msg | tuple[str, str]]:
+        data_handler = DataHandler(None, self.file)
+        error, status, user = data_handler.get_last_user()
         if not status or error:
-            return error, status, data
-        return False, True, data
-    '''
+            return error, status, user
+
+        error, status, data = data_handler.obtain_key(user)
+        if not status:
+            return error, status, None, data
+        data_handler.set_key(data)
+
+        error, status, json_data = data_handler.json_load()
+        if not status or error:
+                return error, status, json_data
+        encyoted_password = json_data.get('users').get(user).get('app_password')
+        error, status, password = data_handler.decrypt(encyoted_password)
+        if error or not status:
+            return error, status, password
+        return False, True, [user, password]
     
     ''' Not used yet
     def get_password(self, id: str) -> tuple[bool, list[str] | None]:
