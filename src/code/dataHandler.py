@@ -58,12 +58,27 @@ class DataHandler:
             return True, False, msg
         
 
-    def get_last_user(self) -> tuple[Error, Operation, Msg]:
+    def get_last_user(self) -> tuple[Error, Operation, Msg | tuple[str, str]]:
         error, status, json_data = self.json_load()
         if not status or error:
             return error, status, json_data
+        
         remember = json_data.get("remember")
-        return False, False if remember == "" else True, remember
+        is_user = False if remember == "" else True
+        if not is_user:
+            return False, False, None
+
+        error, status, key = self.obtain_key(remember)
+        if not status:
+            return error, status, None, key
+
+        self.set_key(key)
+        encyoted_password = json_data.get('users').get(remember).get('app_password')
+        error, status, password = self.decrypt(encyoted_password)
+        if error or not status:
+            return error, status, password
+        
+        return False, True, [remember, password]
 
 
     '''
