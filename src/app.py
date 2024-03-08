@@ -2,6 +2,7 @@ import os
 import json
 from gui.app_ui import App as Frontend
 from code.controller import Controller as Backend
+from code.dataHandler import DataHandler
 
 
 class App:
@@ -15,9 +16,10 @@ class App:
         self.app_exe_check(app_folder_path, storage_file_path)
 
         # Instance of the ui and controller
-        controller = Backend(app_folder_path, storage_file_path)
-        front = Frontend(controller)
-        front.mainloop()
+        controller = Backend(DataHandler(None, storage_file_path))
+        view = Frontend(controller)
+        view.mainloop()
+
 
     # Returns a string with the path to the app dir and storage file
     def get_path(self) -> tuple[str, str]:
@@ -25,6 +27,7 @@ class App:
         app_dir = os.path.join(base_dir, 'safe-lock')
         storage_file = os.path.join(app_dir, 'data.json')
         return app_dir, storage_file
+
 
     # Checks if all the files are ok in the app folder
     def app_exe_check(self, app_folder: str, store_file: str):

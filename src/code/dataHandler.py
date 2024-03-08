@@ -6,7 +6,7 @@ Operation = bool
 Msg = str | None
 
 class DataHandler:
-    def __init__(self, token: str, file: str):
+    def __init__(self, token: str | None, file: str):
         self.key = token
         self.file = file
 
@@ -58,6 +58,9 @@ class DataHandler:
             return True, False, msg
         
 
+    '''
+    Retrieves las user credentials if they enabled the option
+    '''
     def get_last_user(self) -> tuple[Error, Operation, Msg | tuple[str, str]]:
         error, status, json_data = self.json_load()
         if not status or error:
@@ -77,14 +80,30 @@ class DataHandler:
         error, status, password = self.decrypt(encyoted_password)
         if error or not status:
             return error, status, password
-        
         return False, True, [remember, password]
+    
+
+    '''
+    Retrieves users asociated to an email
+    '''
+    def recover_password(self, email: str) -> tuple[Error, Operation, Msg | list[str]]:
+        error, status, json_data = self.json_load()
+        if not status or error:
+                return error, status, json_data
+        data = json_data.get('users', {})
+        users = data.keys()
+        
+        accounts = []
+        for user in users:
+            json_email = data.get(user).get('email')
+            if email == json_email:
+                 accounts.append(user)
+        return False, True, accounts 
 
 
     '''
     Stores password in WCM or returns an error
     '''
-    # Save user key
     def save_key(self, name: str, key: str) -> tuple[Error, Operation, Msg]:
         try:
             service_name = "safe_lock"

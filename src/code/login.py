@@ -6,11 +6,10 @@ Error = bool
 Msg = str | None
 
 class Login:
-    def __init__(self, user: str, password: str, file: str, remember: bool) -> None:
-        self.file = file
+    def __init__(self, user: str, password: str, data_hanlder: DataHandler, remember: bool) -> None:
         self.user = user
         self.password = password
-        self.data_handler = DataHandler(None, self.file)
+        self.data_handler = data_hanlder
         self.remember = remember
 
 
@@ -39,7 +38,7 @@ class Login:
         json_data['remember'] = (self.user if self.remember else "")
         error, status, json_data = self.data_handler.json_dump(json_data)
         if not status or error:
-                return error, status, data
+                return error, status, json_data
         return False, True, self.data_handler, self.user
 
 

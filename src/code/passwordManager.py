@@ -8,7 +8,7 @@ Error = bool
 Msg = str | None
 
 class PasswordManager:
-    def __init__(self, data_handler: DataHandler, username: str | None):
+    def __init__(self, data_handler: DataHandler, username: str):
         self.data_handler = data_handler
         self.username = username
 

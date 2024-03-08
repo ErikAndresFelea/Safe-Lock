@@ -1,6 +1,5 @@
 from code.login import Login
 from code.register import Register
-from code.recoverPassword import RecoverPassword
 from code.passwordManager import PasswordManager
 from code.dataHandler import DataHandler
 
@@ -9,13 +8,12 @@ Error = bool
 Msg = str | None
 
 class Controller:
-    def __init__(self, folder: str, file: str):
+    def __init__(self, data_handler: DataHandler):
         super().__init__()
-        self.folder = folder
-        self.file = file
+        self.data_handler = data_handler
 
     def login(self, name: str, password: str, remember: bool) -> tuple[Error, Operation, Msg]:
-        user_login = Login(name, password, self.file, remember)
+        user_login = Login(name, password, self.data_handler, remember)
         error, status, data_handler, data = user_login.check_credentials()
 
         # Create an PasswordManager using the dataHandler and the user
@@ -31,12 +29,13 @@ class Controller:
         return new_user.create_account()
     
     def forgot_password(self, email: str) -> tuple[Error, Operation, Msg | list[str]]:
-        forgot_pass = RecoverPassword(email, self.file)
-        return forgot_pass.recover_password()
+        error, status, data = self.data_handler.recover_password(email)
+        if not status or error:
+            return error, status, data
+        return False, True, data
     
     def get_last_user(self) -> tuple[Error, Operation, Msg | tuple[str, str]]:
-        data_handler = DataHandler(None, self.file)
-        error, status, data = data_handler.get_last_user()
+        error, status, data = self.data_handler.get_last_user()
         if not status or error:
             return error, status, data
         return False, True, data
