@@ -25,7 +25,7 @@ class Controller:
         return error, status, data
 
     def register(self, name: str, email: str, password: str) -> tuple[Error, Operation, Msg]:
-        new_user = Register(name, email, password, self.file)
+        new_user = Register(name, email, password, self.data_handler)
         return new_user.create_account()
     
     def forgot_password(self, email: str) -> tuple[Error, Operation, Msg | list[str]]:

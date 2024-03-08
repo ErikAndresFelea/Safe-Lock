@@ -1,4 +1,3 @@
-import json
 from code.dataHandler import DataHandler
 from cryptography.fernet import Fernet
 
@@ -7,12 +6,12 @@ Error = bool
 Msg = str | None
 
 class Register:
-    def __init__(self, name: str, email: str, password: str, file: str):
+    def __init__(self, name: str, email: str, password: str, data_handler: DataHandler):
         super().__init__()
         self.user_name = name
         self.email = email
         self.password = password
-        self.file = file
+        self.data_handler = data_handler
 
 
     ''' 
@@ -22,10 +21,10 @@ class Register:
         # Generate a new key and a data handler instance
         token = Fernet.generate_key()
         key = token.decode('utf-8')
-        data_handler = DataHandler(key, self.file)
+        self.data_handler.set_key(key)
 
         # Check if user already exists
-        error, status, data = data_handler.user_exists(self.user_name)
+        error, status, data = self.data_handler.user_exists(self.user_name)
         if status or error:
             if not error:
                 msg = "El usuario ya existe"
@@ -33,12 +32,12 @@ class Register:
             return error, False, data
         
         # Encrypt the data
-        error, status, data_password = data_handler.encrypt(self.password)
+        error, status, data_password = self.data_handler.encrypt(self.password)
         if error:
             return True, status, data
         
         # Load existing data or create a new one
-        error, status, json_data = data_handler.json_load()
+        error, status, json_data = self.data_handler.json_load()
         if not status or error:
                 return error, status, data
 
@@ -51,11 +50,11 @@ class Register:
         json_data['users'][self.user_name] = new_user
 
         # Save the data into the storage file 
-        error, status, json_data = data_handler.json_dump(json_data)
+        error, status, json_data = self.data_handler.json_dump(json_data)
         if not status or error:
                 return error, status, data
 
-        error, status, data = data_handler.save_key(self.user_name, key)
+        error, status, data = self.data_handler.save_key(self.user_name, key)
         if error:
             return True, status, data
         return False, status, None
