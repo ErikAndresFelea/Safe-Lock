@@ -15,42 +15,46 @@ The interface is divided in 6 rows. Each row contains:
 '''
 class LoginWidget(ctk.CTkFrame):
     def __init__(self, master, app):
-        super().__init__(master)
+        super().__init__(master, fg_color="transparent")
         self.parent_app = app
         self.grid_rowconfigure((0, 1, 2, 3, 4), weight=1)
-        self.grid_columnconfigure(0, weight=1)
 
         title_label = ctk.CTkLabel(self, text="Login", font=ctk.CTkFont(size=40, weight="bold", family="Verdana"))
         title_label.grid(row=0, column=0, padx=20, pady=20)
 
-        login_frame = ctk.CTkFrame(self)
-        login_frame.grid(row=1, column=0, padx=20, pady=20)
-        login_frame.grid_rowconfigure((0, 1, 2), weight=1)
+        login_frame = ctk.CTkFrame(self, fg_color="transparent", width=250)
+        login_frame.grid(row=1, column=0, padx=0, pady=0)
+        login_frame.grid_rowconfigure((0, 1, 2, 3, 4), weight=1)
         
-        self.error_label = ctk.CTkLabel(login_frame, text=None, text_color="red", font=ctk.CTkFont(size=10))
-        self.error_label.grid(row=0, column=0, padx=20, pady=20)
+        self.error_label = ctk.CTkLabel(login_frame, text=None, text_color="red", font=ctk.CTkFont(size=12), anchor="w")
+        self.error_label.grid(row=0, column=0, padx=0, pady=0)
         
-        self.user_entry = ctk.CTkEntry(login_frame, placeholder_text="Usuario *", width=250)
-        self.user_entry.grid(row=1, column=0, padx=20, pady=20)
+        width = login_frame._current_width
+        #user_label = ctk.CTkLabel(login_frame, text="Usuario *", justify="left")
+        #user_label.grid(row=1, column=0, padx=0, pady=0)
+        self.user_entry = ctk.CTkEntry(login_frame, placeholder_text="Usuario *", width=width)
+        self.user_entry.grid(row=2, column=0, padx=5, pady=5)
 
-        self.password_entry = ctk.CTkEntry(login_frame, placeholder_text="Contraseña *", show="*", width=250)
-        self.password_entry.grid(row=2, column=0, padx=20, pady=20)
+        #password_label = ctk.CTkLabel(login_frame, text="Contraseña *")
+        #password_label.grid(row=3, column=0, padx=0, pady=0)
+        self.password_entry = ctk.CTkEntry(login_frame, placeholder_text="Contraseña *", width=width, show="*")
+        self.password_entry.grid(row=4, column=0, padx=5, pady=5)
 
-        check_forgot_frame = ctk.CTkFrame(self)
-        check_forgot_frame.grid(row=2, column=0, padx=20, pady=20)
+        check_forgot_frame = ctk.CTkFrame(self, fg_color="transparent")
+        check_forgot_frame.grid(row=2, column=0, padx=0, pady=0)
         check_forgot_frame.grid_columnconfigure((0, 1), weight=1)
 
         self.remember_checkbox = ctk.CTkCheckBox(check_forgot_frame, text="Recordar", checkbox_width=18, checkbox_height=18, border_width=2)
-        self.remember_checkbox.grid(row=0, column=0, padx=20, pady=20)
+        self.remember_checkbox.grid(row=0, column=0, padx=5, pady=(2.5, 5))
 
         forgot_button = ctk.CTkButton(check_forgot_frame, text="¿Contraseña olvidada?", text_color="deepskyblue", command=app.view_forgot_pass, border_width=0, corner_radius=0, bg_color="transparent", fg_color="transparent", hover=False)
-        forgot_button.grid(row=0, column=1, padx=20, pady=20)
+        forgot_button.grid(row=0, column=1, padx=5, pady=(2.5, 5))
 
         login_button = ctk.CTkButton(self, text="Iniciar sesion", command=self.login, width=75)
-        login_button.grid(row=3, column=0, padx=20, pady=20)
+        login_button.grid(row=3, column=0, padx=5, pady=(30, 5))
         
         register_button = ctk.CTkButton(self, text="Registrarse", text_color="deepskyblue", command=app.view_register, border_width=0, corner_radius=0, bg_color="transparent", fg_color="transparent", hover=False)
-        register_button.grid(row=4, column=0, padx=20, pady=20)
+        register_button.grid(row=4, column=0, padx=0, pady=0)
 
         self.remember_last_login()
         

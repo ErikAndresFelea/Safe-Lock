@@ -58,7 +58,6 @@ if __name__ == "__main__":
 - Feedback on UI:
     · view password
 - Update UI on: 
-    · login
     · register
     · home
     · view password
