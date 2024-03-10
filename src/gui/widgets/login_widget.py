@@ -47,8 +47,8 @@ class LoginWidget(ctk.CTkFrame):
         self.remember_checkbox = ctk.CTkCheckBox(check_forgot_frame, text="Recordar", checkbox_width=18, checkbox_height=18, border_width=2)
         self.remember_checkbox.grid(row=0, column=0, padx=5, pady=(2.5, 5))
 
-        forgot_button = ctk.CTkButton(check_forgot_frame, text="¿Contraseña olvidada?", text_color="deepskyblue", command=app.view_forgot_pass, border_width=0, corner_radius=0, bg_color="transparent", fg_color="transparent", hover=False)
-        forgot_button.grid(row=0, column=1, padx=5, pady=(2.5, 5))
+        forgot_button = ctk.CTkButton(check_forgot_frame, text="¿Contraseña olvidada?", text_color="deepskyblue", command=app.view_forgot_pass, border_width=0, fg_color="transparent", hover=False)
+        forgot_button.grid(row=0, column=1, padx=0, pady=(2.5, 5))
 
         login_button = ctk.CTkButton(self, text="Iniciar sesion", command=self.login, width=75)
         login_button.grid(row=3, column=0, padx=5, pady=(30, 5))
