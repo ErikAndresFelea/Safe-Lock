@@ -1,12 +1,12 @@
 import customtkinter as ctk
 
 ''' 
-The interface is divided in 6 rows. Each row contains:
+The interface is divided in 5 rows. Each row contains:
     · 1st: Title label
-    · 2nd: A frame with three columns:
+    · 2nd: A frame with 5 rows:
         · Label for feedback msg
-        · Username entry
-        · Password entry
+        · Username label & entry
+        · Password label & entry
     · 3th: A frame with two columns: 
         · Remember checkbox
         · Forgot password button
@@ -30,15 +30,15 @@ class LoginWidget(ctk.CTkFrame):
         self.error_label.grid(row=0, column=0, padx=0, pady=0)
         
         width = login_frame._current_width
-        #user_label = ctk.CTkLabel(login_frame, text="Usuario *", justify="left")
-        #user_label.grid(row=1, column=0, padx=0, pady=0)
+        user_label = ctk.CTkLabel(login_frame, text="Usuario *")
+        user_label.grid(row=1, column=0, padx=7, pady=(5, 0), sticky="w")
         self.user_entry = ctk.CTkEntry(login_frame, placeholder_text="Usuario *", width=width)
-        self.user_entry.grid(row=2, column=0, padx=5, pady=5)
+        self.user_entry.grid(row=2, column=0, padx=5, pady=(0, 5))
 
-        #password_label = ctk.CTkLabel(login_frame, text="Contraseña *")
-        #password_label.grid(row=3, column=0, padx=0, pady=0)
+        password_label = ctk.CTkLabel(login_frame, text="Contraseña *")
+        password_label.grid(row=3, column=0, padx=7, pady=(5, 0), sticky="w")
         self.password_entry = ctk.CTkEntry(login_frame, placeholder_text="Contraseña *", width=width, show="*")
-        self.password_entry.grid(row=4, column=0, padx=5, pady=5)
+        self.password_entry.grid(row=4, column=0, padx=5, pady=(0, 5))
 
         check_forgot_frame = ctk.CTkFrame(self, fg_color="transparent")
         check_forgot_frame.grid(row=2, column=0, padx=0, pady=0)
@@ -80,11 +80,12 @@ class LoginWidget(ctk.CTkFrame):
                 self.parent_app.view_home()
 
 
+    ''' User input validation '''
     def check_user_input(self) -> bool:
         user = len(self.user_entry.get()) > 0
-        password = len(self.password_entry.get()) > 0
+        password = len(self.password_entry.get()) > 5
 
-        if (not user and not password):
+        if not (user and password):
             self.error_label.configure(text="Introduce credenciales")
             self.user_entry.configure(border_color="darkred")
             self.password_entry.configure(border_color="darkred")
@@ -99,12 +100,14 @@ class LoginWidget(ctk.CTkFrame):
         return user and password
     
 
+    ''' Sets UI dynamic elements to default '''
     def reset_ui(self):
         self.error_label.configure(text=None)
         self.user_entry.configure(border_color="gray50")
         self.password_entry.configure(border_color="gray50")
         
 
+    ''' Recovers last user credentials if remember was active last login '''
     def remember_last_login(self):
         error, status, data = self.parent_app.last_user()
         if error:

@@ -29,7 +29,7 @@ class App(customtkinter.CTk):
 
         # Main widget (root)
         main_title = customtkinter.CTkLabel(self, text="Safe Lock", font=customtkinter.CTkFont(size=80, weight="bold", family="Verdana"), text_color="deepskyblue")
-        main_title.grid(row=0, column=0, padx=5, pady=5)
+        main_title.grid(row=0, column=0, padx=0, pady=0)
 
         self.main_frame = customtkinter.CTkFrame(self, fg_color="transparent", border_width=2)
         self.main_frame.grid(row=1, column=0, padx=0, pady=0)
