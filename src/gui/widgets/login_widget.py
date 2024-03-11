@@ -27,18 +27,14 @@ class LoginWidget(ctk.CTkFrame):
         login_frame.grid_rowconfigure((0, 1, 2, 3, 4), weight=1)
         
         self.error_label = ctk.CTkLabel(login_frame, text=None, text_color="red", font=ctk.CTkFont(size=12), anchor="w")
-        self.error_label.grid(row=0, column=0, padx=0, pady=0)
+        self.error_label.grid(row=0, column=0, padx=0, pady=0, sticky="w")
         
         width = login_frame._current_width
-        user_label = ctk.CTkLabel(login_frame, text="Usuario *")
-        user_label.grid(row=1, column=0, padx=7, pady=(5, 0), sticky="w")
-        self.user_entry = ctk.CTkEntry(login_frame, placeholder_text="Usuario *", width=width)
-        self.user_entry.grid(row=2, column=0, padx=5, pady=(0, 5))
+        self.user_entry = ctk.CTkEntry(login_frame, placeholder_text="Usuario", width=width)
+        self.user_entry.grid(row=2, column=0, padx=5, pady=5)
 
-        password_label = ctk.CTkLabel(login_frame, text="Contraseña *")
-        password_label.grid(row=3, column=0, padx=7, pady=(5, 0), sticky="w")
-        self.password_entry = ctk.CTkEntry(login_frame, placeholder_text="Contraseña *", width=width, show="*")
-        self.password_entry.grid(row=4, column=0, padx=5, pady=(0, 5))
+        self.password_entry = ctk.CTkEntry(login_frame, placeholder_text="Contraseña", width=width, show="*")
+        self.password_entry.grid(row=4, column=0, padx=5, pady=5)
 
         check_forgot_frame = ctk.CTkFrame(self, fg_color="transparent")
         check_forgot_frame.grid(row=2, column=0, padx=0, pady=0)
@@ -83,10 +79,11 @@ class LoginWidget(ctk.CTkFrame):
     ''' User input validation '''
     def check_user_input(self) -> bool:
         user = len(self.user_entry.get()) > 0
-        password = len(self.password_entry.get()) > 5
+        password = len(self.password_entry.get()) > 0
+        password_length = len(self.password_entry.get()) >= 5
 
-        if not (user and password):
-            self.error_label.configure(text="Introduce credenciales")
+        if (not user and not password):
+            self.error_label.configure(text="Introduce las credenciales")
             self.user_entry.configure(border_color="darkred")
             self.password_entry.configure(border_color="darkred")
 
@@ -94,10 +91,11 @@ class LoginWidget(ctk.CTkFrame):
             self.error_label.configure(text="Introduce usuario")
             self.user_entry.configure(border_color="darkred")
 
-        elif not password:
-            self.error_label.configure(text="Introduce contraseña")
+        elif not password_length:
+            mesage = "Introduce contraseña" if not password else "Contraseña invalida"
+            self.error_label.configure(text=mesage)
             self.password_entry.configure(border_color="darkred")
-        return user and password
+        return user and password and password_length
     
 
     ''' Sets UI dynamic elements to default '''
