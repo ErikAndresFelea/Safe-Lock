@@ -24,17 +24,17 @@ class LoginWidget(ctk.CTkFrame):
 
         login_frame = ctk.CTkFrame(self, fg_color="transparent", width=250)
         login_frame.grid(row=1, column=0, padx=0, pady=0)
-        login_frame.grid_rowconfigure((0, 1, 2, 3, 4), weight=1)
+        login_frame.grid_rowconfigure((0, 1, 2), weight=1)
         
         self.error_label = ctk.CTkLabel(login_frame, text=None, text_color="red", font=ctk.CTkFont(size=12), anchor="w")
-        self.error_label.grid(row=0, column=0, padx=0, pady=0, sticky="w")
+        self.error_label.grid(row=0, column=0, padx=8, pady=0, sticky="w")
         
         width = login_frame._current_width
         self.user_entry = ctk.CTkEntry(login_frame, placeholder_text="Usuario", width=width)
-        self.user_entry.grid(row=2, column=0, padx=5, pady=5)
+        self.user_entry.grid(row=1, column=0, padx=5, pady=5)
 
         self.password_entry = ctk.CTkEntry(login_frame, placeholder_text="Contraseña", width=width, show="*")
-        self.password_entry.grid(row=4, column=0, padx=5, pady=5)
+        self.password_entry.grid(row=2, column=0, padx=5, pady=5)
 
         check_forgot_frame = ctk.CTkFrame(self, fg_color="transparent")
         check_forgot_frame.grid(row=2, column=0, padx=0, pady=0)
@@ -46,7 +46,7 @@ class LoginWidget(ctk.CTkFrame):
         forgot_button = ctk.CTkButton(check_forgot_frame, text="¿Contraseña olvidada?", text_color="deepskyblue", command=app.view_forgot_pass, border_width=0, fg_color="transparent", hover=False)
         forgot_button.grid(row=0, column=1, padx=0, pady=(2.5, 5))
 
-        login_button = ctk.CTkButton(self, text="Iniciar sesion", command=self.login, width=75)
+        login_button = ctk.CTkButton(self, text="Iniciar sesion", border_color="white", border_width=1, command=self.login, width=75)
         login_button.grid(row=3, column=0, padx=5, pady=(30, 5))
         
         register_button = ctk.CTkButton(self, text="Registrarse", text_color="deepskyblue", command=app.view_register, border_width=0, corner_radius=0, bg_color="transparent", fg_color="transparent", hover=False)
@@ -69,7 +69,7 @@ class LoginWidget(ctk.CTkFrame):
             if error:
                 print("Error a la hora de realizar el login: " + data)
             elif not status:
-                self.error_label.configure(text="Credenciales invalidas")
+                self.error_label.configure(text="Usuario o contraseña incorrectas")
                 self.user_entry.configure(border_color="darkred")
                 self.password_entry.configure(border_color="darkred")
             else:
@@ -82,7 +82,7 @@ class LoginWidget(ctk.CTkFrame):
         password = len(self.password_entry.get()) > 0
         password_length = len(self.password_entry.get()) >= 5
 
-        if (not user and not password):
+        if not user and not password:
             self.error_label.configure(text="Introduce las credenciales")
             self.user_entry.configure(border_color="darkred")
             self.password_entry.configure(border_color="darkred")
@@ -92,8 +92,8 @@ class LoginWidget(ctk.CTkFrame):
             self.user_entry.configure(border_color="darkred")
 
         elif not password_length:
-            mesage = "Introduce contraseña" if not password else "Contraseña invalida"
-            self.error_label.configure(text=mesage)
+            message = "Introduce contraseña" if not password else "Contraseña invalida"
+            self.error_label.configure(text=message)
             self.password_entry.configure(border_color="darkred")
         return user and password and password_length
     
