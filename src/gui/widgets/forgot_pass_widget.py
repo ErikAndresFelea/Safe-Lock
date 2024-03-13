@@ -18,7 +18,7 @@ class ForgotPassword(ctk.CTkFrame):
         # Widget split into 2 frames. Top and Bottom
         self.grid_rowconfigure((0, 1, 2), weight=1)
 
-        title_label = ctk.CTkLabel(self, text="Login", font=ctk.CTkFont(size=40, weight="bold", family="Verdana"))
+        title_label = ctk.CTkLabel(self, text="Recuperar\nCuenta", font=ctk.CTkFont(size=40, weight="bold", family="Verdana"))
         title_label.grid(row=0, column=0, padx=20, pady=20)
 
         # Top frame. 1 column and 2 rows
