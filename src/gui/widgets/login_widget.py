@@ -3,10 +3,10 @@ import customtkinter as ctk
 ''' 
 The interface is divided in 5 rows. Each row contains:
     · 1st: Title label
-    · 2nd: A frame with 5 rows:
+    · 2nd: A frame with 3 rows:
         · Label for feedback msg
-        · Username label & entry
-        · Password label & entry
+        · Username entry
+        · Password entry
     · 3th: A frame with two columns: 
         · Remember checkbox
         · Forgot password button
@@ -82,6 +82,7 @@ class LoginWidget(ctk.CTkFrame):
         password = len(self.password_entry.get()) > 0
         password_length = len(self.password_entry.get()) >= 5
 
+        # Update UI with msg & color feedback
         if not user and not password:
             self.error_label.configure(text="Introduce las credenciales")
             self.user_entry.configure(border_color="darkred")
@@ -91,6 +92,7 @@ class LoginWidget(ctk.CTkFrame):
             self.error_label.configure(text="Introduce usuario")
             self.user_entry.configure(border_color="darkred")
 
+        # Check if password is correct
         elif not password_length:
             message = "Introduce contraseña" if not password else "Contraseña invalida"
             self.error_label.configure(text=message)

@@ -1,5 +1,18 @@
 import customtkinter as ctk
 
+''' 
+The interface is divided in 3 rows. Each row contains:
+    · 1st: Title label
+    · 2nd: A frame with 5 rows:
+        · Label for feedback msg
+        · Username label & entry
+        · Email label & entry
+        · Password label & entry
+        · Repeat password label & entry
+    · 3th: A frame with two columns: 
+        · Cancel button
+        · Register button
+'''
 class RegisterWidget(ctk.CTkFrame):    
     def __init__(self, master, app):
         super().__init__(master, fg_color="transparent")
@@ -23,7 +36,7 @@ class RegisterWidget(ctk.CTkFrame):
         user_label = ctk.CTkLabel(form_frame, text="Usuario:")
         user_label.grid(row=1, column=0, padx=5, pady=5, sticky="w")
         self.user_entry = ctk.CTkEntry(form_frame, placeholder_text="Nombre de usuario", width=250)
-        self.user_entry.grid(row=1, column=1, padx=5, pady=5)
+        self.user_entry.grid(row=1, column=1, padx=5, pady=(0, 5))
 
         email_label = ctk.CTkLabel(form_frame, text="Email:")
         email_label.grid(row=2, column=0, padx=5, pady=5, sticky="w")
@@ -52,6 +65,11 @@ class RegisterWidget(ctk.CTkFrame):
         register_button.grid(row=0, column=1, padx=5, pady=(30, 5), sticky="w")
 
 
+    ''' 
+    UPDATE
+    Checks if user input is correct, if it is proceeds
+    to register a new user in the backend and send an email
+    '''
     def register(self):
         self.reset_ui()
         user_input_validation = self.check_user_input()
@@ -67,6 +85,7 @@ class RegisterWidget(ctk.CTkFrame):
                 self.parent_app.view_login()
 
 
+    ''' User input validation '''
     def check_user_input(self) -> bool:
         user = len(self.user_entry.get()) > 0
         email = len(self.email_entry.get()) > 0
@@ -75,6 +94,7 @@ class RegisterWidget(ctk.CTkFrame):
         password_length = len(self.password_entry.get()) >= 5
         both_password = (self.password_entry.get() == self.rep_password_entry.get())
 
+        # Update UI with msg & color feedback
         if not (user and email and password and rep_password):
             self.error_label.configure(text="Verifica los campos marcados")
             if not user:
@@ -86,6 +106,7 @@ class RegisterWidget(ctk.CTkFrame):
             if not rep_password:
                 self.rep_password_entry.configure(border_color="darkred")
 
+        # Check if password is correct
         elif not both_password or not password_length:
             message = "Min. 5 caracteres" if not password_length else "Las contraseñas no coinciden"
             self.error_label.configure(text=message)
@@ -94,6 +115,7 @@ class RegisterWidget(ctk.CTkFrame):
         return user and email and password and rep_password and password_length and both_password
 
 
+    ''' Sets UI dynamic elements to default '''
     def reset_ui(self):
         self.error_label.configure(text=None)
         self.user_entry.configure(border_color="gray50")
