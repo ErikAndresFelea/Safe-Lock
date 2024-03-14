@@ -7,7 +7,7 @@ The interface is divided in 5 rows. Each row contains:
         · Label for feedback msg
         · Username entry
         · Password entry
-    · 3th: A frame with two columns: 
+    · 3rd: A frame with two columns: 
         · Remember checkbox
         · Forgot password button
     · 5th: Login button

@@ -9,7 +9,7 @@ The interface is divided in 3 rows. Each row contains:
         · Email label & entry
         · Password label & entry
         · Repeat password label & entry
-    · 3th: A frame with two columns: 
+    · 3rd: A frame with two columns: 
         · Cancel button
         · Register button
 '''
@@ -34,7 +34,7 @@ class RegisterWidget(ctk.CTkFrame):
         self.error_label.grid(row=0, column=1, padx=8, pady=0, sticky="w")
 
         user_label = ctk.CTkLabel(form_frame, text="Usuario:")
-        user_label.grid(row=1, column=0, padx=5, pady=5, sticky="w")
+        user_label.grid(row=1, column=0, padx=5, pady=(0, 5), sticky="w")
         self.user_entry = ctk.CTkEntry(form_frame, placeholder_text="Nombre de usuario", width=250)
         self.user_entry.grid(row=1, column=1, padx=5, pady=(0, 5))
 
