@@ -59,9 +59,6 @@ if __name__ == "__main__":
 - Update UI on: 
     · home
     · view password
-    · edit password
-    · add password
-    · forgot password
 - Add profile UI
 - Add favorite password section
 - Add import export data
