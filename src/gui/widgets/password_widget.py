@@ -1,4 +1,5 @@
 import customtkinter as ctk
+import tkinter as tk
 
 ''' 
 The interface is divided in 2 columns. Each column contains:
@@ -15,6 +16,7 @@ class PasswordWidget(ctk.CTkFrame):
         super().__init__(master, fg_color="transparent")
         self.parent_app = app
         self.password_data = data
+        self.dat = data
 
         self.grid_columnconfigure((0, 1), weight=1)
 
@@ -29,13 +31,11 @@ class PasswordWidget(ctk.CTkFrame):
         left_frame.grid_rowconfigure((0, 1), weight=1)
         left_frame.grid_columnconfigure((0, 1, 2), weight=1)
         
-        name_label = ctk.CTkLabel(left_frame, text=data[1])
-        name_label.grid(row=0, column=0, padx=5, pady=5, sticky="w")
-        name_label.bind("<Button-1>", self.onClick)
+        name_button = ctk.CTkButton(left_frame, text=data[1], text_color="deepskyblue", command=self.copyUserClipboard, border_width=0, fg_color="transparent", hover=False)
+        name_button.grid(row=0, column=0, padx=5, pady=5, sticky="w")
 
-        password_label = ctk.CTkLabel(left_frame, text=data[2])
-        password_label.grid(row=1, column=0, padx=5, pady=5, sticky="w")
-        password_label.bind("<Button-1>", self.onClick)
+        password_button = ctk.CTkButton(left_frame, text=data[2], text_color="deepskyblue", command=self.copyPasswordClipboard, border_width=0, fg_color="transparent", hover=False)
+        password_button.grid(row=1, column=0, padx=5, pady=5, sticky="w")
 
         # Right frame. 3 columns and 1 row
         right_frame = ctk.CTkFrame(main_frame, fg_color="transparent")
@@ -68,7 +68,25 @@ class PasswordWidget(ctk.CTkFrame):
         self.parent_app.delete_pass(self.password_data[0])
     
 
-    def onClick(self, event):
-        data = event.widget.cget("text")
-        self.clipboard_clear()
-        self.clipboard_append(data)
+    '''
+    Copy data into clipboard after click.
+    Made 2 since sending data thorught command parameter
+    messes up the UI
+    '''
+    def copyPasswordClipboard(self):
+        root = tk.Tk()
+        root.withdraw()
+        root.clipboard_clear()
+        root.clipboard_append(self.dat[2])
+        root.update()
+        root.destroy()
+
+
+    def copyUserClipboard(self):
+        root = tk.Tk()
+        root.withdraw()
+        root.clipboard_clear()
+        root.clipboard_append(self.dat[1])
+        root.update()
+        root.destroy()
+        
