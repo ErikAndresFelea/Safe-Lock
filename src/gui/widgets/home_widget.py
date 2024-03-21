@@ -21,7 +21,7 @@ class HomeWidget(ctk.CTkFrame):
         title_label.grid(row=0, column=0, padx=20, pady=20)
         
         self.error_label = ctk.CTkLabel(self, text=None, text_color="red", font=ctk.CTkFont(size=12))
-        self.error_label.grid(row=0, column=1, padx=8, pady=0, sticky="w")
+        self.error_label.grid(row=1, column=1, padx=8, pady=0, sticky="w")
 
         all_passwords = self.get_passwords()
         main_frame = ctk.CTkScrollableFrame(self, width=600, fg_color="transparent")
