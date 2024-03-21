@@ -2,6 +2,15 @@ import customtkinter as ctk
 import tkinter as tk
 from gui.widgets.password_widget import PasswordWidget
 
+''' 
+The interface is divided in 4 rows. Each row contains:
+    · 1st: Title label
+    · 2nd: Label for feedback msg 
+    · 3rd: A frame with multiple rows:
+        · Each row a stored password
+        · Next to each password an empy frame as a separatin line
+    · 4th: Add password button
+'''
 class HomeWidget(ctk.CTkFrame):
     def __init__(self, master, app):
         super().__init__(master, fg_color="transparent")
@@ -30,8 +39,8 @@ class HomeWidget(ctk.CTkFrame):
                 frame = ctk.CTkFrame(main_frame, height=4, border_width=1, fg_color="gray50")
                 frame.grid(row=i+1, column=0, padx=5, pady=5, sticky="we")
 
-        add_button = ctk.CTkButton(self, text="Añadir", command=app.view_add_pass, width=75)
-        add_button.grid(row=3, column=0, padx=20, pady=20)
+        add_button = ctk.CTkButton(self, text="Añadir", border_color="white", border_width=1, command=app.view_add_pass, width=75)
+        add_button.grid(row=3, column=0, padx=5, pady=(30, 5))
 
     
     ''' Review this method '''

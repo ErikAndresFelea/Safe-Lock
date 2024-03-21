@@ -10,14 +10,14 @@ The interface is divided in 5 rows. Each row contains:
     · 3rd: A frame with two columns: 
         · Remember checkbox
         · Forgot password button
-    · 5th: Login button
-    · 6th Register button
+    · 4th: Login button
+    · 5th Register button
 '''
 class LoginWidget(ctk.CTkFrame):
     def __init__(self, master, app):
         super().__init__(master, fg_color="transparent")
         self.parent_app = app
-        self.grid_rowconfigure((0, 1, 2, 3, 4), weight=1)
+        self.grid_rowconfigure((0, 1, 2, 3), weight=1)
 
         title_label = ctk.CTkLabel(self, text="Login", font=ctk.CTkFont(size=40, weight="bold", family="Verdana"))
         title_label.grid(row=0, column=0, padx=20, pady=20)

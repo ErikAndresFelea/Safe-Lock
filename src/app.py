@@ -57,16 +57,16 @@ if __name__ == "__main__":
 - Feedback on UI:
     · view password
 - Update UI on: 
-    · home
     · view password
 - Add profile UI
 - Add favorite password section
 - Add import export data
-- ** Maybe work on clod backup **
-- ** Maybe work on multiple languages **
+- (REMOVED) ** Maybe work on clod backup **
+- (REMOVED) ** Maybe work on multiple languages **
 - Work on the installer of the app
 - Update app to use UUI4 instead of plain user name
 - Improve safety on recover password
 - Improve safety on remember user
+- Add program name on password class and update affected interfaces / code
  
 '''

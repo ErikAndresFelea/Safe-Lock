@@ -28,6 +28,7 @@ class PasswordWidget(ctk.CTkFrame):
         name_label.grid(row=0, column=0, padx=5, pady=5, sticky="w")
         name_label.bind("<Button-1>", self.on_click)
 
+        #password_label_text = "*" * len(data[2])
         self.password_label = ctk.CTkLabel(left_frame, text=data[2], cursor="hand2")
         self.password_label.grid(row=1, column=0, padx=5, pady=5, sticky="w")
         self.password_label.bind("<Button-1>", self.on_click)
@@ -38,13 +39,13 @@ class PasswordWidget(ctk.CTkFrame):
         right_frame.grid_rowconfigure(0, weight=1)
         right_frame.grid_columnconfigure((0, 1, 2), weight=1)
 
-        view_button = ctk.CTkButton(right_frame, text="View", command=self.view_pass, width=50)
+        view_button = ctk.CTkButton(right_frame, text="View", border_color="white", border_width=1, command=self.view_pass, width=50)
         view_button.grid(row=0, column=0, padx=5, pady=5, sticky="ew")
 
-        edit_button = ctk.CTkButton(right_frame, text="Edit", command=self.view_update_pass, width=50)
+        edit_button = ctk.CTkButton(right_frame, text="Edit", border_color="white", border_width=1, command=self.view_update_pass, width=50)
         edit_button.grid(row=0, column=1, padx=5, pady=5, sticky="ew")
 
-        delete_button = ctk.CTkButton(right_frame, text="Delete", command=self.delete_pass, width=50)
+        delete_button = ctk.CTkButton(right_frame, text="Delete", fg_color="red", hover_color="darkred", border_color="white", border_width=1, command=self.delete_pass, width=50)
         delete_button.grid(row=0, column=2, padx=5, pady=5, sticky="ew")
 
 
