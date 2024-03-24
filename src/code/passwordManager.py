@@ -118,7 +118,7 @@ class PasswordManager:
             if not status or error:
                 return error, status, data
             encrypted_data.append(data)
-        password = Password(encrypted_data[0], encrypted_data[1], encrypted_data[2], encrypted_data[3], encrypted_data[4], encrypted_data[5])
+        password = Password(encrypted_data[0], encrypted_data[1], encrypted_data[2], encrypted_data[3], encrypted_data[4], encrypted_data[5], encrypted_data[6])
         return False, True, None, password
 
 
@@ -130,5 +130,5 @@ class PasswordManager:
             if error:
                 return error, status, data, None
             object_password.append(data)
-        password = Password(object_password[0], object_password[1], object_password[2], object_password[3], object_password[4], object_password[5])
+        password = Password(object_password[0], object_password[1], object_password[2], object_password[3], object_password[4], object_password[5], object_password[6])
         return False, True, None, password
