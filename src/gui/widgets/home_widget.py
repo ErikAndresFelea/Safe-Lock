@@ -26,7 +26,8 @@ class HomeWidget(ctk.CTkFrame):
         all_passwords = self.get_passwords()
         main_frame = ctk.CTkScrollableFrame(self, width=600, fg_color="transparent")
         main_frame.grid(row=2, column=0, padx=0, pady=0)
-        main_frame.grid_rowconfigure(tuple(range(len(all_passwords))), weight=1)
+        rows = tuple(range(len(all_passwords))) if len(all_passwords) > 0 else 0
+        main_frame.grid_rowconfigure(rows, weight=1)
         main_frame.grid_columnconfigure(0, weight=1)
 
         counter = 0
