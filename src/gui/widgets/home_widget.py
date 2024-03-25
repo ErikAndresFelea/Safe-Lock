@@ -18,18 +18,26 @@ class HomeWidget(ctk.CTkFrame):
         self.grid_rowconfigure((0, 1, 2, 3), weight=1)
 
         title_label = ctk.CTkLabel(self, text="Contraseñas", font=ctk.CTkFont(size=40, weight="bold", family="Verdana"))
-        title_label.grid(row=0, column=0, padx=20, pady=20)
+        title_label.grid(row=0, column=0, padx=5, pady=10)
         
-        self.error_label = ctk.CTkLabel(self, text=None, text_color="red", font=ctk.CTkFont(size=12))
-        self.error_label.grid(row=1, column=1, padx=8, pady=0, sticky="w")
+        # self.error_label = ctk.CTkLabel(self, text=None, text_color="red", font=ctk.CTkFont(size=12))
+        # self.error_label.grid(row=1, column=1, padx=8, pady=0, sticky="w")
 
         all_passwords = self.get_passwords()
-        main_frame = ctk.CTkScrollableFrame(self, width=600, fg_color="transparent")
+        main_frame = ctk.CTkScrollableFrame(self, height=400, width=800, fg_color="transparent")
         main_frame.grid(row=2, column=0, padx=0, pady=0)
         rows = tuple(range(len(all_passwords))) if len(all_passwords) > 0 else 0
         main_frame.grid_rowconfigure(rows, weight=1)
         main_frame.grid_columnconfigure(0, weight=1)
 
+        for i in range(len(all_passwords)):
+            password_frame = PasswordWidget(main_frame, app, all_passwords[i])
+            password_frame.grid(row=i, column=0, padx=5, pady=5, sticky="ew")
+
+        add_button = ctk.CTkButton(self, text="Añadir", border_color="white", border_width=1, command=app.view_add_pass, width=75)
+        add_button.grid(row=3, column=0, padx=5, pady=(10, 5))
+        
+        '''
         counter = 0
         for i in range(0, len(all_passwords) * 2, 2):
             password_frame = PasswordWidget(main_frame, app, all_passwords[counter])
@@ -42,6 +50,7 @@ class HomeWidget(ctk.CTkFrame):
 
         add_button = ctk.CTkButton(self, text="Añadir", border_color="white", border_width=1, command=app.view_add_pass, width=75)
         add_button.grid(row=3, column=0, padx=5, pady=(30, 5))
+        '''
 
     
     ''' Review this method '''

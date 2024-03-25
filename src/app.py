@@ -61,8 +61,6 @@ if __name__ == "__main__":
 - Add profile UI
 - Add favorite password section
 - Add import export data
-- (REMOVED) ** Maybe work on clod backup **
-- (REMOVED) ** Maybe work on multiple languages **
 - Work on the installer of the app
 - Update app to use UUI4 instead of plain user name
 - Improve safety on recover password
