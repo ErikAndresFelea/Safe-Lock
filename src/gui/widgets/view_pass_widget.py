@@ -1,5 +1,15 @@
 import customtkinter as ctk
 
+''' 
+The interface is divided in 3 rows. Each row contains:
+    · 1st: Title label
+    · 2nd: Divided into three rows and four columns:
+        · App name label & name info & email label & email info
+        · App username label & username info & app id label & app id info
+        · App password label & password info & url label & url info
+    · 3rd: : A frame with on row & columns: 
+        · Confirm button
+'''
 class ViewPasswordWidget(ctk.CTkFrame):
     def __init__(self, master, app, data: list[str]):
         super().__init__(master, fg_color="transparent")
