@@ -2,8 +2,9 @@ import customtkinter as ctk
 
 ''' 
 The interface is divided in 2 columns. Each column contains:
-    · 1st: Divided into two rows:
+    · 1st: Divided into three rows:
         · App name
+        · App username
         · App password
     · 2nd: A frame with 3 columns:
         · View program info
@@ -21,16 +22,19 @@ class PasswordWidget(ctk.CTkFrame):
         # Left frame. 1 column and 2 rows
         left_frame = ctk.CTkFrame(self, fg_color="gray17")
         left_frame.grid(row=0, column=0, padx=(3, 10), pady=3, sticky="nsw")
-        left_frame.grid_rowconfigure((0, 1), weight=1)
+        left_frame.grid_rowconfigure((0, 1, 2), weight=1)
         left_frame.grid_columnconfigure(0, weight=1)
         
-        user_name_label = ctk.CTkLabel(left_frame, text=data[2], cursor="hand2")
-        user_name_label.grid(row=0, column=0, padx=5, pady=5, sticky="w")
+        user_name_label = ctk.CTkLabel(left_frame, text=data[1], font=ctk.CTkFont(size=14, weight="bold", family="Verdana", underline=True))
+        user_name_label.grid(row=0, column=0, padx=5, pady=(5, 0), sticky="w")
+
+        user_name_label = ctk.CTkLabel(left_frame, text=f"Usuario:\t\t{data[2]}", cursor="hand2")
+        user_name_label.grid(row=1, column=0, padx=5, pady=0, sticky="w")
         user_name_label.bind("<Button-1>", self.on_click)
 
         #password_label_text = "*" * len(data[2])
-        self.password_label = ctk.CTkLabel(left_frame, text=data[3], cursor="hand2")
-        self.password_label.grid(row=1, column=0, padx=5, pady=5, sticky="w")
+        self.password_label = ctk.CTkLabel(left_frame, text=f"Contraseña:\t{data[3]}", cursor="hand2")
+        self.password_label.grid(row=2, column=0, padx=5, pady=(0, 5), sticky="w")
         self.password_label.bind("<Button-1>", self.on_click)
 
         # Right frame. 3 columns and 1 row

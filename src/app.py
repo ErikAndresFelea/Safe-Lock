@@ -66,7 +66,6 @@ if __name__ == "__main__":
 - Improve safety on recover password
 - Improve safety on remember user
 - Add program name on password class and update affected interfaces / code
-    · Edit_pass_widget
     · Password_widget
     · View_pass_widget
  
