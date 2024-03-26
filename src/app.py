@@ -54,10 +54,6 @@ if __name__ == "__main__":
 - Check if set_all and get_all methods are useful (Password)
 - get_password from PM Not used after major changes on code, maybe useful later when implementing favorits 
 - Send email to new user with personal data in case they forget
-- Feedback on UI:
-    · view password
-- Update UI on: 
-    · view password
 - Add profile UI
 - Add favorite password section
 - Add import export data
@@ -65,8 +61,5 @@ if __name__ == "__main__":
 - Update app to use UUI4 instead of plain user name
 - Improve safety on recover password
 - Improve safety on remember user
-- Add program name on password class and update affected interfaces / code
-    · Password_widget
-    · View_pass_widget
  
 '''

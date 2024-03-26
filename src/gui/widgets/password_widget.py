@@ -25,8 +25,8 @@ class PasswordWidget(ctk.CTkFrame):
         left_frame.grid_rowconfigure((0, 1, 2), weight=1)
         left_frame.grid_columnconfigure(0, weight=1)
         
-        user_name_label = ctk.CTkLabel(left_frame, text=data[1], font=ctk.CTkFont(size=14, weight="bold", family="Verdana", underline=True))
-        user_name_label.grid(row=0, column=0, padx=5, pady=(5, 0), sticky="w")
+        name_label = ctk.CTkLabel(left_frame, text=data[1], font=ctk.CTkFont(size=14, weight="bold", family="Verdana", underline=True))
+        name_label.grid(row=0, column=0, padx=5, pady=(5, 0), sticky="w")
 
         user_name_label = ctk.CTkLabel(left_frame, text=f"Usuario:\t\t{data[2]}", cursor="hand2")
         user_name_label.grid(row=1, column=0, padx=5, pady=0, sticky="w")
