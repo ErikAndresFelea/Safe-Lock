@@ -1,11 +1,14 @@
 import customtkinter as ctk
 
 ''' 
-The interface is divided in 2 columns. Each column contains:
-    · 1st: Divided into three rows and two columns:
-        · App name
-        · App username label & info
-        · App password label & info
+The interface is divided in 2 rows. Each column contains:
+    · 1st: Divided into two frames:
+        · Top frame:
+            · Name label
+        · Bottom frame divided into two rows and two columns:
+            · App name
+            · App username label & info
+            · App password label & info
     · 2nd: A frame with 3 columns:
         · View program info
         · Access update app info
@@ -19,25 +22,34 @@ class PasswordWidget(ctk.CTkFrame):
         
         self.grid_columnconfigure((0, 1), weight=1)
 
-        # Left frame. 1 column and 2 rows
+        # Left frame. 2 Frames, top and bottom
         left_frame = ctk.CTkFrame(self, fg_color="gray17")
         left_frame.grid(row=0, column=0, padx=(3, 10), pady=3, sticky="nsw")
-        left_frame.grid_rowconfigure((0, 1, 2), weight=1)
-        left_frame.grid_columnconfigure((0, 1), weight=1)
-        
-        name_label = ctk.CTkLabel(left_frame, text=data[1], font=ctk.CTkFont(size=14, weight="bold", family="Verdana", underline=True))
-        name_label.grid(row=0, column=0, padx=5, pady=(5, 0), sticky="w")
+        left_frame.grid_rowconfigure((0, 1), weight=1)
 
-        user_name_label = ctk.CTkLabel(left_frame, text="Usuario:")
-        user_name_label.grid(row=1, column=0, padx=5, pady=0, sticky="w")
-        user_name_label_click = ctk.CTkLabel(left_frame, text=data[2], cursor="hand2")
-        user_name_label_click.grid(row=1, column=1, padx=5, pady=(0, 5), sticky="w")
+        # Top frame for name
+        top_frame = ctk.CTkFrame(left_frame)
+        top_frame.grid(row=0, column=0, padx=5, pady=0, sticky="nswe")
+        top_frame.grid_rowconfigure(0, weight=1)
+        
+        name_label = ctk.CTkLabel(top_frame, text=data[1], font=ctk.CTkFont(size=14, weight="bold", family="Verdana", underline=True))
+        name_label.grid(row=0, column=0, padx=5, pady=5, sticky="w")
+
+        bottom_frame = ctk.CTkFrame(left_frame)
+        bottom_frame.grid(row=1, column=0, padx=5, pady=0, sticky="nswe")
+        bottom_frame.grid_rowconfigure((0, 1), weight=1)
+        bottom_frame.grid_columnconfigure((0, 1), weight=1)
+
+        user_name_label = ctk.CTkLabel(bottom_frame, text="Usuario:", font=ctk.CTkFont(weight="bold"))
+        user_name_label.grid(row=0, column=0, padx=5, pady=0, sticky="wns")
+        user_name_label_click = ctk.CTkLabel(bottom_frame, text=data[2], cursor="hand2")
+        user_name_label_click.grid(row=0, column=1, padx=5, pady=0, sticky="wns")
         user_name_label_click.bind("<Button-1>", self.on_click)
 
-        password_label = ctk.CTkLabel(left_frame, text="Contraseña:")
-        password_label.grid(row=2, column=0, padx=5, pady=0, sticky="w")
-        password_label_click = ctk.CTkLabel(left_frame, text=data[3], cursor="hand2")
-        password_label_click.grid(row=2, column=1, padx=5, pady=(0, 5), sticky="w")
+        password_label = ctk.CTkLabel(bottom_frame, text="Contraseña:", font=ctk.CTkFont(weight="bold"))
+        password_label.grid(row=1, column=0, padx=5, pady=0, sticky="w")
+        password_label_click = ctk.CTkLabel(bottom_frame, text=data[3], cursor="hand2")
+        password_label_click.grid(row=1, column=1, padx=5, pady=0, sticky="w")
         password_label_click.bind("<Button-1>", self.on_click)
 
         # Right frame. 3 columns and 1 row
