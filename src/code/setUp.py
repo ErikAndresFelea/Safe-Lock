@@ -30,12 +30,12 @@ class SetUp:
         cursor = conn.cursor()
         table_users = '''
             CREATE TABLE IF NOT EXISTS users (
-                id VARCHAR PRIMARY KEY,
-                username VARCHAR NOT NULL UNIQUE,
+                username VARCHAR PRIMARY KEY,
                 password VARCHAR NOT NULL,
+                email VARCHAR NOT NULL,
                 key VARCHAR NOT NULL,
                 remember BOOLEAN NOT NULL DEFAULT FALSE,
-                plain_password VARCHAR);
+                plain_password VARCHAR DEFAULT NULL);
             '''
         cursor.execute(table_users)
         

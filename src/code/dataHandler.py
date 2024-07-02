@@ -4,44 +4,39 @@ from cryptography.fernet import Fernet
 class DataHandler:
     def __init__(self, token: str):
         self._key = token
-        self.operation = False
 
 
     ''' Encrypt a string using user key '''
-    def encrypt(self, data: str) -> str:
+    def encrypt(self, data: str) -> tuple[bool, str]:
+        encrypted = False
         try:
             data_to_bytes = data.encode('utf-8')
             fernet = Fernet(self._key)
             token = fernet.encrypt(data_to_bytes)
             data = token.decode('utf-8')
-            self.operation = True
-        except Exception:
-            self.operation = False
+            encrypted = True
+        except Exception as e:
+            print(e)
         finally:
-            return data
+            return encrypted, data
 
 
     ''' Decrypt a string using user key '''
-    def decrypt(self, data: str) -> str:
+    def decrypt(self, data: str) -> tuple[bool, str]:
+        decrypted = None
         try:
             data_to_bytes = data.encode('utf-8')
             fernet = Fernet(self._key)
             token = fernet.decrypt(data_to_bytes)
             data = token.decode('utf-8')
-            self.operation = True
-        except Exception:
-            self.operation = False
+            decrypted = True
+        except Exception as e:
+            print(e)
         finally:
-            return data
+            return decrypted, data
 
-
-    def get_last_user(self):
-        pass
 
     def recover_password(self, email: str):
-        pass
-
-    def save_key(self, name: str, key: str):
         pass
 
     def json_load(self):
@@ -53,9 +48,6 @@ class DataHandler:
     def user_exists(self, name: str):
         pass
 
-    def set_key(self, token: str):
-        pass
-    
 #    ''' Retrieves users asociated to an email '''
 #    def recover_password(self, email: str) -> tuple[Error, Operation, Msg | list[str]]:
 #        error, status, json_data = self.json_load()
@@ -71,17 +63,6 @@ class DataHandler:
 #                 accounts.append(user)
 #        return False, True, accounts 
 #
-#    ''' Stores password in WCM or returns an error '''
-#    def save_key(self, name: str, key: str) -> tuple[Error, Operation, Msg]:
-#        try:
-#            service_name = "safe_lock"
-#            keyring.set_password(service_name, name, key)
-#            return False, True, None
-#        except Exception as e:
-#            print(e.__traceback__)
-#            msg = "Error al crear el usuario usuario"
-#            return True, False, msg
-#        
 #    ''' Loads data from a json '''
 #    def json_load(self) -> tuple[Error, Operation, Msg]:
 #        try:

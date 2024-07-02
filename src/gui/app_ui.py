@@ -37,11 +37,11 @@ class App(customtkinter.CTk):
         self._main_frame.grid_columnconfigure(0, weight=1)
 
         # Current widget displayed on the main widget
-        self._login_ui()
+        self.login_ui()
 
 
     ''' UI related mehotds below '''
-    def view_home(self):
+    def home_ui(self):
         self._clear_ui()
         self._current_frame = HomeWidget(self._main_frame, self)
         self._current_frame.grid(row=0, column=0, padx=20, pady=20)
@@ -65,19 +65,19 @@ class App(customtkinter.CTk):
         self._current_frame.grid(row=0, column=0, padx=20, pady=20)
 
 
-    def view_forgot_pass(self):
+    def forgot_pass_ui(self):
         self._clear_ui()
         self._current_frame = ForgotPassword(self._main_frame, self)
         self._current_frame.grid(row=0, column=0, padx=20, pady=20)
 
     
-    def _login_ui(self):
+    def login_ui(self):
         self._clear_ui()
         self._current_frame = LoginWidget(self._main_frame, self)
         self._current_frame.grid(row=0, column=0, padx=20, pady=20)
 
 
-    def view_register(self):
+    def register_ui(self):
         self._clear_ui()
         self._current_frame = RegisterWidget(self._main_frame, self)
         self._current_frame.grid(row=0, column=0, padx=20, pady=20)
@@ -107,10 +107,6 @@ class App(customtkinter.CTk):
 
     def forgot_pass(self, email: str) -> bool:
         return self.controller.forgot_password(email)
-    
-
-    def register(self, name: str, email: str, password: str) -> tuple[Error, Operation, Msg]:
-        return self.controller.register(name, email, password)
     
 
     ''' Other methods '''

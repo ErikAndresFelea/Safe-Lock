@@ -1,61 +1,41 @@
+import sqlite3 as sql
 from code.dataHandler import DataHandler
 from cryptography.fernet import Fernet
 
-Operation = bool
-Error = bool
-Msg = str | None
 
 class Register:
-    def __init__(self, name: str, email: str, password: str, data_handler: DataHandler):
-        super().__init__()
-        self.user_name = name
-        self.email = email
-        self.password = password
-        self.data_handler = data_handler
+    def __init__(self, connection: sql.Connection, username: str, email: str, password: str) -> None:
+        self._connection = connection
+        self.registered = False
+
+        availability = self._check_availability(username)
+        if availability:
+             self._create_account(username, email, password)
 
 
-    ''' 
-    Checks if there is an account registered with the credentials provided
-    '''
-    def create_account(self) -> tuple[Error, Operation, Msg]:
-        # Generate a new key and a data handler instance
+    def _check_availability(self, username: str) -> bool:
+         cursor = self._connection.cursor()
+         cursor.execute(f'''SELECT * FROM users WHERE username == "{username}";''')
+         user_data = cursor.fetchone()
+         cursor.close()
+         return True if user_data is None else False
+
+         
+    def _create_account(self, username: str, password: str, email: str) -> None:
         token = Fernet.generate_key()
         key = token.decode('utf-8')
-        self.data_handler.set_key(key)
+        data_handler = DataHandler(key)
 
-        # Check if user already exists
-        error, status, data = self.data_handler.user_exists(self.user_name)
-        if status or error:
-            if not error:
-                msg = "El usuario ya existe"
-                return error, False, msg
-            return error, False, data
-        
-        # Encrypt the data
-        error, status, data_password = self.data_handler.encrypt(self.password)
-        if error:
-            return True, status, data
-        
-        # Load existing data or create a new one
-        error, status, json_data = self.data_handler.json_load()
-        if not status or error:
-                return error, status, data
+        operation1, encrypted_password = data_handler.encrypt(password)
+        operation2, encrypted_email = data_handler.encrypt(email)
 
-        # Add the new user to the data
-        new_user = {
-            'app_password': data_password,
-            'email': self.email,
-            'all_passwords': []
-            }
-        json_data['users'][self.user_name] = new_user
+        if operation1 and operation2:
+            cursor = self._connection.cursor()
+            cursor.execute(f'''INSERT INTO users (username, password, email, key) VALUES ("{username}", "{encrypted_password}", "{encrypted_email}", "{key}")''')
+            self._connection.commit()
+            cursor.close()
+            self.registered = True
 
-        # Save the data into the storage file 
-        error, status, json_data = self.data_handler.json_dump(json_data)
-        if not status or error:
-                return error, status, data
 
-        error, status, data = self.data_handler.save_key(self.user_name, key)
-        if error:
-            return True, status, data
-        return False, status, None
-
+    def _send_email(self) -> None:
+        pass

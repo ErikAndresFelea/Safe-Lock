@@ -27,9 +27,11 @@ class Controller:
     
     
     def register(self, username: str, email: str, password: str):
-        pass
+        register = Register(self._connection, username, password, email)
+        return register.registered
 
-    def forgot_password(self, email: str):
+
+    def forgot_password(self, username: str, password: str, email: str):
         pass
     
 
