@@ -21,9 +21,9 @@ class Login:
 
         if len(user_data) != 0:
             self.data_handler = DataHandler(user_data[2])
-            operation, decrypted_password = self.data_handler.decrypt(user_data[1])
+            decrypted_password = self.data_handler.decrypt(user_data[1])
 
-            if operation and decrypted_password == password:
+            if self.data_handler.operation and decrypted_password == password:
                 self.user_id = user_data[0]
                 self.authenticated = True
 

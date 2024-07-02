@@ -4,24 +4,21 @@ import sqlite3 as sql
 class SetUp:
     def __init__(self, directory: str, database: str) -> None:
         super().__init__()
-        self.directory = directory
-        self.database = database
-
-        self.check_folder()
-        self.connection = self.database_connection()
+        self._check_folder(directory)
+        self.connection = self._database_connection(database)
 
 
     ''' Checks if the app has a directory and a database '''
-    def check_folder(self) -> None:
-        if not os.path.isdir(self.directory):
-            os.mkdir(self.directory)
+    def _check_folder(self, directory: str) -> None:
+        if not os.path.isdir(directory):
+            os.mkdir(directory)
         
 
     ''' Creates a new Database for the program '''
-    def database_connection(self) -> sql.Connection:
+    def _database_connection(self, database: str) -> sql.Connection:
         try:
-            connection = sql.connect(self.database)
-            self.check_database(connection)
+            connection = sql.connect(database)
+            self._check_database(connection)
         except sql.Error as e:
             print(e)
         finally:
@@ -29,12 +26,12 @@ class SetUp:
 
 
     ''' Checks if the database has the correct structure '''
-    def check_database(self, conn: sql.Connection) -> None:
+    def _check_database(self, conn: sql.Connection) -> None:
         cursor = conn.cursor()
         table_users = '''
             CREATE TABLE IF NOT EXISTS users (
                 id VARCHAR PRIMARY KEY,
-                username VARCHAR NOT NULL,
+                username VARCHAR NOT NULL UNIQUE,
                 password VARCHAR NOT NULL,
                 encryption_key VARCHAR NOT NULL,
                 remember_login BOOLEAN NOT NULL DEFAULT FALSE);
