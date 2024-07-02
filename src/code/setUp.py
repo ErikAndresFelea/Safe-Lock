@@ -25,7 +25,7 @@ class SetUp:
     # Checks if the app has a directory and a database
     def check_folder(self) -> None:
         if not os.path.isdir(self.directory):
-            os.makedirs(self.directory)
+            os.mkdir(self.directory)
 
 
     # Checks if the database has the correct structure

@@ -1,5 +1,4 @@
 import os
-import json
 from gui.app_ui import App as Frontend
 from code.controller import Controller as Backend
 from code.dataHandler import DataHandler
@@ -11,7 +10,7 @@ class App:
         super().__init__()
 
         # Checks if the program is installed correctly
-        folder_path = os.getenv('APPDATA').join('Safe Lock')
+        folder_path = os.path.join(os.getenv('APPDATA'), 'Safe Lock')
         file_path = os.path.join(folder_path, 'SafeLock.db')
         SetUp(folder_path, file_path)
 
