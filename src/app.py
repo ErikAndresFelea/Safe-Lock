@@ -34,9 +34,9 @@ TO DO LIST (OLD)
     - Add favorite password section
     - Add import export data
     - Work on the installer of the app
-    - Update app to use UUI4 instead of plain user name
-    - Improve safety on recover password
-    - Improve safety on remember user
+    - Improve safety on recover password ?
+    - Improve safety on remember user ?
+    - Add search bar
 
 TO DO LIST (NEW)
     - Change create password
@@ -46,20 +46,17 @@ TO DO LIST (NEW)
     - Change forgot password
     - Add delete user
     - Add import / export password file
-    - Change database_connection from SetUp. If it throws an error dont open app and give error popup
     
     - Update dataHandler
     - Update passwordManager
     - Update controller
     - Update password
-    - Update register
     
     - Update add_pass widget
     - Update edit_pass widget
     - Update forgot_pass widget
     - Update home widget
     - Update password widget
-    - Update register widget
     - Update view_pass widget
  
 '''
