@@ -12,12 +12,16 @@ class App:
         # Checks if the program is installed correctly
         folder_path = os.path.join(os.getenv('APPDATA'), 'Safe Lock')
         file_path = os.path.join(folder_path, 'SafeLock.db')
-        SetUp(folder_path, file_path)
+        setup = SetUp(folder_path, file_path)
+        connection = setup.connection
+
+
 
         # Instance of the ui and controller
-        controller = Backend(DataHandler(None, file_path))
+        controller = Backend(connection)
         view = Frontend(controller)
         view.mainloop()
+        connection.close()
 
 
 if __name__ == "__main__":
@@ -47,5 +51,6 @@ TO DO LIST (NEW)
     - Change forgot password
     - Add delete user
     - Add import / export password file
+    - Change database_connection from SetUp. If it throws an error dont open app and give error popup
  
 '''

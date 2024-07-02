@@ -8,32 +8,32 @@ class SetUp:
         self.database = database
 
         self.check_folder()
-        connection = self.database_connection()
-        self.check_database(connection)
-        connection.close()
-    
-
-    # Creates a new Database for the program
-    def database_connection(self) -> sql.Connection:
-        try:
-            connection = sql.connect(self.database)
-            return connection
-        except sql.Error as e:
-            print(e)
+        self.connection = self.database_connection()
 
 
-    # Checks if the app has a directory and a database
+    ''' Checks if the app has a directory and a database '''
     def check_folder(self) -> None:
         if not os.path.isdir(self.directory):
             os.mkdir(self.directory)
+        
+
+    ''' Creates a new Database for the program '''
+    def database_connection(self) -> sql.Connection:
+        try:
+            connection = sql.connect(self.database)
+            self.check_database(connection)
+        except sql.Error as e:
+            print(e)
+        finally:
+            return connection
 
 
-    # Checks if the database has the correct structure
+    ''' Checks if the database has the correct structure '''
     def check_database(self, conn: sql.Connection) -> None:
         cursor = conn.cursor()
         table_users = '''
             CREATE TABLE IF NOT EXISTS users (
-                id INTEGER PRIMARY KEY,
+                id VARCHAR PRIMARY KEY,
                 username VARCHAR NOT NULL,
                 password VARCHAR NOT NULL,
                 encryption_key VARCHAR NOT NULL,
@@ -43,13 +43,15 @@ class SetUp:
         
         table_passwords = '''
             CREATE TABLE IF NOT EXISTS passwords (
-                id VARCHAR PRIMARY KEY,
+                password_id VARCHAR PRIMARY KEY,
+                user_id VARCHAR NOT NULL,
                 app_name VARCHAR NOT NULL,
-                username VARCHAR NOT NULL,
-                password VARCHAR NOT NULL,
-                email VARCHAR,
-                account_id VARCHAR,
-                url VARCHAR);
+                app_username VARCHAR NOT NULL,
+                app_password VARCHAR NOT NULL,
+                app_email VARCHAR,
+                app_id VARCHAR,
+                app_url VARCHAR,
+                FOREIGN KEY (user_id) REFERENCES users(id));
             '''
         cursor.execute(table_passwords)
         cursor.close()
