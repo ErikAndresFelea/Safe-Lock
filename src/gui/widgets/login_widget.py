@@ -46,20 +46,20 @@ class LoginWidget(ctk.CTkFrame):
         forgot_button = ctk.CTkButton(check_forgot_frame, text="¿Contraseña olvidada?", text_color="deepskyblue", command=app.forgot_pass_ui, border_width=0, fg_color="transparent", hover=False)
         forgot_button.grid(row=0, column=1, padx=0, pady=(2.5, 5))
 
-        login_button = ctk.CTkButton(self, text="Iniciar sesion", border_color="white", border_width=1, command=self.login, width=75)
+        login_button = ctk.CTkButton(self, text="Iniciar sesion", border_color="white", border_width=1, command=self._login, width=75)
         login_button.grid(row=3, column=0, padx=5, pady=(30, 5))
         
         register_button = ctk.CTkButton(self, text="Registrarse", text_color="deepskyblue", command=app.register_ui, border_width=0, corner_radius=0, bg_color="transparent", fg_color="transparent", hover=False)
         register_button.grid(row=4, column=0, padx=0, pady=0)
 
-        self.remember_last_login()
+        self._remember_last_login()
         
 
     ''' Checks if user input is correct, if it is proceeds
         to authenticate data with backend '''
-    def login(self) -> None:
-        self.reset_ui()
-        user_input_validation = self.check_user_input()
+    def _login(self) -> None:
+        self._reset_ui()
+        user_input_validation = self._check_user_input()
 
         if user_input_validation:
             remeber = True if self._remember_checkbox.get() == 1 else False
@@ -73,7 +73,7 @@ class LoginWidget(ctk.CTkFrame):
 
 
     ''' User input validation '''
-    def check_user_input(self) -> bool:
+    def _check_user_input(self) -> bool:
         user = len(self._user_entry.get()) > 0
         password = len(self._password_entry.get()) > 0
         password_length = len(self._password_entry.get()) >= 5
@@ -97,14 +97,14 @@ class LoginWidget(ctk.CTkFrame):
     
 
     ''' Sets UI dynamic elements to default '''
-    def reset_ui(self) -> None:
+    def _reset_ui(self) -> None:
         self._error_label.configure(text=None)
         self._user_entry.configure(border_color="gray50")
         self._password_entry.configure(border_color="gray50")
         
 
     ''' Recovers last user's username and password if remember checkbox was active last login '''
-    def remember_last_login(self) -> None:
+    def _remember_last_login(self) -> None:
         user_data = self.parent_app.controller.get_last_user()
         if user_data is not None:
             self._user_entry.insert(0, user_data[0])

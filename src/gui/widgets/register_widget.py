@@ -61,15 +61,15 @@ class RegisterWidget(ctk.CTkFrame):
         cancel_button = ctk.CTkButton(button_frame, text="Cancelar", fg_color="red", hover_color="darkred", border_color="white", border_width=1, command=app.login_ui, width=75)
         cancel_button.grid(row=0, column=0, padx=5, pady=(30, 5), sticky="e")
 
-        register_button = ctk.CTkButton(button_frame, text="Registrarse", border_color="white", border_width=1, command=self.register, width=75)
+        register_button = ctk.CTkButton(button_frame, text="Registrarse", border_color="white", border_width=1, command=self._register, width=75)
         register_button.grid(row=0, column=1, padx=5, pady=(30, 5), sticky="w")
 
 
     ''' Checks if user input is correct, if it is proceeds
         to register a new user in the backend and send an email '''
-    def register(self) -> None:
-        self.reset_ui()
-        user_input_validation = self.check_user_input()
+    def _register(self) -> None:
+        self._reset_ui()
+        user_input_validation = self._check_user_input()
 
         if user_input_validation:
             operation = self.parent_app.controller.register(self._username_entry.get(), self._email_entry.get(), self._password_entry.get())
@@ -81,7 +81,7 @@ class RegisterWidget(ctk.CTkFrame):
 
 
     ''' User input validation '''
-    def check_user_input(self) -> bool:
+    def _check_user_input(self) -> bool:
         user = len(self._username_entry.get()) > 0
         email = len(self._email_entry.get()) > 0
         password = len(self._password_entry.get()) > 0
@@ -111,7 +111,7 @@ class RegisterWidget(ctk.CTkFrame):
 
 
     ''' Sets UI dynamic elements to default '''
-    def reset_ui(self) -> None:
+    def _reset_ui(self) -> None:
         self._error_label.configure(text=None)
         self._username_entry.configure(border_color="gray50")
         self._email_entry.configure(border_color="gray50")

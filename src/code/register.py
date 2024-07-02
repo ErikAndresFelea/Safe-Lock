@@ -35,7 +35,3 @@ class Register:
             self._connection.commit()
             cursor.close()
             self.registered = True
-
-
-    def _send_email(self) -> None:
-        pass

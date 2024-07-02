@@ -105,10 +105,6 @@ class App(customtkinter.CTk):
             self.view_home()
 
 
-    def forgot_pass(self, email: str) -> bool:
-        return self.controller.forgot_password(email)
-    
-
     ''' Other methods '''
     def _clear_ui(self):
         for widget in self._main_frame.winfo_children():

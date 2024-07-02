@@ -22,17 +22,31 @@ class Controller:
             self._data_handler = login.data_handler
             self.authenticated = login.authenticated
 
-        self._password_manager = PasswordManager(self._data_handler, self._user_name)
+        self._password_manager = PasswordManager(self._data_handler, self._user_name)       # CHECK IF THIS IS STILL USEFUL
         return login.authenticated
     
     
-    def register(self, username: str, email: str, password: str):
+    def register(self, username: str, email: str, password: str) -> bool:
         register = Register(self._connection, username, password, email)
+        
+        if register.registered:
+            self._send_email(email, None)
         return register.registered
 
 
-    def forgot_password(self, username: str, password: str, email: str):
-        pass
+    def forgot_password(self, username: str) -> bool:
+        cursor = self._connection.cursor()
+        cursor.execute(f'''SELECT password, email, key FROM users WHERE username == "{username}";''')
+        user_data = cursor.fetchone()
+
+        if user_data is not None:
+            data_handler = DataHandler(user_data[2])
+            operation1, decrypted_password = data_handler.decrypt(user_data[0])
+            operation2, decrypted_email = data_handler.decrypt(user_data[1])
+
+            if operation1 and operation2:
+                self._send_email(decrypted_email, decrypted_password)
+        return operation1 and operation2 and user_data is not None
     
 
     def get_last_user(self) -> tuple[str, str]:
@@ -41,6 +55,13 @@ class Controller:
         user_data = cursor.fetchone()
         cursor.close()
         return user_data
+    
+
+    def _send_email(self, email: str, data) -> None:
+        if data is None:
+            pass
+        else:
+            pass
 
 
     def get_all_passwords(self):

@@ -34,8 +34,6 @@ TO DO LIST (OLD)
     - Add favorite password section
     - Add import export data
     - Work on the installer of the app
-    - Improve safety on recover password ?
-    - Improve safety on remember user ?
     - Add search bar
 
 TO DO LIST (NEW)
@@ -54,7 +52,6 @@ TO DO LIST (NEW)
     
     - Update add_pass widget
     - Update edit_pass widget
-    - Update forgot_pass widget
     - Update home widget
     - Update password widget
     - Update view_pass widget
