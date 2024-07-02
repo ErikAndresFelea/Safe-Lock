@@ -9,7 +9,7 @@ class Controller:
         super().__init__()
         self.authenticated = False
         self._connection = connection
-        self._user_id: str = None
+        self._user_name: str = None
         self._data_handler: DataHandler = None
         self._password_manager: PasswordManager = None
         
@@ -18,11 +18,11 @@ class Controller:
         login = Login(self._connection, username, password, remember)
         
         if login.authenticated:
-            self._user_id = login.user_id
+            self._user_name = login.user_name
             self._data_handler = login.data_handler
             self.authenticated = login.authenticated
 
-        self._password_manager = PasswordManager(self._data_handler, self._user_id)
+        self._password_manager = PasswordManager(self._data_handler, self._user_name)
         return login.authenticated
     
     

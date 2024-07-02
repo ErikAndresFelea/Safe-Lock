@@ -43,13 +43,13 @@ class LoginWidget(ctk.CTkFrame):
         self._remember_checkbox = ctk.CTkCheckBox(check_forgot_frame, text="Recordar", checkbox_width=18, checkbox_height=18, border_width=2)
         self._remember_checkbox.grid(row=0, column=0, padx=5, pady=(2.5, 5))
 
-        forgot_button = ctk.CTkButton(check_forgot_frame, text="¿Contraseña olvidada?", text_color="deepskyblue", command=app._view_forgot_pass, border_width=0, fg_color="transparent", hover=False)
+        forgot_button = ctk.CTkButton(check_forgot_frame, text="¿Contraseña olvidada?", text_color="deepskyblue", command=app.forgot_pass_ui, border_width=0, fg_color="transparent", hover=False)
         forgot_button.grid(row=0, column=1, padx=0, pady=(2.5, 5))
 
         login_button = ctk.CTkButton(self, text="Iniciar sesion", border_color="white", border_width=1, command=self.login, width=75)
         login_button.grid(row=3, column=0, padx=5, pady=(30, 5))
         
-        register_button = ctk.CTkButton(self, text="Registrarse", text_color="deepskyblue", command=app._view_register, border_width=0, corner_radius=0, bg_color="transparent", fg_color="transparent", hover=False)
+        register_button = ctk.CTkButton(self, text="Registrarse", text_color="deepskyblue", command=app.register_ui, border_width=0, corner_radius=0, bg_color="transparent", fg_color="transparent", hover=False)
         register_button.grid(row=4, column=0, padx=0, pady=0)
 
         self.remember_last_login()
@@ -57,7 +57,7 @@ class LoginWidget(ctk.CTkFrame):
 
     ''' Checks if user input is correct, if it is proceeds
         to authenticate data with backend '''
-    def login(self):
+    def login(self) -> None:
         self.reset_ui()
         user_input_validation = self.check_user_input()
 
@@ -69,7 +69,7 @@ class LoginWidget(ctk.CTkFrame):
                 self._user_entry.configure(border_color="darkred")
                 self._password_entry.configure(border_color="darkred")
             else:
-                self.parent_app.view_home()
+                self.parent_app.home_ui()
 
 
     ''' User input validation '''
@@ -97,14 +97,14 @@ class LoginWidget(ctk.CTkFrame):
     
 
     ''' Sets UI dynamic elements to default '''
-    def reset_ui(self):
+    def reset_ui(self) -> None:
         self._error_label.configure(text=None)
         self._user_entry.configure(border_color="gray50")
         self._password_entry.configure(border_color="gray50")
         
 
     ''' Recovers last user's username and password if remember checkbox was active last login '''
-    def remember_last_login(self):
+    def remember_last_login(self) -> None:
         user_data = self.parent_app.controller.get_last_user()
         if user_data is not None:
             self._user_entry.insert(0, user_data[0])
