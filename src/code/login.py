@@ -16,18 +16,17 @@ class Login:
 
     def _authenticate_user(self, username: str, password: str) -> None:
         cursor = self._connection.cursor()
-        cursor.execute(f'''SELECT id, password, key FROM users WHERE username == "{username}";''')
+        cursor.execute(f'''SELECT password, key FROM users WHERE username == "{username}";''')
         user_data = cursor.fetchone()
+        cursor.close()
 
         if user_data is not None:
             self.data_handler = DataHandler(user_data[2])
-            encrypted_password = self.data_handler.encrypt(password)
+            operation, encrypted_password = self.data_handler.encrypt(password)
 
-            if self.data_handler.operation and encrypted_password == user_data[1]:
+            if operation and encrypted_password == user_data[1]:
                 self.user_id = user_data[0]
                 self.authenticated = True
-
-        cursor.close()
     
 
     def _set_remember(self, password: str, remember: bool) -> None:
