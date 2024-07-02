@@ -16,26 +16,26 @@ class Login:
 
     def _authenticate_user(self, username: str, password: str) -> None:
         cursor = self._connection.cursor()
-        cursor.execute(f'''SELECT id, password, encryption_key FROM users WHERE username == '{username}';''')
+        cursor.execute(f'''SELECT id, password, key FROM users WHERE username == "{username}";''')
         user_data = cursor.fetchone()
 
-        if len(user_data) != 0:
+        if user_data is not None:
             self.data_handler = DataHandler(user_data[2])
-            decrypted_password = self.data_handler.decrypt(user_data[1])
+            encrypted_password = self.data_handler.encrypt(password)
 
-            if self.data_handler.operation and decrypted_password == password:
+            if self.data_handler.operation and encrypted_password == user_data[1]:
                 self.user_id = user_data[0]
                 self.authenticated = True
 
         cursor.close()
     
 
-    def _set_remember(self, remember: bool) -> None:
+    def _set_remember(self, password: str, remember: bool) -> None:
         cursor = self._connection.cursor()
-        cursor.execute('''UPDATE TABLE users SET remember_login = FALSE''')
+        cursor.execute('''UPDATE TABLE users SET (remember, plain_password) = (FALSE, NULL)''')
         
         if remember:
-            cursor.execute(f'''UPDATE TABLE users SET remember_login = TRUE WHERE id == '{self.user_id}';''')
+            cursor.execute(f'''UPDATE TABLE users SET (remember, plain_password) = (TRUE, "{password}") WHERE id == '{self.user_id}';''')
         
         self._connection.commit()
         cursor.close()

@@ -33,8 +33,9 @@ class SetUp:
                 id VARCHAR PRIMARY KEY,
                 username VARCHAR NOT NULL UNIQUE,
                 password VARCHAR NOT NULL,
-                encryption_key VARCHAR NOT NULL,
-                remember_login BOOLEAN NOT NULL DEFAULT FALSE);
+                key VARCHAR NOT NULL,
+                remember BOOLEAN NOT NULL DEFAULT FALSE,
+                plain_password VARCHAR);
             '''
         cursor.execute(table_users)
         
@@ -51,4 +52,5 @@ class SetUp:
                 FOREIGN KEY (user_id) REFERENCES users(id));
             '''
         cursor.execute(table_passwords)
+        conn.commit()
         cursor.close()

@@ -31,56 +31,56 @@ class App(customtkinter.CTk):
         main_title = customtkinter.CTkLabel(self, text="Safe Lock", font=customtkinter.CTkFont(size=80, weight="bold", family="Verdana"), text_color="deepskyblue")
         main_title.grid(row=0, column=0, padx=0, pady=0)
 
-        self.main_frame = customtkinter.CTkFrame(self, fg_color="transparent", border_width=2)
-        self.main_frame.grid(row=1, column=0, padx=0, pady=0)
-        self.main_frame.grid_rowconfigure(0, weight=1)
-        self.main_frame.grid_columnconfigure(0, weight=1)
+        self._main_frame = customtkinter.CTkFrame(self, fg_color="transparent", border_width=2)
+        self._main_frame.grid(row=1, column=0, padx=0, pady=0)
+        self._main_frame.grid_rowconfigure(0, weight=1)
+        self._main_frame.grid_columnconfigure(0, weight=1)
 
         # Current widget displayed on the main widget
-        self.view_login()
+        self._login_ui()
 
 
     ''' UI related mehotds below '''
     def view_home(self):
-        self.clear_ui()
-        self.current_frame = HomeWidget(self.main_frame, self)
-        self.current_frame.grid(row=0, column=0, padx=20, pady=20)
+        self._clear_ui()
+        self._current_frame = HomeWidget(self._main_frame, self)
+        self._current_frame.grid(row=0, column=0, padx=20, pady=20)
 
 
     def view_add_pass(self):
-        self.clear_ui()
-        self.current_frame = AddPasswordWidget(self.main_frame, self)
-        self.current_frame.grid(row=0, column=0, padx=20, pady=20)
+        self._clear_ui()
+        self._current_frame = AddPasswordWidget(self._main_frame, self)
+        self._current_frame.grid(row=0, column=0, padx=20, pady=20)
 
 
     def view_update_pass(self, data: list[str]):
-        self.clear_ui()
-        self.current_frame = EditPasswordWidget(self.main_frame, self, data)
-        self.current_frame.grid(row=0, column=0, padx=20, pady=20)
+        self._clear_ui()
+        self._current_frame = EditPasswordWidget(self._main_frame, self, data)
+        self._current_frame.grid(row=0, column=0, padx=20, pady=20)
 
 
     def view_pass(self, data: list[str]):
-        self.clear_ui()
-        self.current_frame = ViewPasswordWidget(self.main_frame, self, data)
-        self.current_frame.grid(row=0, column=0, padx=20, pady=20)
+        self._clear_ui()
+        self._current_frame = ViewPasswordWidget(self._main_frame, self, data)
+        self._current_frame.grid(row=0, column=0, padx=20, pady=20)
 
 
     def view_forgot_pass(self):
-        self.clear_ui()
-        self.current_frame = ForgotPassword(self.main_frame, self)
-        self.current_frame.grid(row=0, column=0, padx=20, pady=20)
+        self._clear_ui()
+        self._current_frame = ForgotPassword(self._main_frame, self)
+        self._current_frame.grid(row=0, column=0, padx=20, pady=20)
 
     
-    def view_login(self):
-        self.clear_ui()
-        self.current_frame = LoginWidget(self.main_frame, self)
-        self.current_frame.grid(row=0, column=0, padx=20, pady=20)
+    def _login_ui(self):
+        self._clear_ui()
+        self._current_frame = LoginWidget(self._main_frame, self)
+        self._current_frame.grid(row=0, column=0, padx=20, pady=20)
 
 
     def view_register(self):
-        self.clear_ui()
-        self.current_frame = RegisterWidget(self.main_frame, self)
-        self.current_frame.grid(row=0, column=0, padx=20, pady=20)
+        self._clear_ui()
+        self._current_frame = RegisterWidget(self._main_frame, self)
+        self._current_frame.grid(row=0, column=0, padx=20, pady=20)
 
 
     ''' Backend comunitacion methods below '''
@@ -109,19 +109,11 @@ class App(customtkinter.CTk):
         return self.controller.forgot_password(email)
     
 
-    def login(self, name: str, password: str, remember: bool) -> tuple[Error, Operation, Msg]:
-        return self.controller.login(name, password, remember)
-
-
     def register(self, name: str, email: str, password: str) -> tuple[Error, Operation, Msg]:
         return self.controller.register(name, email, password)
     
 
-    def last_user(self) -> tuple[Error, Operation, Msg | tuple[str, str]]:
-        return self.controller.get_last_user()
-
-
     ''' Other methods '''
-    def clear_ui(self):
-        for widget in self.main_frame.winfo_children():
+    def _clear_ui(self):
+        for widget in self._main_frame.winfo_children():
             widget.destroy()

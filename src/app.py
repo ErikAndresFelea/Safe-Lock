@@ -1,7 +1,6 @@
 import os
 from gui.app_ui import App as Frontend
 from code.controller import Controller as Backend
-from code.dataHandler import DataHandler
 from code.setUp import SetUp
 
 
@@ -44,21 +43,21 @@ TO DO LIST (NEW)
     - Change read password/s
     - Change update password
     - Change delete password
-    - Change register
     - Change forgot password
     - Add delete user
     - Add import / export password file
     - Change database_connection from SetUp. If it throws an error dont open app and give error popup
+    
     - Update dataHandler
     - Update passwordManager
     - Update controller
     - Update password
     - Update register
+    
     - Update add_pass widget
     - Update edit_pass widget
     - Update forgot_pass widget
     - Update home widget
-    - Update login widget
     - Update password widget
     - Update register widget
     - Update view_pass widget

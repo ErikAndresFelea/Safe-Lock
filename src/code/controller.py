@@ -7,21 +7,23 @@ from code.dataHandler import DataHandler
 class Controller:
     def __init__(self, connection: sql.Connection):
         super().__init__()
-        self.connection = connection
         self.authenticated = False
+        self._connection = connection
         self._user_id: str = None
         self._data_handler: DataHandler = None
         self._password_manager: PasswordManager = None
         
 
     def login(self, username: str, password: str, remember: bool) -> bool:
-        login = Login(self.connection, username, password, remember)
+        login = Login(self._connection, username, password, remember)
+        
         if login.authenticated:
             self._user_id = login.user_id
             self._data_handler = login.data_handler
             self.authenticated = login.authenticated
 
         self._password_manager = PasswordManager(self._data_handler, self._user_id)
+        return login.authenticated
     
     
     def register(self, username: str, email: str, password: str):
@@ -30,8 +32,14 @@ class Controller:
     def forgot_password(self, email: str):
         pass
     
-    def get_last_user(self):
-        pass
+
+    def get_last_user(self) -> tuple[str, str]:
+        cursor = self._connection.cursor()
+        cursor.execute(f'''SELECT username, plain_password FROM users WHERE remember == TRUE''')
+        user_data = cursor.fetchone()
+        cursor.close()
+        return user_data
+
 
     def get_all_passwords(self):
         pass

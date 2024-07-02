@@ -26,96 +26,88 @@ class LoginWidget(ctk.CTkFrame):
         login_frame.grid(row=1, column=0, padx=0, pady=0)
         login_frame.grid_rowconfigure((0, 1, 2), weight=1)
         
-        self.error_label = ctk.CTkLabel(login_frame, text=None, text_color="red", font=ctk.CTkFont(size=12), anchor="w")
-        self.error_label.grid(row=0, column=0, padx=8, pady=0, sticky="w")
+        self._error_label = ctk.CTkLabel(login_frame, text=None, text_color="red", font=ctk.CTkFont(size=12), anchor="w")
+        self._error_label.grid(row=0, column=0, padx=8, pady=0, sticky="w")
         
         width = login_frame._current_width
-        self.user_entry = ctk.CTkEntry(login_frame, placeholder_text="Usuario", width=width)
-        self.user_entry.grid(row=1, column=0, padx=5, pady=5)
+        self._user_entry = ctk.CTkEntry(login_frame, placeholder_text="Usuario", width=width)
+        self._user_entry.grid(row=1, column=0, padx=5, pady=5)
 
-        self.password_entry = ctk.CTkEntry(login_frame, placeholder_text="Contraseña", width=width, show="*")
-        self.password_entry.grid(row=2, column=0, padx=5, pady=5)
+        self._password_entry = ctk.CTkEntry(login_frame, placeholder_text="Contraseña", width=width, show="*")
+        self._password_entry.grid(row=2, column=0, padx=5, pady=5)
 
         check_forgot_frame = ctk.CTkFrame(self, fg_color="transparent")
         check_forgot_frame.grid(row=2, column=0, padx=0, pady=0)
         check_forgot_frame.grid_columnconfigure((0, 1), weight=1)
 
-        self.remember_checkbox = ctk.CTkCheckBox(check_forgot_frame, text="Recordar", checkbox_width=18, checkbox_height=18, border_width=2)
-        self.remember_checkbox.grid(row=0, column=0, padx=5, pady=(2.5, 5))
+        self._remember_checkbox = ctk.CTkCheckBox(check_forgot_frame, text="Recordar", checkbox_width=18, checkbox_height=18, border_width=2)
+        self._remember_checkbox.grid(row=0, column=0, padx=5, pady=(2.5, 5))
 
-        forgot_button = ctk.CTkButton(check_forgot_frame, text="¿Contraseña olvidada?", text_color="deepskyblue", command=app.view_forgot_pass, border_width=0, fg_color="transparent", hover=False)
+        forgot_button = ctk.CTkButton(check_forgot_frame, text="¿Contraseña olvidada?", text_color="deepskyblue", command=app._view_forgot_pass, border_width=0, fg_color="transparent", hover=False)
         forgot_button.grid(row=0, column=1, padx=0, pady=(2.5, 5))
 
         login_button = ctk.CTkButton(self, text="Iniciar sesion", border_color="white", border_width=1, command=self.login, width=75)
         login_button.grid(row=3, column=0, padx=5, pady=(30, 5))
         
-        register_button = ctk.CTkButton(self, text="Registrarse", text_color="deepskyblue", command=app.view_register, border_width=0, corner_radius=0, bg_color="transparent", fg_color="transparent", hover=False)
+        register_button = ctk.CTkButton(self, text="Registrarse", text_color="deepskyblue", command=app._view_register, border_width=0, corner_radius=0, bg_color="transparent", fg_color="transparent", hover=False)
         register_button.grid(row=4, column=0, padx=0, pady=0)
 
         self.remember_last_login()
         
 
-    ''' 
-    Checks if user input is correct, if it is proceeds
-    to authenticate data with backend
-    '''
+    ''' Checks if user input is correct, if it is proceeds
+        to authenticate data with backend '''
     def login(self):
         self.reset_ui()
         user_input_validation = self.check_user_input()
 
         if user_input_validation:
-            remeber = True if self.remember_checkbox.get() == 1 else False
-            error, status, data = self.parent_app.login(self.user_entry.get(), self.password_entry.get(), remeber)
-            if error:
-                print("Error a la hora de realizar el login: " + data)
-            elif not status:
-                self.error_label.configure(text="Usuario o contraseña incorrectas")
-                self.user_entry.configure(border_color="darkred")
-                self.password_entry.configure(border_color="darkred")
+            remeber = True if self._remember_checkbox.get() == 1 else False
+            operation = self.parent_app.controller.login(self._user_entry.get(), self._password_entry.get(), remeber)
+            if not operation:
+                self._error_label.configure(text="Usuario o contraseña incorrectas")
+                self._user_entry.configure(border_color="darkred")
+                self._password_entry.configure(border_color="darkred")
             else:
                 self.parent_app.view_home()
 
 
     ''' User input validation '''
     def check_user_input(self) -> bool:
-        user = len(self.user_entry.get()) > 0
-        password = len(self.password_entry.get()) > 0
-        password_length = len(self.password_entry.get()) >= 5
+        user = len(self._user_entry.get()) > 0
+        password = len(self._password_entry.get()) > 0
+        password_length = len(self._password_entry.get()) >= 5
 
         # Update UI with msg & color feedback
         if not user and not password:
-            self.error_label.configure(text="Introduce las credenciales")
-            self.user_entry.configure(border_color="darkred")
-            self.password_entry.configure(border_color="darkred")
+            self._error_label.configure(text="Introduce las credenciales")
+            self._user_entry.configure(border_color="darkred")
+            self._password_entry.configure(border_color="darkred")
 
         elif not user:
-            self.error_label.configure(text="Introduce usuario")
-            self.user_entry.configure(border_color="darkred")
+            self._error_label.configure(text="Introduce usuario")
+            self._user_entry.configure(border_color="darkred")
 
         # Check if password is correct
         elif not password_length:
             message = "Introduce contraseña" if not password else "Contraseña invalida"
-            self.error_label.configure(text=message)
-            self.password_entry.configure(border_color="darkred")
+            self._error_label.configure(text=message)
+            self._password_entry.configure(border_color="darkred")
         return user and password and password_length
     
 
     ''' Sets UI dynamic elements to default '''
     def reset_ui(self):
-        self.error_label.configure(text=None)
-        self.user_entry.configure(border_color="gray50")
-        self.password_entry.configure(border_color="gray50")
+        self._error_label.configure(text=None)
+        self._user_entry.configure(border_color="gray50")
+        self._password_entry.configure(border_color="gray50")
         
 
-    ''' Recovers last user credentials if remember was active last login '''
+    ''' Recovers last user's username and password if remember checkbox was active last login '''
     def remember_last_login(self):
-        error, status, data = self.parent_app.last_user()
-        if error:
-            print("Error al obtener ultimo login: " + data)
-        elif not status:
-            print("No hay ultimo login")
-        else:
-            self.user_entry.insert(0, data[0])
-            self.password_entry.insert(0, data[1])
-            self.remember_checkbox.select()
+        user_data = self.parent_app.controller.get_last_user()
+        if user_data is not None:
+            self._user_entry.insert(0, user_data[0])
+            self._password_entry.insert(0, user_data[1])
+            self._remember_checkbox.select()
             
