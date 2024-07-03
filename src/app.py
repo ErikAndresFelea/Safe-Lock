@@ -37,11 +37,9 @@ TO DO LIST (OLD)
     - Add search bar
 
 TO DO LIST (NEW)
-    - Change create password
     - Change read password/s
     - Change update password
     - Change delete password
-    - Change forgot password
     - Add delete user
     - Add import / export password file
     

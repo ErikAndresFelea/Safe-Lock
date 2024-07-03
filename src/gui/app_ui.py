@@ -84,10 +84,6 @@ class App(customtkinter.CTk):
 
 
     ''' Backend comunitacion methods below '''
-    def add_pass(self, data: list[str]) -> tuple[Error, Operation, Msg]:
-        return self.controller.add_password(data)
-
-
     def update_pass(self, data: list[str]) -> tuple[Error, Operation, Msg]:
         return self.controller.update_password(data)
 
