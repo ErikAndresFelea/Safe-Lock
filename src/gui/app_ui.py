@@ -47,19 +47,19 @@ class App(customtkinter.CTk):
         self._current_frame.grid(row=0, column=0, padx=20, pady=20)
 
 
-    def view_add_pass(self):
+    def add_password_ui(self):
         self._clear_ui()
         self._current_frame = AddPasswordWidget(self._main_frame, self)
         self._current_frame.grid(row=0, column=0, padx=20, pady=20)
 
 
-    def view_update_pass(self, data: list[str]):
+    def update_password_ui(self, data: list[str]):
         self._clear_ui()
         self._current_frame = EditPasswordWidget(self._main_frame, self, data)
         self._current_frame.grid(row=0, column=0, padx=20, pady=20)
 
 
-    def view_pass(self, data: list[str]):
+    def password_ui(self, data: list[str]):
         self._clear_ui()
         self._current_frame = ViewPasswordWidget(self._main_frame, self, data)
         self._current_frame.grid(row=0, column=0, padx=20, pady=20)

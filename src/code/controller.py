@@ -76,22 +76,6 @@ class Controller:
     def delete_password(self, id: list[str]):
         pass
 
-#    def register(self, username: str, email: str, password: str) -> tuple[Error, Operation, Msg]:
-#        new_user = Register(username, email, password, self.data_handler)
-#        return new_user.create_account()
-#    
-#    def forgot_password(self, email: str) -> tuple[Error, Operation, Msg | list[str]]:
-#        error, status, data = self.data_handler.recover_password(email)
-#        if not status or error:
-#            return error, status, data
-#        return False, True, data
-#    
-#    def get_last_user(self) -> tuple[Error, Operation, Msg | tuple[str, str]]:
-#        error, status, data = self.data_handler.get_last_user()
-#        if not status or error:
-#            return error, status, data
-#        return False, True, data
-#    
 #    ''' Not used yet
 #    def get_password(self, id: str) -> tuple[bool, list[str] | None]:
 #        confirm, password = self.password_manager.get_password(id)

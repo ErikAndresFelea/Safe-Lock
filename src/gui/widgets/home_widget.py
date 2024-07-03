@@ -23,18 +23,18 @@ class HomeWidget(ctk.CTkFrame):
         # self.error_label = ctk.CTkLabel(self, text=None, text_color="red", font=ctk.CTkFont(size=12))
         # self.error_label.grid(row=1, column=1, padx=8, pady=0, sticky="w")
 
-        all_passwords = self.get_passwords()
+        self._all_passwords = self._get_passwords()
         main_frame = ctk.CTkScrollableFrame(self, height=400, width=800, fg_color="transparent")
         main_frame.grid(row=2, column=0, padx=0, pady=0)
-        rows = tuple(range(len(all_passwords))) if len(all_passwords) > 0 else 0
+        rows = tuple(range(len(self._all_passwords))) if len(self._all_passwords) > 0 else 0
         main_frame.grid_rowconfigure(rows, weight=1)
         main_frame.grid_columnconfigure(0, weight=1)
 
-        for i in range(len(all_passwords)):
-            password_frame = PasswordWidget(main_frame, app, all_passwords[i])
+        for i in range(len(self._all_passwords)):
+            password_frame = PasswordWidget(main_frame, app, self._all_passwords[i])
             password_frame.grid(row=i, column=0, padx=5, pady=5, sticky="ew")
 
-        add_button = ctk.CTkButton(self, text="Añadir", border_color="white", border_width=1, command=app.view_add_pass, width=75)
+        add_button = ctk.CTkButton(self, text="Añadir", border_color="white", border_width=1, command=app.add_password_ui, width=75)
         add_button.grid(row=3, column=0, padx=5, pady=(10, 5))
         
         '''
@@ -54,8 +54,8 @@ class HomeWidget(ctk.CTkFrame):
 
     
     ''' Review this method '''
-    def get_passwords(self) -> list[list[str]]:
-        error, status, data = self.parent_app.get_passwords()
+    def _get_passwords(self) -> list[list[str]]:
+        error, status, data = self.parent_app._get_passwords()
         if error:
             print("Error a la hora de realizar el login: " + data)
             return [[]]

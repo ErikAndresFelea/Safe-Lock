@@ -44,13 +44,13 @@ class PasswordWidget(ctk.CTkFrame):
         user_name_label.grid(row=0, column=0, padx=5, pady=0, sticky="wns")
         user_name_label_click = ctk.CTkLabel(bottom_frame, text=data[2], cursor="hand2")
         user_name_label_click.grid(row=0, column=1, padx=5, pady=0, sticky="wns")
-        user_name_label_click.bind("<Button-1>", self.on_click)
+        user_name_label_click.bind("<Button-1>", self._on_click)
 
         password_label = ctk.CTkLabel(bottom_frame, text="Contraseña:", font=ctk.CTkFont(weight="bold"))
         password_label.grid(row=1, column=0, padx=5, pady=0, sticky="w")
         password_label_click = ctk.CTkLabel(bottom_frame, text=data[3], cursor="hand2")
         password_label_click.grid(row=1, column=1, padx=5, pady=0, sticky="w")
-        password_label_click.bind("<Button-1>", self.on_click)
+        password_label_click.bind("<Button-1>", self._on_click)
 
         # Right frame. 3 columns and 1 row
         right_frame = ctk.CTkFrame(self, fg_color="gray17")
@@ -58,33 +58,33 @@ class PasswordWidget(ctk.CTkFrame):
         right_frame.grid_rowconfigure(0, weight=1)
         right_frame.grid_columnconfigure((0, 1, 2), weight=1)
 
-        view_button = ctk.CTkButton(right_frame, text="View", border_color="white", border_width=1, command=self.view_pass, width=50)
+        view_button = ctk.CTkButton(right_frame, text="View", border_color="white", border_width=1, command=self._view_pass, width=50)
         view_button.grid(row=0, column=0, padx=5, pady=5, sticky="ew")
 
-        edit_button = ctk.CTkButton(right_frame, text="Edit", border_color="white", border_width=1, command=self.view_update_pass, width=50)
+        edit_button = ctk.CTkButton(right_frame, text="Edit", border_color="white", border_width=1, command=self._update_pass, width=50)
         edit_button.grid(row=0, column=1, padx=5, pady=5, sticky="ew")
 
-        delete_button = ctk.CTkButton(right_frame, text="Delete", fg_color="red", hover_color="darkred", border_color="white", border_width=1, command=self.delete_pass, width=50)
+        delete_button = ctk.CTkButton(right_frame, text="Delete", fg_color="red", hover_color="darkred", border_color="white", border_width=1, command=self._delete_pass, width=50)
         delete_button.grid(row=0, column=2, padx=5, pady=5, sticky="ew")
 
 
     ''' Button for app info display '''
-    def view_pass(self):
-        self.parent_app.view_pass(self.password_data)
+    def _view_pass(self):
+        self.parent_app.password_ui(self.password_data)
 
 
     ''' Update stored app info '''
-    def view_update_pass(self):
-        self.parent_app.view_update_pass(self.password_data)
+    def _update_pass(self):
+        self.parent_app.update_password_ui(self.password_data)
     
 
     ''' Deletes stored app '''
-    def delete_pass(self):
+    def _delete_pass(self):
         self.parent_app.delete_pass(self.password_data[0])
     
 
     ''' Copy text from the label that is clicked '''
-    def on_click(self, event):
+    def _on_click(self, event):
         clicked_label = event.widget
         text_to_copy = clicked_label.cget("text")
         self.clipboard_clear()

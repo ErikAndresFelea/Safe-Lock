@@ -76,7 +76,7 @@ class AddPasswordWidget(ctk.CTkFrame):
         button_frame.grid(row=2, column=0, padx=0, pady=0, sticky="nsew")
         button_frame.grid_columnconfigure((0, 1), weight=1)
 
-        cancel_button = ctk.CTkButton(button_frame, text="Cancelar", fg_color="red", hover_color="darkred", border_color="white", border_width=1, command=app.view_home, width=75)
+        cancel_button = ctk.CTkButton(button_frame, text="Cancelar", fg_color="red", hover_color="darkred", border_color="white", border_width=1, command=app.home_ui, width=75)
         cancel_button.grid(row=0, column=0, padx=5, pady=(30, 5), sticky="e")
 
         add_button = ctk.CTkButton(button_frame, text="Añadir", border_color="white", border_width=1, command=self.add_pass, width=75)
@@ -98,7 +98,7 @@ class AddPasswordWidget(ctk.CTkFrame):
             elif not status:
                 self.error_label.configure(text="La contraseña no se ha añadido")
             else:
-                self.parent_app.view_home()
+                self.parent_app.home_ui()
 
 
     ''' User input validation '''

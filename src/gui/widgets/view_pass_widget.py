@@ -70,7 +70,7 @@ class ViewPasswordWidget(ctk.CTkFrame):
         button_frame.grid(row=2, column=0, padx=5, pady=5, sticky="nsew")
         button_frame.grid_columnconfigure(0, weight=1)
 
-        done_button = ctk.CTkButton(button_frame, text="Confirmar", command=app.view_home, width=75)
+        done_button = ctk.CTkButton(button_frame, text="Confirmar", command=app.home_ui, width=75)
         done_button.grid(row=0, column=0, padx=5, pady=(30, 5))
 
 

@@ -45,7 +45,6 @@ TO DO LIST (NEW)
     - Add delete user
     - Add import / export password file
     
-    - Update dataHandler
     - Update passwordManager
     - Update controller
     - Update password
