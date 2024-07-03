@@ -38,6 +38,7 @@ class Controller:
         cursor = self._connection.cursor()
         cursor.execute(f'''SELECT password, email, key FROM users WHERE username == "{username}";''')
         user_data = cursor.fetchone()
+        cursor.close()
 
         if user_data is not None:
             data_handler = DataHandler(user_data[2])
@@ -64,8 +65,32 @@ class Controller:
             pass
 
 
-    def get_all_passwords(self):
-        pass
+    def get_all_passwords(self) -> tuple[bool, list[list[str]]]:
+        if self.authenticated:
+            cursor = self._connection.cursor()
+            cursor.execute(f'''SELECT password_id, app_name, app_username, app_password, app_email, app_id, app_url FROM passwords WHERE user_id == "{self._user_name}";''')
+            user_data = cursor.fetchall()
+            cursor.close()
+
+            passwords = []
+            operation = False
+            for row in user_data:
+                op1, password_id = row[0]
+                op2, app_name = self._data_handler.decrypt(row[1])
+                op3, app_username = self._data_handler.decrypt(row[2])
+                op4, app_password = self._data_handler.decrypt(row[3])
+                op5, app_email = self._data_handler.decrypt(row[4])
+                op6, app_id = self._data_handler.decrypt(row[5])
+                op7, app_url = self._data_handler.decrypt(row[6])
+
+                operation = op1 and op2 and op3 and op4 and op5 and op6 and op7
+                if not operation:
+                    passwords = []
+                    break
+
+                passwords.append([password_id, app_name, app_username, app_password, app_email, app_id, app_url])
+            return operation, passwords
+
 
     def add_password(self, data: list[str]):
         pass

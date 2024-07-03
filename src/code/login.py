@@ -18,7 +18,6 @@ class Login:
         cursor = self._connection.cursor()
         cursor.execute(f'''SELECT password, key FROM users WHERE username == "{username}";''')
         user_data = cursor.fetchone()
-        print(user_data)
         cursor.close()
 
         if user_data is not None:
