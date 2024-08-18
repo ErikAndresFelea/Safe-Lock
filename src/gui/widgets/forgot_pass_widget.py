@@ -13,7 +13,7 @@ The interface is divided in 3 rows. Each row contains:
 class ForgotPassword(ctk.CTkFrame):
     def __init__(self, master, app):
         super().__init__(master, fg_color="transparent")
-        self.parent_app = app
+        self._parent_app = app
 
         # Widget split into 2 frames. Top and Bottom
         self.grid_rowconfigure((0, 1, 2), weight=1)
@@ -51,12 +51,12 @@ class ForgotPassword(ctk.CTkFrame):
         user_input_validation = self._check_user_input()
         
         if user_input_validation:
-            operation = self.parent_app.controller.forgot_password(self._username_entry.get())
+            operation = self._parent_app.controller.forgot_password(self._username_entry.get())
             if not operation:
                 self._error_label.configure(text="Nombre de usuario invalido")
                 self._username_entry.configure(border_color="darkred")
             else:
-                self.parent_app.login_ui()
+                self._parent_app.login_ui()
 
     
     ''' User input validation '''

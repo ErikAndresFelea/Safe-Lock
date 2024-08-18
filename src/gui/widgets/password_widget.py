@@ -17,8 +17,8 @@ The interface is divided in 2 rows. Each column contains:
 class PasswordWidget(ctk.CTkFrame):
     def __init__(self, master, app, data: list[str]):
         super().__init__(master, fg_color="gray17", border_width=2)
-        self.parent_app = app
-        self.password_data = data
+        self._parent_app = app
+        self._password_data = data
         
         self.grid_columnconfigure((0, 1), weight=1)
 
@@ -32,7 +32,7 @@ class PasswordWidget(ctk.CTkFrame):
         top_frame.grid(row=0, column=0, padx=5, pady=0, sticky="nswe")
         top_frame.grid_rowconfigure(0, weight=1)
         
-        name_label = ctk.CTkLabel(top_frame, text=data[1], font=ctk.CTkFont(size=14, weight="bold", family="Verdana", underline=True))
+        name_label = ctk.CTkLabel(top_frame, text=self._password_data[1], font=ctk.CTkFont(size=14, weight="bold", family="Verdana", underline=True))
         name_label.grid(row=0, column=0, padx=5, pady=5, sticky="w")
 
         bottom_frame = ctk.CTkFrame(left_frame)
@@ -42,13 +42,13 @@ class PasswordWidget(ctk.CTkFrame):
 
         user_name_label = ctk.CTkLabel(bottom_frame, text="Usuario:", font=ctk.CTkFont(weight="bold"))
         user_name_label.grid(row=0, column=0, padx=5, pady=0, sticky="wns")
-        user_name_label_click = ctk.CTkLabel(bottom_frame, text=data[2], cursor="hand2")
+        user_name_label_click = ctk.CTkLabel(bottom_frame, text=self._password_data[2], cursor="hand2")
         user_name_label_click.grid(row=0, column=1, padx=5, pady=0, sticky="wns")
         user_name_label_click.bind("<Button-1>", self._on_click)
 
         password_label = ctk.CTkLabel(bottom_frame, text="Contraseña:", font=ctk.CTkFont(weight="bold"))
         password_label.grid(row=1, column=0, padx=5, pady=0, sticky="w")
-        password_label_click = ctk.CTkLabel(bottom_frame, text=data[3], cursor="hand2")
+        password_label_click = ctk.CTkLabel(bottom_frame, text=self._password_data[3], cursor="hand2")
         password_label_click.grid(row=1, column=1, padx=5, pady=0, sticky="w")
         password_label_click.bind("<Button-1>", self._on_click)
 
@@ -70,19 +70,19 @@ class PasswordWidget(ctk.CTkFrame):
 
     ''' Button for app info display '''
     def _view_pass(self):
-        self.parent_app.password_ui(self.password_data)
+        self._parent_app.password_ui(self._password_data)
 
 
     ''' Update stored app info '''
     def _update_pass(self):
-        self.parent_app.update_password_ui(self.password_data)
+        self._parent_app.update_password_ui(self._password_data)
     
 
     ''' Deletes stored app '''
     def _delete_pass(self):
-        operation = self.parent_app.controller.delete_password(self.password_data[0])
+        operation = self._parent_app.controller.delete_password(self._password_data[0])
         if operation:
-            self.parent_app.home_ui()
+            self._parent_app.home_ui()
             # Afirmative deleted msg
         # Negative deleted msg
     

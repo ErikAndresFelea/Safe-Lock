@@ -16,7 +16,7 @@ The interface is divided in 3 rows. Each row contains:
 class RegisterWidget(ctk.CTkFrame):    
     def __init__(self, master, app):
         super().__init__(master, fg_color="transparent")
-        self.parent_app = app
+        self._parent_app = app
 
         # Widget split into 2 frames. Top and Bottom
         self.grid_rowconfigure((0, 1, 2), weight=1)
@@ -72,12 +72,12 @@ class RegisterWidget(ctk.CTkFrame):
         user_input_validation = self._check_user_input()
 
         if user_input_validation:
-            operation = self.parent_app.controller.register(self._username_entry.get(), self._email_entry.get(), self._password_entry.get())
+            operation = self._parent_app.controller.register(self._username_entry.get(), self._email_entry.get(), self._password_entry.get())
             if not operation:
                 self._username_entry.configure(border_color="darkred")
                 self._error_label.configure(text="El usuario ya existe")
             else:
-                self.parent_app.login_ui()
+                self._parent_app.login_ui()
 
 
     ''' User input validation '''

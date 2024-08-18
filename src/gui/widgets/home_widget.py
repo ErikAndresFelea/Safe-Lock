@@ -13,7 +13,7 @@ The interface is divided in 4 rows. Each row contains:
 class HomeWidget(ctk.CTkFrame):
     def __init__(self, master, app):
         super().__init__(master, fg_color="transparent")
-        self.parent_app = app
+        self._parent_app = app
         self.grid_rowconfigure((0, 1, 2, 3), weight=1)
 
         title_label = ctk.CTkLabel(self, text="Contraseñas", font=ctk.CTkFont(size=40, weight="bold", family="Verdana"))
@@ -54,7 +54,7 @@ class HomeWidget(ctk.CTkFrame):
     
     ''' Review this method '''
     def _get_passwords(self) -> list[list[str]]:
-        operation, data = self.parent_app.controller.get_all_passwords()
+        operation, data = self._parent_app.controller.get_all_passwords()
         if not operation:
             self._error_label.configure(text="No hay contraseñas almacenadas")
         return data

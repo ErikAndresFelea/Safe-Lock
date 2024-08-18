@@ -16,7 +16,7 @@ The interface is divided in 5 rows. Each row contains:
 class LoginWidget(ctk.CTkFrame):
     def __init__(self, master, app):
         super().__init__(master, fg_color="transparent")
-        self.parent_app = app
+        self._parent_app = app
         self.grid_rowconfigure((0, 1, 2, 3), weight=1)
 
         title_label = ctk.CTkLabel(self, text="Login", font=ctk.CTkFont(size=40, weight="bold", family="Verdana"))
@@ -63,13 +63,13 @@ class LoginWidget(ctk.CTkFrame):
 
         if user_input_validation:
             remeber = True if self._remember_checkbox.get() == 1 else False
-            operation = self.parent_app.controller.login(self._user_entry.get(), self._password_entry.get(), remeber)
+            operation = self._parent_app.controller.login(self._user_entry.get(), self._password_entry.get(), remeber)
             if not operation:
                 self._error_label.configure(text="Usuario o contraseña incorrectas")
                 self._user_entry.configure(border_color="darkred")
                 self._password_entry.configure(border_color="darkred")
             else:
-                self.parent_app.home_ui()
+                self._parent_app.home_ui()
 
 
     ''' User input validation '''
@@ -105,7 +105,7 @@ class LoginWidget(ctk.CTkFrame):
 
     ''' Recovers last user's username and password if remember checkbox was active last login '''
     def _remember_last_login(self) -> None:
-        user_data = self.parent_app.controller.get_last_user()
+        user_data = self._parent_app.controller.get_last_user()
         if user_data is not None:
             self._user_entry.insert(0, user_data[0])
             self._password_entry.insert(0, user_data[1])

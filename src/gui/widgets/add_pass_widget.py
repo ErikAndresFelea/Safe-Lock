@@ -19,7 +19,7 @@ The interface is divided in 3 rows. Each row contains:
 class AddPasswordWidget(ctk.CTkFrame):
     def __init__(self, master, app):
         super().__init__(master, fg_color="transparent")
-        self.parent_app = app
+        self._parent_app = app
 
         # Widget split into 2 frames. Top and Bottom
         self.grid_rowconfigure((0, 1, 2), weight=1)
@@ -79,26 +79,26 @@ class AddPasswordWidget(ctk.CTkFrame):
         cancel_button = ctk.CTkButton(button_frame, text="Cancelar", fg_color="red", hover_color="darkred", border_color="white", border_width=1, command=app.home_ui, width=75)
         cancel_button.grid(row=0, column=0, padx=5, pady=(30, 5), sticky="e")
 
-        add_button = ctk.CTkButton(button_frame, text="Añadir", border_color="white", border_width=1, command=self.add_pass, width=75)
+        add_button = ctk.CTkButton(button_frame, text="Añadir", border_color="white", border_width=1, command=self._add_pass, width=75)
         add_button.grid(row=0, column=1, padx=5, pady=(30, 5), sticky="w")
 
 
     ''' Checks if user input is correct, if it is proceeds
         to add a new password for the current user '''
-    def add_pass(self):
-        self.reset_ui()
-        user_input_validation = self.check_user_input()
+    def _add_pass(self):
+        self._reset_ui()
+        user_input_validation = self._check_user_input()
         
         if user_input_validation:
-            operation  = self.parent_app.controller.add_password(["", self._name_entry.get().capitalize(), self._user_entry.get(), self._password_entry.get(), self._email_entry.get(), self._app_id_entry.get(), self._url_entry.get()])
+            operation  = self._parent_app.controller.add_password(["", self._name_entry.get().capitalize(), self._user_entry.get(), self._password_entry.get(), self._email_entry.get(), self._app_id_entry.get(), self._url_entry.get()])
             if not operation:
                 self._error_label.configure(text="La contraseña no se ha añadido")
             else:
-                self.parent_app.home_ui()
+                self._parent_app.home_ui()
 
 
     ''' User input validation '''
-    def check_user_input(self) -> bool:
+    def _check_user_input(self) -> bool:
         name = len(self._name_entry.get()) > 0
         user = len(self._user_entry.get()) > 0
         password = len(self._password_entry.get()) > 0
@@ -126,7 +126,7 @@ class AddPasswordWidget(ctk.CTkFrame):
     
 
     ''' Sets UI dynamic elements to default '''
-    def reset_ui(self):
+    def _reset_ui(self):
         self._error_label.configure(text=None)
         self._name_entry.configure(border_color="gray50")
         self._user_entry.configure(border_color="gray50")
