@@ -26,23 +26,15 @@ if __name__ == "__main__":
 
 
 ''' 
-TO DO LIST (OLD)
-    - Check if set_all and get_all methods are useful (Password)
-    - get_password from PM Not used after major changes on code, maybe useful later when implementing favorits 
+TO DO LIST
+    - Look into Password class and see if it can be useful using it (sending objects instead of list of str)
     - Send email to new user with personal data in case they forget
     - Add profile UI
+    - Add delete user
     - Add favorite password section
     - Add import export data
     - Work on the installer of the app
     - Add search bar
-
-TO DO LIST (NEW)
-    - Add delete user
-    - Add import / export password file
-    
-    - Update passwordManager
-    - Update controller
-    - Update password
-    
-    - Update home widget
+    - Update password widget, make passsword show * instead of the real password
+    - Add feedback message UI
 '''
