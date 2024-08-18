@@ -29,30 +29,14 @@ class HomeWidget(ctk.CTkFrame):
         main_frame.grid_rowconfigure(rows, weight=1)
         main_frame.grid_columnconfigure(0, weight=1)
 
-        for i in range(len(self._all_passwords)):
-            password_frame = PasswordWidget(main_frame, app, self._all_passwords[i])
+        for i, password_data in enumerate(self._all_passwords):
+            password_frame = PasswordWidget(main_frame, app, password_data)
             password_frame.grid(row=i, column=0, padx=5, pady=5, sticky="ew")
 
         add_button = ctk.CTkButton(self, text="Añadir", border_color="white", border_width=1, command=app.add_password_ui, width=75)
         add_button.grid(row=3, column=0, padx=5, pady=(10, 5))
         
-        '''
-        counter = 0
-        for i in range(0, len(all_passwords) * 2, 2):
-            password_frame = PasswordWidget(main_frame, app, all_passwords[counter])
-            password_frame.grid(row=i, column=0, padx=0, pady=0, sticky="ew")
-            counter += 1
-
-            if counter != len(all_passwords):
-                frame = ctk.CTkFrame(main_frame, height=4, border_width=1, fg_color="gray50")
-                frame.grid(row=i+1, column=0, padx=5, pady=5, sticky="we")
-
-        add_button = ctk.CTkButton(self, text="Añadir", border_color="white", border_width=1, command=app.view_add_pass, width=75)
-        add_button.grid(row=3, column=0, padx=5, pady=(30, 5))
-        '''
-
     
-    ''' Review this method '''
     def _get_passwords(self) -> list[list[str]]:
         operation, data = self._parent_app.controller.get_all_passwords()
         if not operation:

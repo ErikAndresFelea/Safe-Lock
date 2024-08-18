@@ -44,13 +44,14 @@ class PasswordWidget(ctk.CTkFrame):
         user_name_label.grid(row=0, column=0, padx=5, pady=0, sticky="wns")
         user_name_label_click = ctk.CTkLabel(bottom_frame, text=self._password_data[2], cursor="hand2")
         user_name_label_click.grid(row=0, column=1, padx=5, pady=0, sticky="wns")
-        user_name_label_click.bind("<Button-1>", self._on_click)
+        user_name_label_click.bind("<Button-1>", self._on_click_name)
 
         password_label = ctk.CTkLabel(bottom_frame, text="Contraseña:", font=ctk.CTkFont(weight="bold"))
         password_label.grid(row=1, column=0, padx=5, pady=0, sticky="w")
-        password_label_click = ctk.CTkLabel(bottom_frame, text=self._password_data[3], cursor="hand2")
+        masked_password = "*" * len(self._password_data[3])
+        password_label_click = ctk.CTkLabel(bottom_frame, text=masked_password, cursor="hand2")
         password_label_click.grid(row=1, column=1, padx=5, pady=0, sticky="w")
-        password_label_click.bind("<Button-1>", self._on_click)
+        password_label_click.bind("<Button-1>", self._on_click_password)
 
         # Right frame. 3 columns and 1 row
         right_frame = ctk.CTkFrame(self, fg_color="gray17")
@@ -88,8 +89,11 @@ class PasswordWidget(ctk.CTkFrame):
     
 
     ''' Copy text from the label that is clicked '''
-    def _on_click(self, event):
-        clicked_label = event.widget
-        text_to_copy = clicked_label.cget("text")
+    def _on_click_name(self, event):
         self.clipboard_clear()
-        self.clipboard_append(text_to_copy)
+        self.clipboard_append(self._password_data[2])
+        
+        
+    def _on_click_password(self, event):
+        self.clipboard_clear()
+        self.clipboard_append(self._password_data[3])

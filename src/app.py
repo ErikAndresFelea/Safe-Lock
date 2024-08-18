@@ -35,6 +35,6 @@ TO DO LIST
     - Add import export data
     - Work on the installer of the app
     - Add search bar
-    - Update password widget, make passsword show * instead of the real password
     - Add feedback message UI
+    - Look into salt for backend security, and change how last password is stored, or any password (for user)
 '''
