@@ -1,66 +1,171 @@
+import uuid
+import sqlite3 as sql
 from code.login import Login
 from code.register import Register
-from code.passwordManager import PasswordManager
 from code.dataHandler import DataHandler
 
-Operation = bool
-Error = bool
-Msg = str | None
-
 class Controller:
-    def __init__(self, data_handler: DataHandler):
+    def __init__(self, connection: sql.Connection):
         super().__init__()
-        self.data_handler = data_handler
+        self.authenticated = False
+        self._connection = connection
+        self._user_name: str = None
+        self._data_handler: DataHandler = None
+        
 
-    def login(self, name: str, password: str, remember: bool) -> tuple[Error, Operation, Msg]:
-        user_login = Login(name, password, self.data_handler, remember)
-        error, status, data_handler, data = user_login.check_credentials()
-
-        # Create an PasswordManager using the dataHandler and the user
-        self.password_manager = PasswordManager(data_handler, data)
-        '''
-        self.password_manager.set_dataHandler(data_handler)
-        self.password_manager.set_username(name)
-        '''
-        return error, status, data
-
-    def register(self, name: str, email: str, password: str) -> tuple[Error, Operation, Msg]:
-        new_user = Register(name, email, password, self.data_handler)
-        return new_user.create_account()
+    def login(self, username: str, password: str, remember: bool) -> bool:
+        login = Login(self._connection, username, password, remember)
+        
+        if not login.authenticated:
+            return False
+        
+        self._user_name = login.user_name
+        self._data_handler = login.data_handler
+        self.authenticated = login.authenticated
+        return True
     
-    def forgot_password(self, email: str) -> tuple[Error, Operation, Msg | list[str]]:
-        error, status, data = self.data_handler.recover_password(email)
-        if not status or error:
-            return error, status, data
-        return False, True, data
     
-    def get_last_user(self) -> tuple[Error, Operation, Msg | tuple[str, str]]:
-        error, status, data = self.data_handler.get_last_user()
-        if not status or error:
-            return error, status, data
-        return False, True, data
+    def register(self, username: str, email: str, password: str) -> bool:
+        register = Register(self._connection, username, password, email)
+        
+        if not register.registered:
+            return False
+        return self._send_email(email, None)
+
+
+    def forgot_password(self, username: str) -> bool:
+        cursor = self._connection.cursor()
+        cursor.execute(f'''SELECT password, email, key FROM users WHERE username == "{username}";''')
+        user_data = cursor.fetchone()
+        cursor.close()
+
+        if user_data is not None:
+            data_handler = DataHandler(user_data[2])
+            operation1, decrypted_password = data_handler.decrypt(user_data[0])
+            operation2, decrypted_email = data_handler.decrypt(user_data[1])
+
+            if operation1 and operation2:
+                self._send_email(decrypted_email, decrypted_password)
+        return operation1 and operation2 and user_data is not None
     
-    ''' Not used yet
-    def get_password(self, id: str) -> tuple[bool, list[str] | None]:
-        confirm, password = self.password_manager.get_password(id)
-        return confirm, password
-    '''
 
-    def get_all_passwords(self) -> tuple[Error, Operation, list[list[str]] | Msg]:
-        error, status, data = self.password_manager.get_all_passwords()
-        if not status or error:
-            return error, status, data
-        all_passwords = []
-        for password in data:
-            all_passwords.append(password.get_all())
-        return False, True, all_passwords
-
-    def add_password(self, data: list[str]) -> tuple[Error, Operation, Msg]:
-        return self.password_manager.add_password(data)
-
-    def update_password(self, data: list[str]) -> tuple[Error, Operation, Msg]:
-        return self.password_manager.update_password(data)
-
-    def delete_password(self, id: list[str]) -> tuple[Error, Operation, Msg]:
-        return self.password_manager.delete_password(id)
+    def get_last_user(self) -> tuple[str, str]:
+        cursor = self._connection.cursor()
+        cursor.execute(f'''SELECT username, plain_password FROM users WHERE remember == TRUE''')
+        user_data = cursor.fetchone()
+        cursor.close()
+        return user_data
     
+
+    def _send_email(self, email: str, data) -> None:
+        if data is None:
+            pass
+        else:
+            pass
+
+
+    def get_all_passwords(self) -> tuple[bool, list[list[str]]]:
+        if not self.authenticated:
+            return False, []
+        
+        cursor = self._connection.cursor()
+        cursor.execute(f'''SELECT password_id, app_name, app_username, app_password, app_email, app_id, app_url FROM passwords WHERE user_id == "{self._user_name}";''')
+        user_data = cursor.fetchall()
+        cursor.close()
+
+        passwords = []
+        operation = False
+        for row in user_data:
+            password_id = row[0]
+            op1, app_name = self._data_handler.decrypt(row[1])
+            op2, app_username = self._data_handler.decrypt(row[2])
+            op3, app_password = self._data_handler.decrypt(row[3])
+            op4, app_email = self._data_handler.decrypt(row[4])
+            op5, app_id = self._data_handler.decrypt(row[5])
+            op6, app_url = self._data_handler.decrypt(row[6])
+
+            operation = op1 and op2 and op3 and op4 and op5 and op6
+            if not operation:
+                return False, []
+
+            passwords.append([password_id, app_name, app_username, app_password, app_email, app_id, app_url])
+        return True, passwords
+
+
+    def get_password(self, password_id: str) -> tuple[bool, list[str]]:
+        if not self.authenticated:
+            return False, None
+        
+        cursor = self._connection.cursor()
+        cursor.execute(f'''SELECT password_id, app_name, app_username, app_password, app_email, app_id, app_url FROM passwords WHERE user_id = "{self._user_name}" AND password_id = "{password_id}";''')
+        data = cursor.fetchone()
+        cursor.close()
+        
+        password_id = data[0]
+        op1, app_name = self._data_handler.decrypt(data[1])
+        op2, app_username = self._data_handler.decrypt(data[2])
+        op3, app_password = self._data_handler.decrypt(data[3])
+        op4, app_email = self._data_handler.decrypt(data[4])
+        op5, app_id = self._data_handler.decrypt(data[5])
+        op6, app_url = self._data_handler.decrypt(data[6])
+
+        operation = op1 and op2 and op3 and op4 and op5 and op6
+        if not operation:
+            return False, None
+        
+        return True, [password_id, app_name, app_username, app_password, app_email, app_id, app_url]
+
+
+    def add_password(self, data: list[str]) -> bool:
+        password_id = str(uuid.uuid4())
+        op1, app_name = self._data_handler.encrypt(data[1])
+        op2, app_username = self._data_handler.encrypt(data[2])
+        op3, app_password = self._data_handler.encrypt(data[3])
+        op4, app_email = self._data_handler.encrypt(data[4])
+        op5, app_id = self._data_handler.encrypt(data[5])
+        op6, app_url = self._data_handler.encrypt(data[6])
+        operation = op1 and op2 and op3 and op4 and op5 and op6
+
+        if not (self.authenticated and operation):
+            return False
+        
+        new_password = [password_id, self._user_name, app_name, app_username, app_password, app_email, app_id, app_url]
+        cursor = self._connection.cursor()
+        query = f'''INSERT INTO passwords VALUES ({" ,".join(["?"] * len(new_password))})'''
+        cursor.execute(query, new_password)
+        self._connection.commit()
+        cursor.close()
+        return True
+
+
+    def update_password(self, data: list[str]):
+        password_id = data[0]
+        op1, app_name = self._data_handler.encrypt(data[1])
+        op2, app_username = self._data_handler.encrypt(data[2])
+        op3, app_password = self._data_handler.encrypt(data[3])
+        op4, app_email = self._data_handler.encrypt(data[4])
+        op5, app_id = self._data_handler.encrypt(data[5])
+        op6, app_url = self._data_handler.encrypt(data[6])
+        operation = op1 and op2 and op3 and op4 and op5 and op6
+
+        if not (self.authenticated and operation):
+            return False
+        
+        new_password = (app_name, app_username, app_password, app_email, app_id, app_url, self._user_name, password_id)
+        cursor = self._connection.cursor()
+        query = f'''UPDATE passwords SET app_name = ?, app_username = ?, app_password = ?, app_email = ?, app_id = ?, app_url = ? WHERE user_id = ? AND password_id = ?'''
+        cursor.execute(query, new_password)
+        self._connection.commit()
+        cursor.close()
+        return True
+        
+        
+    def delete_password(self, id: list[str]) -> bool:
+        if not self.authenticated:
+            return False
+        
+        cursor = self._connection.cursor()
+        cursor.execute(f'DELETE FROM passwords WHERE password_id = "{id}";')
+        cursor.close()
+        self._connection.commit()
+        return True
