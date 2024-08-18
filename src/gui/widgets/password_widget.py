@@ -80,7 +80,11 @@ class PasswordWidget(ctk.CTkFrame):
 
     ''' Deletes stored app '''
     def _delete_pass(self):
-        self.parent_app.delete_pass(self.password_data[0])
+        operation = self.parent_app.controller.delete_password(self.password_data[0])
+        if operation:
+            self.parent_app.home_ui()
+            # Afirmative deleted msg
+        # Negative deleted msg
     
 
     ''' Copy text from the label that is clicked '''

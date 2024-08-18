@@ -88,15 +88,6 @@ class App(customtkinter.CTk):
         return self.controller.update_password(data)
 
 
-    def delete_pass(self, id: str):
-        error, status, data = self.controller.delete_password(id)
-        if error or not status:
-            # Show UI error
-            pass
-        else:
-            self.view_home()
-
-
     ''' Other methods '''
     def _clear_ui(self):
         for widget in self._main_frame.winfo_children():

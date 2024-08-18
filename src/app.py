@@ -39,7 +39,6 @@ TO DO LIST (OLD)
 TO DO LIST (NEW)
     - Change read password/s
     - Change update password
-    - Change delete password
     - Add delete user
     - Add import / export password file
     
