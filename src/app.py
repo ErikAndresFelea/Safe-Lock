@@ -34,7 +34,6 @@ TO DO LIST
     - Add favorite password section
     - Add import export data
     - Work on the installer of the app
-    - Add search bar
     - Add feedback message UI
     - Look into salt for backend security, and change how last password is stored, or any password (for user)
 '''
