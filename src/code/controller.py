@@ -92,8 +92,28 @@ class Controller:
         return True, passwords
 
 
-    def get_password(self, password_id: str):
-        pass
+    def get_password(self, password_id: str) -> tuple[bool, list[str]]:
+        if not self.authenticated:
+            return False, None
+        
+        cursor = self._connection.cursor()
+        cursor.execute(f'''SELECT password_id, app_name, app_username, app_password, app_email, app_id, app_url FROM passwords WHERE user_id = "{self._user_name}" AND password_id = "{password_id}";''')
+        data = cursor.fetchone()
+        cursor.close()
+        
+        password_id = data[0]
+        op1, app_name = self._data_handler.decrypt(data[1])
+        op2, app_username = self._data_handler.decrypt(data[2])
+        op3, app_password = self._data_handler.decrypt(data[3])
+        op4, app_email = self._data_handler.decrypt(data[4])
+        op5, app_id = self._data_handler.decrypt(data[5])
+        op6, app_url = self._data_handler.decrypt(data[6])
+
+        operation = op1 and op2 and op3 and op4 and op5 and op6
+        if not operation:
+            return False, None
+        
+        return True, [password_id, app_name, app_username, app_password, app_email, app_id, app_url]
 
 
     def add_password(self, data: list[str]) -> bool:
@@ -119,9 +139,27 @@ class Controller:
 
 
     def update_password(self, data: list[str]):
-        pass
+        password_id = data[0]
+        op1, app_name = self._data_handler.encrypt(data[1])
+        op2, app_username = self._data_handler.encrypt(data[2])
+        op3, app_password = self._data_handler.encrypt(data[3])
+        op4, app_email = self._data_handler.encrypt(data[4])
+        op5, app_id = self._data_handler.encrypt(data[5])
+        op6, app_url = self._data_handler.encrypt(data[6])
+        operation = op1 and op2 and op3 and op4 and op5 and op6
 
-
+        if not (self.authenticated and operation):
+            return False
+        
+        new_password = (app_name, app_username, app_password, app_email, app_id, app_url, self._user_name, password_id)
+        cursor = self._connection.cursor()
+        query = f'''UPDATE passwords SET app_name = ?, app_username = ?, app_password = ?, app_email = ?, app_id = ?, app_url = ? WHERE user_id = ? AND password_id = ?'''
+        cursor.execute(query, new_password)
+        self._connection.commit()
+        cursor.close()
+        return True
+        
+        
     def delete_password(self, id: list[str]) -> bool:
         if not self.authenticated:
             return False
@@ -131,13 +169,3 @@ class Controller:
         cursor.close()
         self._connection.commit()
         return True
-
-
-#    ''' Not used yet
-#    def get_password(self, id: str) -> tuple[bool, list[str] | None]:
-#        confirm, password = self.password_manager.get_password(id)
-#        return confirm, password
-#    '''
-#
-#    def update_password(self, data: list[str]) -> tuple[Error, Operation, Msg]:
-#        return self.password_manager.update_password(data)

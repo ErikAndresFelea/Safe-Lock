@@ -37,8 +37,6 @@ TO DO LIST (OLD)
     - Add search bar
 
 TO DO LIST (NEW)
-    - Change read password/s
-    - Change update password
     - Add delete user
     - Add import / export password file
     
@@ -46,10 +44,5 @@ TO DO LIST (NEW)
     - Update controller
     - Update password
     
-    - Update add_pass widget
-    - Update edit_pass widget
     - Update home widget
-    - Update password widget
-    - Update view_pass widget
- 
 '''

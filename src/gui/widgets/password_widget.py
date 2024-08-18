@@ -70,12 +70,12 @@ class PasswordWidget(ctk.CTkFrame):
 
     ''' Button for app info display '''
     def _view_pass(self):
-        self._parent_app.password_ui(self._password_data)
+        self._parent_app.password_ui(self._password_data[0])
 
 
     ''' Update stored app info '''
     def _update_pass(self):
-        self._parent_app.update_password_ui(self._password_data)
+        self._parent_app.update_password_ui(self._password_data[0])
     
 
     ''' Deletes stored app '''
