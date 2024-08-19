@@ -71,42 +71,35 @@ class Controller:
         
         cursor = self.__connection.cursor()
         cursor.execute(f'SELECT * FROM passwords WHERE user_id == "{self.__user_name}";')
-        user_data = cursor.fetchall()
+        passwords = cursor.fetchall()
         cursor.close()
 
-        passwords = []
-        for row in user_data:
-            operation, decrypted_data = self.__data_handler.decrypt_many(list(row[2:]))
+        passwords_list = []
+        for password in passwords:
+            operation, decrypted_data = self.__data_handler.decrypt_many(list(password[2:]))
             if not operation:
                 return False, []
             
-            password_data = list(row[:2]) + decrypted_data
-            passwords.append(Password(*password_data))
-        return True, passwords
+            password_data = list(password[:2]) + decrypted_data
+            passwords_list.append(Password(*password_data))
+        return True, passwords_list
 
 
-    def get_password(self, password_id: str) -> tuple[bool, list[str]]:
+    def get_password(self, password_id: str) -> tuple[bool, Password]:
         if not self.authenticated:
             return False, None
         
         cursor = self.__connection.cursor()
-        cursor.execute(f'''SELECT password_id, app_name, app_username, app_password, app_email, app_id, app_url FROM passwords WHERE user_id = "{self.__user_name}" AND password_id = "{password_id}";''')
-        data = cursor.fetchone()
+        cursor.execute(f'''SELECT * FROM passwords WHERE user_id = "{self.__user_name}" AND password_id = "{password_id}";''')
+        password = cursor.fetchone()
         cursor.close()
         
-        password_id = data[0]
-        op1, app_name = self.__data_handler.decrypt(data[1])
-        op2, app_username = self.__data_handler.decrypt(data[2])
-        op3, app_password = self.__data_handler.decrypt(data[3])
-        op4, app_email = self.__data_handler.decrypt(data[4])
-        op5, app_id = self.__data_handler.decrypt(data[5])
-        op6, app_url = self.__data_handler.decrypt(data[6])
-
-        operation = op1 and op2 and op3 and op4 and op5 and op6
+        operation, decrypted_data = self.__data_handler.decrypt_many(list(password[2:]))
         if not operation:
             return False, None
         
-        return True, [password_id, app_name, app_username, app_password, app_email, app_id, app_url]
+        password_data = list(password[:2]) + decrypted_data
+        return True, Password(*password_data)
 
 
     def add_password(self, data: list[str]) -> bool:
