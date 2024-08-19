@@ -1,4 +1,5 @@
 import customtkinter as ctk
+from gui.app_ui import App
 from gui.widgets.password_widget import PasswordWidget
 
 ''' 
@@ -11,7 +12,7 @@ The interface is divided in 4 rows. Each row contains:
     · 4th: Add password button
 '''
 class HomeWidget(ctk.CTkFrame):
-    def __init__(self, master, app):
+    def __init__(self, master: ctk.CTk, app: App):
         super().__init__(master, fg_color="transparent")
         self._parent_app = app
         self._all_passwords = self._get_passwords()
@@ -24,7 +25,7 @@ class HomeWidget(ctk.CTkFrame):
         self._error_label = ctk.CTkLabel(self, text=None, text_color="red", font=ctk.CTkFont(size=12))
         self._error_label.grid(row=1, column=1, padx=8, pady=0, sticky="w")
 
-        self._search_entry = ctk.CTkEntry(self, placeholder_text="Buscar por nombre...")
+        self._search_entry = ctk.CTkEntry(self, fg_color="gray20", placeholder_text="Buscar por nombre...")
         self._search_entry.grid(row=2, column=0, padx=12, pady=0, sticky="w")
         self._search_entry.bind("<KeyRelease>", self._update_filtered_passwords)
 

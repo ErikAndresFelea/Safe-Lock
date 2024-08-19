@@ -2,10 +2,12 @@ import os
 import sqlite3 as sql
 
 class SetUp:
-    def __init__(self, directory: str, database: str) -> None:
+    def __init__(self) -> None:
         super().__init__()
-        self._check_folder(directory)
-        self.connection = self._database_connection(database)
+        directory_path = os.path.join(os.getenv('APPDATA'), 'Safe Lock')
+        database_path = os.path.join(directory_path, 'SafeLock.db')
+        self._check_folder(directory_path)
+        self.connection = self._database_connection(database_path)
 
 
     ''' Checks if the app has a directory and a database '''

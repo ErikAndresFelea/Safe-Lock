@@ -1,4 +1,5 @@
 import customtkinter as ctk
+from gui.app_ui import App
 
 ''' 
 The interface is divided in 2 rows. Each column contains:
@@ -15,7 +16,7 @@ The interface is divided in 2 rows. Each column contains:
         · Delete app info
 '''
 class PasswordWidget(ctk.CTkFrame):
-    def __init__(self, master, app, data: list[str]):
+    def __init__(self, master: ctk.CTk, app: App, data: list[str]):
         super().__init__(master, fg_color="gray17", border_width=2)
         self._parent_app = app
         self._password_data = data

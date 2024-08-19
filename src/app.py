@@ -1,4 +1,3 @@
-import os
 from gui.app_ui import App as Frontend
 from code.controller import Controller as Backend
 from code.setUp import SetUp
@@ -9,15 +8,13 @@ class App:
         super().__init__()
 
         # Checks if the program is installed correctly
-        folder_path = os.path.join(os.getenv('APPDATA'), 'Safe Lock')
-        file_path = os.path.join(folder_path, 'SafeLock.db')
-        setup = SetUp(folder_path, file_path)
+        setup = SetUp()
         connection = setup.connection
 
         # Instance of the ui and controller
         controller = Backend(connection)
-        view = Frontend(controller)
-        view.mainloop()
+        app_ui = Frontend(controller)
+        app_ui.mainloop()
         connection.close()
 
 

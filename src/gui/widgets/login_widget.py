@@ -1,4 +1,5 @@
 import customtkinter as ctk
+from gui.app_ui import App
 
 ''' 
 The interface is divided in 5 rows. Each row contains:
@@ -14,7 +15,7 @@ The interface is divided in 5 rows. Each row contains:
     · 5th Register button
 '''
 class LoginWidget(ctk.CTkFrame):
-    def __init__(self, master, app):
+    def __init__(self, master: ctk.CTk, app: App):
         super().__init__(master, fg_color="transparent")
         self._parent_app = app
         self.grid_rowconfigure((0, 1, 2, 3), weight=1)

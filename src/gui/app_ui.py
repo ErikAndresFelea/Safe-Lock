@@ -1,19 +1,8 @@
 import customtkinter
-from gui.widgets.login_widget import LoginWidget
-from gui.widgets.home_widget import HomeWidget
-from gui.widgets.edit_pass_widget import EditPasswordWidget
-from gui.widgets.view_pass_widget import ViewPasswordWidget
-from gui.widgets.add_pass_widget import AddPasswordWidget
-from gui.widgets.forgot_pass_widget import ForgotPassword
-from gui.widgets.register_widget import RegisterWidget
 from code.controller import Controller
 
 customtkinter.set_appearance_mode("System")
 customtkinter.set_default_color_theme("blue")
-
-Operation = bool
-Error = bool
-Msg = str | None
 
 class App(customtkinter.CTk):
     def __init__(self, controller: Controller):
@@ -42,42 +31,49 @@ class App(customtkinter.CTk):
 
     ''' UI related mehotds below '''
     def home_ui(self) -> None:
+        from gui.widgets.home_widget import HomeWidget
         self._clear_ui()
         self._current_frame = HomeWidget(self._main_frame, self)
         self._current_frame.grid(row=0, column=0, padx=20, pady=20)
 
 
     def add_password_ui(self) -> None:
+        from gui.widgets.add_pass_widget import AddPasswordWidget
         self._clear_ui()
         self._current_frame = AddPasswordWidget(self._main_frame, self)
         self._current_frame.grid(row=0, column=0, padx=20, pady=20)
 
 
     def update_password_ui(self, id: str) -> None:
+        from gui.widgets.edit_pass_widget import EditPasswordWidget
         self._clear_ui()
         self._current_frame = EditPasswordWidget(self._main_frame, self, id)
         self._current_frame.grid(row=0, column=0, padx=20, pady=20)
 
 
     def password_ui(self, id: str) -> None:
+        from gui.widgets.view_pass_widget import ViewPasswordWidget
         self._clear_ui()
         self._current_frame = ViewPasswordWidget(self._main_frame, self, id)
         self._current_frame.grid(row=0, column=0, padx=20, pady=20)
 
 
     def forgot_pass_ui(self) -> None:
+        from gui.widgets.forgot_pass_widget import ForgotPassword
         self._clear_ui()
         self._current_frame = ForgotPassword(self._main_frame, self)
         self._current_frame.grid(row=0, column=0, padx=20, pady=20)
 
     
     def login_ui(self) -> None:
+        from gui.widgets.login_widget import LoginWidget
         self._clear_ui()
         self._current_frame = LoginWidget(self._main_frame, self)
         self._current_frame.grid(row=0, column=0, padx=20, pady=20)
 
 
     def register_ui(self) -> None:
+        from gui.widgets.register_widget import RegisterWidget
         self._clear_ui()
         self._current_frame = RegisterWidget(self._main_frame, self)
         self._current_frame.grid(row=0, column=0, padx=20, pady=20)

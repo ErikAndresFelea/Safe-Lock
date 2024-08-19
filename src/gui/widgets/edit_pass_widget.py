@@ -1,4 +1,5 @@
 import customtkinter as ctk
+from gui.app_ui import App
 
 ''' 
 The interface is divided in 3 rows. Each row contains:
@@ -17,7 +18,7 @@ The interface is divided in 3 rows. Each row contains:
         · Register button
 '''
 class EditPasswordWidget(ctk.CTkFrame):
-    def __init__(self, master, app, id: str):
+    def __init__(self, master: ctk.CTk, app: App, id: str):
         super().__init__(master, fg_color="transparent")
         self._parent_app = app
         self._password_data = self._get_password(id)
@@ -147,6 +148,6 @@ class EditPasswordWidget(ctk.CTkFrame):
     def _get_password(self, id: str) -> list[str]:
         operation, data = self._parent_app.controller.get_password(id)
         if not operation:
-            self._error_label.configure(text="No hay contraseñas almacenadas")
+            self._error_label.configure(text="Error al acceder a la contraseña")
         return data
     
