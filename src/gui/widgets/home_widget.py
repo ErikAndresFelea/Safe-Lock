@@ -1,6 +1,7 @@
 import customtkinter as ctk
 from gui.app_ui import App
 from gui.widgets.password_widget import PasswordWidget
+from code.password import Password
 
 ''' 
 The interface is divided in 4 rows. Each row contains:
@@ -40,7 +41,7 @@ class HomeWidget(ctk.CTkFrame):
         add_button.grid(row=4, column=0, padx=5, pady=(10, 5))
         
     
-    def __get_passwords(self) -> list[list[str]]:
+    def __get_passwords(self) -> list[Password]:
         operation, data = self.__parent_app.controller.get_all_passwords()
         if not operation:
             self.__error_label.configure(text="No hay contraseñas almacenadas")
@@ -48,7 +49,7 @@ class HomeWidget(ctk.CTkFrame):
         
     def __update_filtered_passwords(self, event=None):
         search_text = self.__search_entry.get().lower()
-        self.__filtered_passwords = [pwd for pwd in self.__all_passwords if search_text in pwd[1].lower()]
+        self.__filtered_passwords = [pwd for pwd in self.__all_passwords if search_text in pwd.app_name.lower()]
         self.__populate_password_frame()
         
     def __populate_password_frame(self):

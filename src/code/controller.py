@@ -3,6 +3,7 @@ import sqlite3 as sql
 from code.login import Login
 from code.register import Register
 from code.dataHandler import DataHandler
+from code.password import Password
 
 class Controller:
     def __init__(self, connection: sql.Connection):
@@ -64,31 +65,23 @@ class Controller:
             pass
 
 
-    def get_all_passwords(self) -> tuple[bool, list[list[str]]]:
+    def get_all_passwords(self) -> tuple[bool, list[Password]]:
         if not self.authenticated:
             return False, []
         
         cursor = self.__connection.cursor()
-        cursor.execute(f'''SELECT password_id, app_name, app_username, app_password, app_email, app_id, app_url FROM passwords WHERE user_id == "{self.__user_name}";''')
+        cursor.execute(f'SELECT * FROM passwords WHERE user_id == "{self.__user_name}";')
         user_data = cursor.fetchall()
         cursor.close()
 
         passwords = []
-        operation = False
         for row in user_data:
-            password_id = row[0]
-            op1, app_name = self.__data_handler.decrypt(row[1])
-            op2, app_username = self.__data_handler.decrypt(row[2])
-            op3, app_password = self.__data_handler.decrypt(row[3])
-            op4, app_email = self.__data_handler.decrypt(row[4])
-            op5, app_id = self.__data_handler.decrypt(row[5])
-            op6, app_url = self.__data_handler.decrypt(row[6])
-
-            operation = op1 and op2 and op3 and op4 and op5 and op6
+            operation, decrypted_data = self.__data_handler.decrypt_many(list(row[2:]))
             if not operation:
                 return False, []
-
-            passwords.append([password_id, app_name, app_username, app_password, app_email, app_id, app_url])
+            
+            password_data = list(row[:2]) + decrypted_data
+            passwords.append(Password(*password_data))
         return True, passwords
 
 
