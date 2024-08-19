@@ -13,7 +13,7 @@ The interface is divided in 4 rows. Each row contains:
     · 4th: Add password button
 '''
 class HomeWidget(ctk.CTkFrame):
-    def __init__(self, master: ctk.CTk, app: App):
+    def __init__(self, master: ctk.CTk, app: App) -> None:
         super().__init__(master, fg_color="transparent")
         self.__parent_app = app
         self.__all_passwords = self.__get_passwords()
@@ -47,12 +47,12 @@ class HomeWidget(ctk.CTkFrame):
             self.__error_label.configure(text="No hay contraseñas almacenadas")
         return data
         
-    def __update_filtered_passwords(self, event=None):
+    def __update_filtered_passwords(self, event=None) -> None:
         search_text = self.__search_entry.get().lower()
         self.__filtered_passwords = [pwd for pwd in self.__all_passwords if search_text in pwd.app_name.lower()]
         self.__populate_password_frame()
         
-    def __populate_password_frame(self):
+    def __populate_password_frame(self) -> None:
         for widget in self.__password_frame.winfo_children():
             widget.destroy()
 

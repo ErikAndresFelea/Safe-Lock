@@ -19,7 +19,7 @@ The interface is divided in 3 rows. Each row contains:
         · Register button
 '''
 class AddPasswordWidget(ctk.CTkFrame):
-    def __init__(self, master: ctk.CTk, app: App):
+    def __init__(self, master: ctk.CTk, app: App) -> None:
         super().__init__(master, fg_color="transparent")
         self.__parent_app = app
 
@@ -87,7 +87,7 @@ class AddPasswordWidget(ctk.CTkFrame):
 
     ''' Checks if user input is correct, if it is proceeds
         to add a new password for the current user '''
-    def __add_pass(self):
+    def __add_pass(self) -> None:
         self.__reset_ui()
         user_input_validation = self.__check_user_input()
         
@@ -129,7 +129,7 @@ class AddPasswordWidget(ctk.CTkFrame):
     
 
     ''' Sets UI dynamic elements to default '''
-    def __reset_ui(self):
+    def __reset_ui(self) -> None:
         self.__error_label.configure(text=None)
         self.__name_entry.configure(border_color="gray50")
         self.__user_entry.configure(border_color="gray50")

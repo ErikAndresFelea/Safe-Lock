@@ -132,12 +132,12 @@ class Controller:
         return True
         
         
-    def delete_password(self, id: list[str]) -> bool:
+    def delete_password(self, password_id: str) -> bool:
         if not self.authenticated:
             return False
         
         cursor = self.__connection.cursor()
-        cursor.execute(f'DELETE FROM passwords WHERE password_id = "{id}";')
+        cursor.execute(f'DELETE FROM passwords WHERE password_id = "{password_id}";')
         cursor.close()
         self.__connection.commit()
         return True

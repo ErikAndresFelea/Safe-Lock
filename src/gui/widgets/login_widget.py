@@ -15,7 +15,7 @@ The interface is divided in 5 rows. Each row contains:
     · 5th Register button
 '''
 class LoginWidget(ctk.CTkFrame):
-    def __init__(self, master: ctk.CTk, app: App):
+    def __init__(self, master: ctk.CTk, app: App) -> None:
         super().__init__(master, fg_color="transparent")
         self.__parent_app = app
         self.grid_rowconfigure((0, 1, 2, 3), weight=1)

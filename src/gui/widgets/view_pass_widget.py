@@ -13,7 +13,7 @@ The interface is divided in 3 rows. Each row contains:
         · Confirm button
 '''
 class ViewPasswordWidget(ctk.CTkFrame):
-    def __init__(self, master: ctk.CTk, app: App, id: str):
+    def __init__(self, master: ctk.CTk, app: App, id: str) -> None:
         super().__init__(master, fg_color="transparent")
         self.__parent_app = app
         self.__password = self.__get_password(id)
@@ -78,7 +78,7 @@ class ViewPasswordWidget(ctk.CTkFrame):
         done_button.grid(row=0, column=0, padx=5, pady=(30, 5))
 
 
-    def __onClick(self, event):
+    def __onClick(self, event) -> None:
         data = event.widget.cget("text")
         self.clipboard_clear()
         self.clipboard_append(data)

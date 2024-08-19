@@ -12,7 +12,7 @@ The interface is divided in 3 rows. Each row contains:
         · Confirm button
 '''
 class ForgotPassword(ctk.CTkFrame):
-    def __init__(self, master: ctk.CTk, app: App):
+    def __init__(self, master: ctk.CTk, app: App) -> None:
         super().__init__(master, fg_color="transparent")
         self.__parent_app = app
 

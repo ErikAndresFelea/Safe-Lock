@@ -19,7 +19,7 @@ The interface is divided in 3 rows. Each row contains:
         · Register button
 '''
 class EditPasswordWidget(ctk.CTkFrame):
-    def __init__(self, master: ctk.CTk, app: App, id: str):
+    def __init__(self, master: ctk.CTk, app: App, id: str) -> None:
         super().__init__(master, fg_color="transparent")
         self.__parent_app = app
         self.__password = self.__get_password(id)
@@ -139,7 +139,7 @@ class EditPasswordWidget(ctk.CTkFrame):
 
 
     ''' Sets UI dynamic elements to default '''
-    def __reset_ui(self):
+    def __reset_ui(self) -> None:
         self.__error_label.configure(text=None)
         self.__app_name_entry.configure(border_color="gray50")
         self.__user_name_entry.configure(border_color="gray50")

@@ -17,7 +17,7 @@ The interface is divided in 2 rows. Each column contains:
         · Delete app info
 '''
 class PasswordWidget(ctk.CTkFrame):
-    def __init__(self, master: ctk.CTk, app: App, password: Password):
+    def __init__(self, master: ctk.CTk, app: App, password: Password) -> None:
         super().__init__(master, fg_color="gray17", border_width=2)
         self.__parent_app = app
         self.__password = password
@@ -72,17 +72,17 @@ class PasswordWidget(ctk.CTkFrame):
 
 
     ''' Button for app info display '''
-    def __view_pass(self):
+    def __view_pass(self) -> None:
         self.__parent_app.password_ui(self.__password.password_id)
 
 
     ''' Update stored app info '''
-    def __update_pass(self):
+    def __update_pass(self) -> None:
         self.__parent_app.update_password_ui(self.__password.password_id)
     
 
     ''' Deletes stored app '''
-    def __delete_pass(self):
+    def __delete_pass(self) -> None:
         operation = self.__parent_app.controller.delete_password(self.__password.password_id)
         if operation:
             self.__parent_app.home_ui()
@@ -91,11 +91,11 @@ class PasswordWidget(ctk.CTkFrame):
     
 
     ''' Copy text from the label that is clicked '''
-    def __on_click_name(self, event=None):
+    def __on_click_name(self, event=None) -> None:
         self.clipboard_clear()
         self.clipboard_append(self.__password.user_name)
         
         
-    def __on_click_password(self, event=None):
+    def __on_click_password(self, event=None) -> None:
         self.clipboard_clear()
         self.clipboard_append(self.__password.password_id)

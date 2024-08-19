@@ -1,5 +1,5 @@
 class Password:
-    def __init__(self, password_id: str, user_id: str, app_name: str, username: str, password: str, email: str = None, app_id: str = None, url: str = None):
+    def __init__(self, password_id: str, user_id: str, app_name: str, username: str, password: str, email: str = None, app_id: str = None, url: str = None) -> None:
         self.password_id = password_id
         self.owner = user_id
         self.app_name = app_name
