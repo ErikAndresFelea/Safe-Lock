@@ -8,12 +8,12 @@ class Register:
         self._connection = connection
         self.registered = False
 
-        availability = self._check_availability(username)
+        availability = self.__check_availability(username)
         if availability:
-             self._create_account(username, email, password)
+             self.__create_account(username, email, password)
 
 
-    def _check_availability(self, username: str) -> bool:
+    def __check_availability(self, username: str) -> bool:
          cursor = self._connection.cursor()
          cursor.execute(f'''SELECT * FROM users WHERE username == "{username}";''')
          user_data = cursor.fetchone()
@@ -21,7 +21,7 @@ class Register:
          return True if user_data is None else False
 
          
-    def _create_account(self, username: str, password: str, email: str) -> None:
+    def __create_account(self, username: str, password: str, email: str) -> None:
         token = Fernet.generate_key()
         key = token.decode('utf-8')
         data_handler = DataHandler(key)

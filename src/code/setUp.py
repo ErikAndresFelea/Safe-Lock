@@ -6,21 +6,21 @@ class SetUp:
         super().__init__()
         directory_path = os.path.join(os.getenv('APPDATA'), 'Safe Lock')
         database_path = os.path.join(directory_path, 'SafeLock.db')
-        self._check_folder(directory_path)
-        self.connection = self._database_connection(database_path)
+        self.__check_folder(directory_path)
+        self.connection = self.__database_connection(database_path)
 
 
     ''' Checks if the app has a directory and a database '''
-    def _check_folder(self, directory: str) -> None:
+    def __check_folder(self, directory: str) -> None:
         if not os.path.isdir(directory):
             os.mkdir(directory)
         
 
     ''' Creates a new Database for the program '''
-    def _database_connection(self, database: str) -> sql.Connection:
+    def __database_connection(self, database: str) -> sql.Connection:
         try:
             connection = sql.connect(database)
-            self._check_database(connection)
+            self.__check_database(connection)
         except sql.Error as e:
             print(e)
         finally:
@@ -28,7 +28,7 @@ class SetUp:
 
 
     ''' Checks if the database has the correct structure '''
-    def _check_database(self, conn: sql.Connection) -> None:
+    def __check_database(self, conn: sql.Connection) -> None:
         cursor = conn.cursor()
         table_users = '''
             CREATE TABLE IF NOT EXISTS users (

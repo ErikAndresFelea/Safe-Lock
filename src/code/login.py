@@ -9,12 +9,12 @@ class Login:
         self.data_handler = None
         self.authenticated = False
         
-        self._authenticate_user(username, password)
+        self.__authenticate_user(username, password)
         if self.authenticated:
-            self._set_remember(password, remember)
+            self.__set_remember(password, remember)
 
 
-    def _authenticate_user(self, username: str, password: str) -> None:
+    def __authenticate_user(self, username: str, password: str) -> None:
         cursor = self._connection.cursor()
         cursor.execute(f'''SELECT password, key FROM users WHERE username == "{username}";''')
         user_data = cursor.fetchone()
@@ -29,7 +29,7 @@ class Login:
                 self.authenticated = True
     
 
-    def _set_remember(self, plain_password: str, remember: bool) -> None:
+    def __set_remember(self, plain_password: str, remember: bool) -> None:
         cursor = self._connection.cursor()
         cursor.execute('''UPDATE users SET (remember, plain_password) = (FALSE, NULL)''')
         

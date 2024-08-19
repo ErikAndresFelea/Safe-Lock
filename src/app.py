@@ -1,3 +1,4 @@
+import os
 from gui.app_ui import App as Frontend
 from code.controller import Controller as Backend
 from code.setUp import SetUp

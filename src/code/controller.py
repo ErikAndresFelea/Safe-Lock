@@ -8,33 +8,33 @@ class Controller:
     def __init__(self, connection: sql.Connection):
         super().__init__()
         self.authenticated = False
-        self._connection = connection
-        self._user_name: str = None
-        self._data_handler: DataHandler = None
+        self.__connection = connection
+        self.__user_name: str = None
+        self.__data_handler: DataHandler = None
         
 
     def login(self, username: str, password: str, remember: bool) -> bool:
-        login = Login(self._connection, username, password, remember)
+        login = Login(self.__connection, username, password, remember)
         
         if not login.authenticated:
             return False
         
-        self._user_name = login.user_name
-        self._data_handler = login.data_handler
+        self.__user_name = login.user_name
+        self.__data_handler = login.data_handler
         self.authenticated = login.authenticated
         return True
     
     
     def register(self, username: str, email: str, password: str) -> bool:
-        register = Register(self._connection, username, password, email)
+        register = Register(self.__connection, username, password, email)
         
         if not register.registered:
             return False
-        return self._send_email(email, None)
+        return self.__send_email(email, None)
 
 
     def forgot_password(self, username: str) -> bool:
-        cursor = self._connection.cursor()
+        cursor = self.__connection.cursor()
         cursor.execute(f'''SELECT password, email, key FROM users WHERE username == "{username}";''')
         user_data = cursor.fetchone()
         cursor.close()
@@ -45,19 +45,19 @@ class Controller:
             operation2, decrypted_email = data_handler.decrypt(user_data[1])
 
             if operation1 and operation2:
-                self._send_email(decrypted_email, decrypted_password)
+                self.__send_email(decrypted_email, decrypted_password)
         return operation1 and operation2 and user_data is not None
     
 
     def get_last_user(self) -> tuple[str, str]:
-        cursor = self._connection.cursor()
+        cursor = self.__connection.cursor()
         cursor.execute(f'''SELECT username, plain_password FROM users WHERE remember == TRUE''')
         user_data = cursor.fetchone()
         cursor.close()
         return user_data
     
 
-    def _send_email(self, email: str, data) -> None:
+    def __send_email(self, email: str, data) -> None:
         if data is None:
             pass
         else:
@@ -68,8 +68,8 @@ class Controller:
         if not self.authenticated:
             return False, []
         
-        cursor = self._connection.cursor()
-        cursor.execute(f'''SELECT password_id, app_name, app_username, app_password, app_email, app_id, app_url FROM passwords WHERE user_id == "{self._user_name}";''')
+        cursor = self.__connection.cursor()
+        cursor.execute(f'''SELECT password_id, app_name, app_username, app_password, app_email, app_id, app_url FROM passwords WHERE user_id == "{self.__user_name}";''')
         user_data = cursor.fetchall()
         cursor.close()
 
@@ -77,12 +77,12 @@ class Controller:
         operation = False
         for row in user_data:
             password_id = row[0]
-            op1, app_name = self._data_handler.decrypt(row[1])
-            op2, app_username = self._data_handler.decrypt(row[2])
-            op3, app_password = self._data_handler.decrypt(row[3])
-            op4, app_email = self._data_handler.decrypt(row[4])
-            op5, app_id = self._data_handler.decrypt(row[5])
-            op6, app_url = self._data_handler.decrypt(row[6])
+            op1, app_name = self.__data_handler.decrypt(row[1])
+            op2, app_username = self.__data_handler.decrypt(row[2])
+            op3, app_password = self.__data_handler.decrypt(row[3])
+            op4, app_email = self.__data_handler.decrypt(row[4])
+            op5, app_id = self.__data_handler.decrypt(row[5])
+            op6, app_url = self.__data_handler.decrypt(row[6])
 
             operation = op1 and op2 and op3 and op4 and op5 and op6
             if not operation:
@@ -96,18 +96,18 @@ class Controller:
         if not self.authenticated:
             return False, None
         
-        cursor = self._connection.cursor()
-        cursor.execute(f'''SELECT password_id, app_name, app_username, app_password, app_email, app_id, app_url FROM passwords WHERE user_id = "{self._user_name}" AND password_id = "{password_id}";''')
+        cursor = self.__connection.cursor()
+        cursor.execute(f'''SELECT password_id, app_name, app_username, app_password, app_email, app_id, app_url FROM passwords WHERE user_id = "{self.__user_name}" AND password_id = "{password_id}";''')
         data = cursor.fetchone()
         cursor.close()
         
         password_id = data[0]
-        op1, app_name = self._data_handler.decrypt(data[1])
-        op2, app_username = self._data_handler.decrypt(data[2])
-        op3, app_password = self._data_handler.decrypt(data[3])
-        op4, app_email = self._data_handler.decrypt(data[4])
-        op5, app_id = self._data_handler.decrypt(data[5])
-        op6, app_url = self._data_handler.decrypt(data[6])
+        op1, app_name = self.__data_handler.decrypt(data[1])
+        op2, app_username = self.__data_handler.decrypt(data[2])
+        op3, app_password = self.__data_handler.decrypt(data[3])
+        op4, app_email = self.__data_handler.decrypt(data[4])
+        op5, app_id = self.__data_handler.decrypt(data[5])
+        op6, app_url = self.__data_handler.decrypt(data[6])
 
         operation = op1 and op2 and op3 and op4 and op5 and op6
         if not operation:
@@ -118,44 +118,44 @@ class Controller:
 
     def add_password(self, data: list[str]) -> bool:
         password_id = str(uuid.uuid4())
-        op1, app_name = self._data_handler.encrypt(data[1])
-        op2, app_username = self._data_handler.encrypt(data[2])
-        op3, app_password = self._data_handler.encrypt(data[3])
-        op4, app_email = self._data_handler.encrypt(data[4])
-        op5, app_id = self._data_handler.encrypt(data[5])
-        op6, app_url = self._data_handler.encrypt(data[6])
+        op1, app_name = self.__data_handler.encrypt(data[1])
+        op2, app_username = self.__data_handler.encrypt(data[2])
+        op3, app_password = self.__data_handler.encrypt(data[3])
+        op4, app_email = self.__data_handler.encrypt(data[4])
+        op5, app_id = self.__data_handler.encrypt(data[5])
+        op6, app_url = self.__data_handler.encrypt(data[6])
         operation = op1 and op2 and op3 and op4 and op5 and op6
 
         if not (self.authenticated and operation):
             return False
         
-        new_password = [password_id, self._user_name, app_name, app_username, app_password, app_email, app_id, app_url]
-        cursor = self._connection.cursor()
+        new_password = [password_id, self.__user_name, app_name, app_username, app_password, app_email, app_id, app_url]
+        cursor = self.__connection.cursor()
         query = f'''INSERT INTO passwords VALUES ({" ,".join(["?"] * len(new_password))})'''
         cursor.execute(query, new_password)
-        self._connection.commit()
+        self.__connection.commit()
         cursor.close()
         return True
 
 
     def update_password(self, data: list[str]):
         password_id = data[0]
-        op1, app_name = self._data_handler.encrypt(data[1])
-        op2, app_username = self._data_handler.encrypt(data[2])
-        op3, app_password = self._data_handler.encrypt(data[3])
-        op4, app_email = self._data_handler.encrypt(data[4])
-        op5, app_id = self._data_handler.encrypt(data[5])
-        op6, app_url = self._data_handler.encrypt(data[6])
+        op1, app_name = self.__data_handler.encrypt(data[1])
+        op2, app_username = self.__data_handler.encrypt(data[2])
+        op3, app_password = self.__data_handler.encrypt(data[3])
+        op4, app_email = self.__data_handler.encrypt(data[4])
+        op5, app_id = self.__data_handler.encrypt(data[5])
+        op6, app_url = self.__data_handler.encrypt(data[6])
         operation = op1 and op2 and op3 and op4 and op5 and op6
 
         if not (self.authenticated and operation):
             return False
         
-        new_password = (app_name, app_username, app_password, app_email, app_id, app_url, self._user_name, password_id)
-        cursor = self._connection.cursor()
+        new_password = (app_name, app_username, app_password, app_email, app_id, app_url, self.__user_name, password_id)
+        cursor = self.__connection.cursor()
         query = f'''UPDATE passwords SET app_name = ?, app_username = ?, app_password = ?, app_email = ?, app_id = ?, app_url = ? WHERE user_id = ? AND password_id = ?'''
         cursor.execute(query, new_password)
-        self._connection.commit()
+        self.__connection.commit()
         cursor.close()
         return True
         
@@ -164,8 +164,8 @@ class Controller:
         if not self.authenticated:
             return False
         
-        cursor = self._connection.cursor()
+        cursor = self.__connection.cursor()
         cursor.execute(f'DELETE FROM passwords WHERE password_id = "{id}";')
         cursor.close()
-        self._connection.commit()
+        self.__connection.commit()
         return True
