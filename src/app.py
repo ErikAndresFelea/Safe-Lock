@@ -34,4 +34,5 @@ TO DO LIST
     - Work on the installer of the app
     - Add feedback message UI
     - Look into salt for backend security, and change how last password is stored, or any password (for user)
+    - When encrypting user_id change controller to add it to the encryptmany and decryptmany lists
 '''

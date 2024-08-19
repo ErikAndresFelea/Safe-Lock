@@ -1,5 +1,6 @@
 import customtkinter as ctk
 from gui.app_ui import App
+from code.password import Password
 
 ''' 
 The interface is divided in 3 rows. Each row contains:
@@ -21,7 +22,7 @@ class EditPasswordWidget(ctk.CTkFrame):
     def __init__(self, master: ctk.CTk, app: App, id: str):
         super().__init__(master, fg_color="transparent")
         self.__parent_app = app
-        self.__password_data = self.__get_password(id)
+        self.__password = self.__get_password(id)
 
         # Widget split into 2 frames. Top and Bottom
         self.grid_rowconfigure((0, 1, 2), weight=1)
@@ -41,43 +42,43 @@ class EditPasswordWidget(ctk.CTkFrame):
         app_name_label = ctk.CTkLabel(form_frame, text="Aplicacion:")
         app_name_label.grid(row=1, column=0, padx=5, pady=5, sticky="w")
         self.__app_name_entry = ctk.CTkEntry(form_frame, width=250)
-        self.__app_name_entry.insert(0, self.__password_data[1])
+        self.__app_name_entry.insert(0, self.__password.app_name)
         self.__app_name_entry.grid(row=1, column=1, padx=5, pady=5)
 
         user_name_label = ctk.CTkLabel(form_frame, text="Usuario:")
         user_name_label.grid(row=2, column=0, padx=5, pady=5, sticky="w")
         self.__user_name_entry = ctk.CTkEntry(form_frame, width=250)
-        self.__user_name_entry.insert(0, self.__password_data[2])
+        self.__user_name_entry.insert(0, self.__password.user_name)
         self.__user_name_entry.grid(row=2, column=1, padx=5, pady=5)
 
         password_label = ctk.CTkLabel(form_frame, text="Contraseña:")
         password_label.grid(row=3, column=0, padx=5, pady=5, sticky="w")
         self.__password_entry = ctk.CTkEntry(form_frame, width=250, show="*")
-        self.__password_entry.insert(0, self.__password_data[3])
+        self.__password_entry.insert(0, self.__password.password)
         self.__password_entry.grid(row=3, column=1, padx=5, pady=5)
 
         rep_password_label = ctk.CTkLabel(form_frame, text="Confirmar contraseña:")
         rep_password_label.grid(row=4, column=0, padx=5, pady=5, sticky="w")
         self.__rep_password_entry = ctk.CTkEntry(form_frame, width=250, show="*")
-        self.__rep_password_entry.insert(0, self.__password_data[3])
+        self.__rep_password_entry.insert(0, self.__password.password)
         self.__rep_password_entry.grid(row=4, column=1, padx=5, pady=5)
 
         email_label = ctk.CTkLabel(form_frame, text="Email:")
         email_label.grid(row=5, column=0, padx=5, pady=5, sticky="w")
         self.__email_entry = ctk.CTkEntry(form_frame, width=250)
-        self.__email_entry.insert(0, self.__password_data[4])
+        self.__email_entry.insert(0, self.__password.email)
         self.__email_entry.grid(row=5, column=1, padx=5, pady=5)
 
         app_id_label = ctk.CTkLabel(form_frame, text="APP ID:")
         app_id_label.grid(row=6, column=0, padx=5, pady=5, sticky="w")
         self.__app_id_entry = ctk.CTkEntry(form_frame, width=250)
-        self.__app_id_entry.insert(0, self.__password_data[5])
+        self.__app_id_entry.insert(0, self.__password.app_id)
         self.__app_id_entry.grid(row=6, column=1, padx=5, pady=5)
 
         url_label = ctk.CTkLabel(form_frame, text="URL:")
         url_label.grid(row=7, column=0, padx=5, pady=5, sticky="w")
         self.__url_entry = ctk.CTkEntry(form_frame, width=250)
-        self.__url_entry.insert(0, self.__password_data[6])
+        self.__url_entry.insert(0, self.__password.url)
         self.__url_entry.grid(row=7, column=1, padx=5, pady=5)
 
         # Bottom frame. 2 columns and 1 row
@@ -96,12 +97,13 @@ class EditPasswordWidget(ctk.CTkFrame):
     Checks if user input is correct, if it is proceeds
     to update a password for the current user
     '''
-    def __update_pass(self):
+    def __update_pass(self) -> None:
         self.__reset_ui()
         user_input_validation = self.__check_user_input()
         
         if user_input_validation:
-            operation  = self.__parent_app.controller.update_password([self.__password_data[0], self.__app_name_entry.get().capitalize(), self.__user_name_entry.get(), self.__password_entry.get(), self.__email_entry.get(), self.__app_id_entry.get(), self.__url_entry.get()])
+            password = Password(self.__password.password_id, self.__password.owner, self.__app_name_entry.get().capitalize(), self.__user_name_entry.get(), self.__password_entry.get(), self.__email_entry.get(), self.__app_id_entry.get(), self.__url_entry.get())
+            operation  = self.__parent_app.controller.update_password(password)
             if not operation:
                 self.__error_label.configure(text="Error al actualizar la contraseña")
             else:
@@ -145,9 +147,9 @@ class EditPasswordWidget(ctk.CTkFrame):
         self.__rep_password_entry.configure(border_color="gray50")
         
     
-    def __get_password(self, id: str) -> list[str]:
-        operation, data = self.__parent_app.controller.get_password(id)
+    def __get_password(self, id: str) -> Password:
+        operation, password = self.__parent_app.controller.get_password(id)
         if not operation:
             self.__error_label.configure(text="Error al acceder a la contraseña")
-        return data
+        return password
     

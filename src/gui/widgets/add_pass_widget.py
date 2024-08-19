@@ -1,5 +1,6 @@
 import customtkinter as ctk
 from gui.app_ui import App
+from code.password import Password
 
 ''' 
 The interface is divided in 3 rows. Each row contains:
@@ -91,7 +92,8 @@ class AddPasswordWidget(ctk.CTkFrame):
         user_input_validation = self.__check_user_input()
         
         if user_input_validation:
-            operation  = self.__parent_app.controller.add_password(["", self.__name_entry.get().capitalize(), self.__user_entry.get(), self.__password_entry.get(), self.__email_entry.get(), self.__app_id_entry.get(), self.__url_entry.get()])
+            password = Password("", "", self.__name_entry.get().capitalize(), self.__user_entry.get(), self.__password_entry.get(), self.__email_entry.get(), self.__app_id_entry.get(), self.__url_entry.get())
+            operation  = self.__parent_app.controller.add_password(password)
             if not operation:
                 self.__error_label.configure(text="La contraseña no se ha añadido")
             else:
