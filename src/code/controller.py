@@ -118,22 +118,14 @@ class Controller:
         return True
 
 
-    def update_password(self, data: list[str]):
-        password_id = data[0]
-        op1, app_name = self.__data_handler.encrypt(data[1])
-        op2, app_username = self.__data_handler.encrypt(data[2])
-        op3, app_password = self.__data_handler.encrypt(data[3])
-        op4, app_email = self.__data_handler.encrypt(data[4])
-        op5, app_id = self.__data_handler.encrypt(data[5])
-        op6, app_url = self.__data_handler.encrypt(data[6])
-        operation = op1 and op2 and op3 and op4 and op5 and op6
-
+    def update_password(self, password: Password) -> bool:
+        operation, encrypted_data = self.__data_handler.encrypt_many(password.get_all()[2:])
         if not (self.authenticated and operation):
             return False
         
-        new_password = (app_name, app_username, app_password, app_email, app_id, app_url, self.__user_name, password_id)
+        new_password = encrypted_data + [password.owner, password.password_id]
         cursor = self.__connection.cursor()
-        query = f'''UPDATE passwords SET app_name = ?, app_username = ?, app_password = ?, app_email = ?, app_id = ?, app_url = ? WHERE user_id = ? AND password_id = ?'''
+        query = 'UPDATE passwords SET app_name = ?, app_username = ?, app_password = ?, app_email = ?, app_id = ?, app_url = ? WHERE user_id = ? AND password_id = ?;'
         cursor.execute(query, new_password)
         self.__connection.commit()
         cursor.close()

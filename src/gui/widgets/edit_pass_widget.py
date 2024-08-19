@@ -97,13 +97,13 @@ class EditPasswordWidget(ctk.CTkFrame):
     Checks if user input is correct, if it is proceeds
     to update a password for the current user
     '''
-    def __update_pass(self):
+    def __update_pass(self) -> None:
         self.__reset_ui()
         user_input_validation = self.__check_user_input()
         
         if user_input_validation:
-            new_password = Password(self.__password.password_id, self.__password.owner, self.__app_name_entry.get().capitalize(), self.__user_name_entry.get(), self.__password_entry.get(), self.__email_entry.get(), self.__app_id_entry.get(), self.__url_entry.get())
-            operation  = self.__parent_app.controller.update_password(new_password)
+            password = Password(self.__password.password_id, self.__password.owner, self.__app_name_entry.get().capitalize(), self.__user_name_entry.get(), self.__password_entry.get(), self.__email_entry.get(), self.__app_id_entry.get(), self.__url_entry.get())
+            operation  = self.__parent_app.controller.update_password(password)
             if not operation:
                 self.__error_label.configure(text="Error al actualizar la contraseña")
             else:
