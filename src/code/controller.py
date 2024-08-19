@@ -102,25 +102,19 @@ class Controller:
         return True, Password(*password_data)
 
 
-    def add_password(self, data: list[str]) -> bool:
-        password_id = str(uuid.uuid4())
-        op1, app_name = self.__data_handler.encrypt(data[1])
-        op2, app_username = self.__data_handler.encrypt(data[2])
-        op3, app_password = self.__data_handler.encrypt(data[3])
-        op4, app_email = self.__data_handler.encrypt(data[4])
-        op5, app_id = self.__data_handler.encrypt(data[5])
-        op6, app_url = self.__data_handler.encrypt(data[6])
-        operation = op1 and op2 and op3 and op4 and op5 and op6
-
+    def add_password(self, password: Password) -> bool:
+        operation, encrypted_data = self.__data_handler.encrypt_many(password.get_all()[2:])
         if not (self.authenticated and operation):
             return False
         
-        new_password = [password_id, self.__user_name, app_name, app_username, app_password, app_email, app_id, app_url]
+        password_id = str(uuid.uuid4())
+        new_password = [password_id, self.__user_name] + encrypted_data
+
         cursor = self.__connection.cursor()
         query = f'''INSERT INTO passwords VALUES ({" ,".join(["?"] * len(new_password))})'''
         cursor.execute(query, new_password)
-        self.__connection.commit()
         cursor.close()
+        self.__connection.commit()
         return True
 
 
