@@ -1,11 +1,11 @@
 TO DO LIST
     - Send email to new user with personal data in case they forget
     - Implement profile
-        - Update name
         - Update password
         - Add import data
         - Add export data
         - Add delete user
+        - Add logout
     - Add favorite password section
     - Work on the installer of the app
     - Add feedback message UI

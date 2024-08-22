@@ -18,6 +18,7 @@ class ProfileWidget(ctk.CTkFrame):
     def __init__(self, master: ctk.CTk, app: App) -> None:
         super().__init__(master, fg_color="transparent", width=500)
         self.__parent_app = app
+        username, password = self.__get_user_data()
         self.grid_rowconfigure((0, 1, 2, 3, 4, 5, 6, 7, 8), weight=1)
                 
         title_label = ctk.CTkLabel(self, text="Perfil", font=ctk.CTkFont(size=40, weight="bold", family="Verdana"))
@@ -26,12 +27,12 @@ class ProfileWidget(ctk.CTkFrame):
         self.__error_label = ctk.CTkLabel(self, text=None, text_color="red", font=ctk.CTkFont(size=12))
         self.__error_label.grid(row=1, column=0, columnspan=2, padx=8, pady=0)
         
-        user_name_label = ctk.CTkLabel(self, text=f"Usuario: {"Ejemplo"}")
+        user_name_label = ctk.CTkLabel(self, text=f"Usuario: {username}")
         user_name_label.grid(row=2, column=0, padx=(5, 25), pady=5, sticky="w")
-        edit_button = ctk.CTkButton(self, text="Modificar", border_color="white", border_width=1, command=None, width=75)
+        edit_button = ctk.CTkButton(self, text="Modificar", border_color="white", border_width=1, command=app.update_name_ui, width=75)
         edit_button.grid(row=2, column=1, padx=(25, 5), pady=5, sticky="e")
 
-        password_label = ctk.CTkLabel(self, text=f"Contraseña: {'*' * len("contra")}")
+        password_label = ctk.CTkLabel(self, text=f"Contraseña: {'*' * len(password)}")
         password_label.grid(row=3, column=0, padx=(5, 25), pady=5, sticky="w")
         edit_button = ctk.CTkButton(self, text="Modificar", border_color="white", border_width=1, command=None, width=75)
         edit_button.grid(row=3, column=1, padx=(25, 5), pady=5, sticky="e")
@@ -55,4 +56,11 @@ class ProfileWidget(ctk.CTkFrame):
         
         confirm_button = ctk.CTkButton(self, text="Confirmar", border_color="white", border_width=1, command=app.home_ui, width=75)
         confirm_button.grid(row=8, column=0, columnspan=2, padx=5, pady=(30, 5))
+        
+    def __get_user_data(self) -> tuple[str, str]:
+        operation, username, password = self.__parent_app.controller.get_user_data()
+        if not operation:
+            # Show error msg
+            pass
+        return username, password
         

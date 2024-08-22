@@ -27,11 +27,13 @@ class Controller:
     
     
     def register(self, username: str, email: str, password: str) -> bool:
-        register = Register(self.__connection, username, password, email)
+        register = Register(self.__connection, username, email, password)
         
         if not register.registered:
             return False
-        return self.__send_email(email, None)
+        
+        self.__send_email(email, None)
+        return True
 
 
     def forgot_password(self, username: str) -> bool:
@@ -140,4 +142,41 @@ class Controller:
         cursor.execute(f'DELETE FROM passwords WHERE password_id = "{password_id}";')
         cursor.close()
         self.__connection.commit()
+        return True
+    
+    
+    def get_user_data(self) -> tuple[bool, str, str]:
+        if not self.authenticated:
+            return False
+        
+        cursor = self.__connection.cursor()
+        cursor.execute(f'SELECT username, password FROM users WHERE username = "{self.__user_name}";')
+        data = cursor.fetchone()
+        
+        operation, password = self.__data_handler.decrypt(data[1])
+        if not operation:
+            return False, None
+        
+        return True, data[0], password
+        
+    
+
+    def update_account_username(self, username: str) -> bool:
+        if not self.authenticated:
+            return False
+        
+        cursor = self.__connection.cursor()
+        cursor.execute(f'SELECT username FROM users GROUP BY username;')
+        data = cursor.fetchall()
+        
+        user_data = [user[0] for user in data]
+        if username in user_data:
+            return False
+        
+        cursor.execute(f'UPDATE users SET username = "{username}" WHERE username = "{self.__user_name}";')
+        cursor.execute(f'UPDATE passwords SET user_id = "{username}" WHERE user_id = "{self.__user_name}";')
+        cursor.close()
+        self.__connection.commit()
+        
+        self.__user_name = username        
         return True

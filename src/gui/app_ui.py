@@ -84,6 +84,27 @@ class App(customtkinter.CTk):
         self.__clear_ui()
         self._current_frame = ProfileWidget(self.__main_frame, self)
         self._current_frame.grid(row=0, column=0, padx=20, pady=20)
+        
+        
+    def update_name_ui(self) -> None:
+        from gui.widgets.profile_update_name import UpdateAccountNameWidget
+        self.__clear_ui()
+        self._current_frame = UpdateAccountNameWidget(self.__main_frame, self)
+        self._current_frame.grid(row=0, column=0, padx=20, pady=20)
+        
+        
+    def update_password_ui(self) -> None:
+        from gui.widgets.profile_update_password import UpdateAccountPasswordWidget
+        self.__clear_ui()
+        self._current_frame = UpdateAccountPasswordWidget(self.__main_frame, self)
+        self._current_frame.grid(row=0, column=0, padx=20, pady=20)
+        
+        
+    def delete_user_ui(self) -> None:
+        from gui.widgets.profile_delete_user import DeleteUserWidget
+        self.__clear_ui()
+        self._current_frame = DeleteUserWidget(self.__main_frame, self)
+        self._current_frame.grid(row=0, column=0, padx=20, pady=20)
 
 
     ''' Other methods '''
