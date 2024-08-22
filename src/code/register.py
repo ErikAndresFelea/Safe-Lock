@@ -32,7 +32,7 @@ class Register:
 
         if operation1 and operation2:
             cursor = self.__connection.cursor()
-            cursor.execute(f'''INSERT INTO users (username, email, password, key) VALUES ("{username}", "{encrypted_email}", "{encrypted_password}", "{key}")''')
+            cursor.execute(f'''INSERT INTO users (username, email, password, key, remember, plain_password) VALUES ("{username}", "{encrypted_email}", "{encrypted_password}", "{key}", FALSE, NULL)''')
             self.__connection.commit()
             cursor.close()
             self.registered = True
