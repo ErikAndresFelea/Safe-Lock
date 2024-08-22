@@ -14,14 +14,15 @@ class Register:
 
 
     def __check_availability(self, username: str) -> bool:
-         cursor = self._connection.cursor()
-         cursor.execute(f'''SELECT * FROM users WHERE username == "{username}";''')
-         user_data = cursor.fetchone()
-         cursor.close()
-         return True if user_data is None else False
+        cursor = self._connection.cursor()
+        cursor.execute(f'SELECT username FROM users GROUP BY username;')
+        data = cursor.fetchall()
+        user_data = [user[0] for user in data]
+        cursor.close()
+        return not (username in user_data)
 
          
-    def __create_account(self, username: str, password: str, email: str) -> None:
+    def __create_account(self, username: str, email: str, password: str) -> None:
         token = Fernet.generate_key()
         key = token.decode('utf-8')
         data_handler = DataHandler(key)
@@ -31,7 +32,7 @@ class Register:
 
         if operation1 and operation2:
             cursor = self._connection.cursor()
-            cursor.execute(f'''INSERT INTO users (username, password, email, key) VALUES ("{username}", "{encrypted_password}", "{encrypted_email}", "{key}")''')
+            cursor.execute(f'''INSERT INTO users (username, email, password, key) VALUES ("{username}", "{encrypted_email}", "{encrypted_password}", "{key}")''')
             self._connection.commit()
             cursor.close()
             self.registered = True
