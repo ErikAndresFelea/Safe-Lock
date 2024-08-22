@@ -1,4 +1,4 @@
-import uuid
+import uuid, json, os
 import sqlite3 as sql
 from code.login import Login
 from code.register import Register
@@ -226,4 +226,34 @@ class Controller:
         self.authenticated = False
         self.__user_name: str = None
         self.__data_handler: DataHandler = None
+        return True
+
+    
+    def export_passwords(self) -> bool:
+        if not self.authenticated:
+            return False
+        
+        cursor = self.__connection.cursor()
+        cursor.execute("SELECT app_name as Programa, app_username as Usuario, app_password as Contraseña, app_email AS Email, app_id as ID, app_url AS Url FROM passwords")
+        passwords_data = cursor.fetchall()
+        passwords_columns = [description[0] for description in cursor.description]
+        cursor.close()
+        
+        decrypted_passwords = []
+        for row in passwords_data:
+            operation, data = self.__data_handler.decrypt_many(list(row))
+            if not operation:
+                return False
+            decrypted_passwords.append(data)
+            
+        passwords_list = [dict(zip(passwords_columns, row)) for row in decrypted_passwords]
+        export_data = {
+            "Usuario": self.__user_name,
+            "Contraseñas": passwords_list
+        }
+
+        directory_path = os.path.join(os.getenv('APPDATA'), 'Safe Lock')
+        file_path = os.path.join(directory_path, f'{self.__user_name}_Passwords.json')
+        with open(file_path, 'w', encoding='utf-8') as f:
+            json.dump(export_data, f, ensure_ascii=False, indent=4)
         return True
