@@ -21,18 +21,3 @@ class App:
 
 if __name__ == "__main__":
     app = App()
-
-
-''' 
-TO DO LIST
-    - Look into Password class and see if it can be useful using it (sending objects instead of list of str)
-    - Send email to new user with personal data in case they forget
-    - Add profile UI
-    - Add delete user
-    - Add favorite password section
-    - Add import export data
-    - Work on the installer of the app
-    - Add feedback message UI
-    - Look into salt for backend security, and change how last password is stored, or any password (for user)
-    - When encrypting user_id change controller to add it to the encryptmany and decryptmany lists
-'''

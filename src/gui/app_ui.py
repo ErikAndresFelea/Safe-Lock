@@ -77,6 +77,13 @@ class App(customtkinter.CTk):
         self.__clear_ui()
         self._current_frame = RegisterWidget(self.__main_frame, self)
         self._current_frame.grid(row=0, column=0, padx=20, pady=20)
+        
+    
+    def profile_ui(self) -> None:
+        from gui.widgets.profile_widget import ProfileWidget
+        self.__clear_ui()
+        self._current_frame = ProfileWidget(self.__main_frame, self)
+        self._current_frame.grid(row=0, column=0, padx=20, pady=20)
 
 
     ''' Other methods '''
