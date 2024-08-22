@@ -196,3 +196,19 @@ class Controller:
         cursor.close()
         self.__connection.commit()
         return True
+    
+    
+    def delete_account(self) -> bool:
+        if not self.authenticated:
+            return False
+        
+        cursor = self.__connection.cursor()
+        cursor.execute(f'DELETE FROM users WHERE username = "{self.__user_name}";')
+        cursor.execute(f'DELETE FROM passwords WHERE user_id = "{self.__user_name}";')
+        cursor.close()
+        self.__connection.commit()
+        
+        self.authenticated = False
+        self.__user_name: str = None
+        self.__data_handler: DataHandler = None
+        return True
