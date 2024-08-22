@@ -5,7 +5,7 @@ from cryptography.fernet import Fernet
 
 class Register:
     def __init__(self, connection: sql.Connection, username: str, email: str, password: str) -> None:
-        self._connection = connection
+        self.__connection = connection
         self.registered = False
 
         availability = self.__check_availability(username)
@@ -14,7 +14,7 @@ class Register:
 
 
     def __check_availability(self, username: str) -> bool:
-        cursor = self._connection.cursor()
+        cursor = self.__connection.cursor()
         cursor.execute(f'SELECT username FROM users GROUP BY username;')
         data = cursor.fetchall()
         user_data = [user[0] for user in data]
@@ -31,8 +31,8 @@ class Register:
         operation2, encrypted_email = data_handler.encrypt(email)
 
         if operation1 and operation2:
-            cursor = self._connection.cursor()
+            cursor = self.__connection.cursor()
             cursor.execute(f'''INSERT INTO users (username, email, password, key) VALUES ("{username}", "{encrypted_email}", "{encrypted_password}", "{key}")''')
-            self._connection.commit()
+            self.__connection.commit()
             cursor.close()
             self.registered = True
