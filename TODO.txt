@@ -3,7 +3,6 @@ TO DO LIST
     - Implement profile
         - Add import data
         - Add export data
-        - Add logout
     - Add favorite password section
     - Work on the installer of the app
     - Add feedback message UI

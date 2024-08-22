@@ -212,3 +212,18 @@ class Controller:
         self.__user_name: str = None
         self.__data_handler: DataHandler = None
         return True
+    
+    
+    def logout(self) -> bool:
+        if not self.authenticated:
+            return False
+        
+        cursor = self.__connection.cursor()
+        cursor.execute(f'UPDATE users SET remember = FALSE, plain_password = NULL WHERE username = "{self.__user_name}";')
+        cursor.close()
+        self.__connection.commit()
+        
+        self.authenticated = False
+        self.__user_name: str = None
+        self.__data_handler: DataHandler = None
+        return True
