@@ -34,7 +34,7 @@ class ProfileWidget(ctk.CTkFrame):
 
         password_label = ctk.CTkLabel(self, text=f"Contraseña: {'*' * len(password)}")
         password_label.grid(row=3, column=0, padx=(5, 25), pady=5, sticky="w")
-        edit_button = ctk.CTkButton(self, text="Modificar", border_color="white", border_width=1, command=None, width=75)
+        edit_button = ctk.CTkButton(self, text="Modificar", border_color="white", border_width=1, command=app.update_password_ui, width=75)
         edit_button.grid(row=3, column=1, padx=(25, 5), pady=5, sticky="e")
         
         subtitle_label = ctk.CTkLabel(self, text="Contraseñas", font=ctk.CTkFont(size=18, weight="bold", family="Verdana"))

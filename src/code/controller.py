@@ -52,7 +52,7 @@ class Controller:
         return operation1 and operation2 and user_data is not None
     
 
-    def get_last_user(self) -> tuple[str, str]:
+    def get_last_user(self) -> tuple[bool, str, str]:
         cursor = self.__connection.cursor()
         cursor.execute(f'''SELECT username, plain_password FROM users WHERE remember == TRUE''')
         user_data = cursor.fetchone()
@@ -179,4 +179,20 @@ class Controller:
         self.__connection.commit()
         
         self.__user_name = username        
+        return True
+    
+    
+    def update_account_password(self, password: str) -> bool:
+        operation, encrypted_password = self.__data_handler.encrypt(password)
+        if not (self.authenticated and operation):
+            return False
+        
+        cursor = self.__connection.cursor()
+        cursor.execute(f'SELECT remember FROM users WHERE username = "{self.__user_name}";')
+        remember = "TRUE" if cursor.fetchone()[0] == 1 else "FALSE"
+        plain_password = password if remember == "TRUE" else "NULL"
+        
+        cursor.execute(f'UPDATE users SET password = "{encrypted_password}", remember = {remember}, plain_password = "{plain_password}" WHERE username = "{self.__user_name}";')
+        cursor.close()
+        self.__connection.commit()
         return True
